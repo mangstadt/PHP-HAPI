@@ -1,0 +1,142 @@
+Taken from: http://www.hyperiums.com/HAPI_specs.html
+
+Hyperiums API	
+
+Send your HTTP requests to: www.hyperiums.com/servlet/HAPI with the appropriate parameters.
+Responses from the server are indicated with "=>".
+Anything in brackets [...] must be replaced by the appropriate string.
+
+A - STANDARD HAPI REQUESTS
+
+IMPORTANT: this API must be queried at a rate that respects the following rules:
+- no more than 3 queries per second
+- no more than 30 queries per minute
+Non respect of these rules will cause your access to the API to be blocked for one hour.
+
+First of all, here is an example of a standard HTTP request to the HAPI: 
+http://www.hyperiums.com/servlet/HAPI?gameid=1&playerid=57941&authkey=454536208&failsafe=54321&request=getplanetinfo&planet=arfarfarf&data=general
+
+0) (optional) You can retrieve the list of all current games and their characteristics with the following request:
+?request=games
+
+In the response, the "state=" parameter means:
+-1: not running, closed
+0: running, closed
+1: running, open
+2: not running yet, but open to registration
+
+1) For any other request, you need first to authenticate yourself using the external authentication key (provided on request in your Preferences page) and the request below:
+?game=[gamename]&player=[login name]&hapikey=[ext.auth.key]
+
+Returns:
+=> gameid=[gameid]&playerid=[playerid]&playername=[player name]&authkey=[authkey]
+
+where [gamename] is for instance Hyperiums6 (which is the name of the current permanent game).
+The HAPI authentication will not change your current authkey if you are already logged on Hyperiums the standard way: it will use the current authkey, which is used by the browser via a cookie. But any time you log in the standard way, a new authkey is generated.
+
+2) Any subsequent request must include the authentication ids returned by the previous request:
+?gameid=[gameid]&playerid=[playerid]&authkey=[authkey]&[THE REQUEST]
+where [THE REQUEST] respects one of the following syntaxes:
+
+- request=getplanetinfo&planet={[planetname]|*}&data={trading|infiltr|general}
+=> data=trading => infos on trading relations of controlled planet(s)
+=> data=infiltr => infos on infiltrations from controlled planet(s)
+=> data=general => general infos on any planet (including non-controlled ones)
+Specify [planetname] to get infos on one planet, or * to get infos on all controlled planets.
+
+- request=getfleetsinfo&planet={[planetname]|*}&data={own_planets|foreign_planets}
+=> data=own_planets => infos on all fleets & armies located on/around controlled planets
+=> data=foreign_planets => infos on all fleets & armies located on/around foreign planets
+Specify [planetname] to get infos on one planet, or * to get infos on all controlled/foreign planets.
+
+- request=getmovingfleets
+=> infos on moving fleets
+
+- request=getexploitations
+=> infos on all exploitations owned, either on controlled planets or on foreign planets
+
+- request=getallianceplanets&tag=[alliance tag]&start=[start index]
+where [alliance tag] is the alliance tag without brackets (ie: ARF, not [ARF]); [start index] is the index to start in the list.
+=> returns a list of N planets belonging to the given alliance (you must have at least one planet in the alliance), starting at the given index; N is currently set to 50 but may change in the future.
+
+- request=ismsg
+=> ismsg=[0/1]&isreport=[0/1]
+ismsg == any kind of message
+
+- request=ismsginfo
+=> ismsg=[0/1]&isplanet=[0/1]&isreport=[0/1]&ismilit=[0/1]&istrading=[0/1]&isinfiltr=[0/1]&iscontrol=[0/1]
+ismsg == planet/player message(s) to planet/player
+isplanet == non personal planet message(s) not belonging to a specific function
+
+- request=getnewmsg
+=> nbmsg=[nb.messages]&date1=[msg date]&type1=[MSGTYPE]&msg1=[message]&date2=...&planet1=[planet name]&planetstart1=3&date3=...&planet2=...&planetstart2=5&date5=...
+where MSGTYPE is:
+0: personal message
+1: military
+2: trading
+4: infiltration
+8: planet control
+16: other kind of planet message
+
+- request=getoldpersomsg&startmsg=[retrieve msg start]&maxmsg=[max nb msg to retrieve]
+=> nbmsg=[nb messages]&date1=[msg date]&msg1=[message]&date2=...
+
+- request=getoldplanetmsg&planet={[planet name]|*}&startmsg=[retrieve msg start]&maxmsg=[max nb msg to retrieve]
+=> nbmsg=[nb messages]&date1=[msg date]&type1=[MSGTYPE]&msg1=[message]&date2=...
+
+- request=version
+=> version=[HAPI_VERSION]
+
+- request=logout
+=> status=ok
+
+- request=getplayerinfo&targetplayer=[player name]
+=> returns some infos about the given player, including cash and rankings 
+
+- request=getplayerinfo
+=> returns some infos about the current player
+
+*NOTE*: For any request, you can add the optional parameter: &failsafe=[a number like 123456] (where the number changes for each request)
+If the answer does not contain &failsafe=[the same number], it means that it comes from a cache (proxy, ...), not from the server, and that the data may not be up-to-date.
+
+
+B - FILE DOWNLOAD REQUESTS
+
+These requests always include an authentication by password, as follows:
+
+?game=[gamename]&player=[login_name]&passwd=[password]&request=download&filetype={players|planets|events|alliances}
+
+=> returns the daily generated gzipped list of players/planets/events/alliances, depending on the filetype parameter.
+
+These lists are generated *once* a day only, around 07:05AM, server time. 
+IMPORTANT: Only one download per day per player account is allowed.
+
+
+C - MISC INFORMATIONS
+
+How to compute the income generated by an exportation:
+Daily income = [nb exported units] * ([selling price] - [production cost] - [transport cost])
+where [selling price] is naturally the importation price of the planet your are exporting to.
+
+Naturally, if your planet is captive and taxed: Daily income *= (100 - [captive tax])/100
+
+
+How to compute the income generated by an importation:
+Daily income = [nb imported units] * [importation price] * [tax ratio]
+where [tax ratio] is computed as follows:
+[tax ratio] = [importation tax rate] / (100 - [importation tax rate])
+where [importation tax rate] is the tax rate you have set for your planet.
+
+Naturally, if your planet is captive and taxed: Daily income *= (100 - [captive tax])/100
+
+
+Special characters:
+Normal characters are abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.@_-/
+Special characters in the request should be replaced by their corresponding hexadecimal code. 
+For instance, ?? must be replaced by %A7.
+
+
+Still to be done:
+request=getspyreport?planet=[planet name]
+request=getbattleinfo?planet=[planet name] (for battles on foreign planets)
+request=getmovingfleetsinfo
