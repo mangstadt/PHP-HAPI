@@ -1,7 +1,6 @@
 <?php
-namespace HAPI;
-
 require_once dirname(__FILE__) .  '/../lib/HAPI/bootstrap.php';
+use HAPI\HAPI;
 
 //static HAPI methods don't require authentication
 var_dump(HAPI::getAllGames());
