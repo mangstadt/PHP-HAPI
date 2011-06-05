@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class PlayerInfo{
 	private $name;
 	private $hypRank;

@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class Trade{
 	private $id;
 	private $planetName;

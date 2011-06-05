@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class PlanetInfo{
 	private $name;
 	private $x;

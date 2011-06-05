@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 /**
  * A HAPI session.
  * @author mangst

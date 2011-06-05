@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class Infiltration{
 	private $id;
 	private $planetName;

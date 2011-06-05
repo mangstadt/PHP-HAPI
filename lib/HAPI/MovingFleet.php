@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class MovingFleet{
 	private $id;
 	private $name;

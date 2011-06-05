@@ -1,6 +1,6 @@
 <?php
-//TODO logging
-//TODO namespaces
+namespace HAPI;
+
 /**
  * An interface for accessing the Hyperiums API (HAPI).
  * @author mangst

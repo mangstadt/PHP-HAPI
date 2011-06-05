@@ -1,4 +1,6 @@
 <?php
+namespace HAPI;
+
 class Game{
 	const STATE_NOT_RUNNING_CLOSED = -1;
 	const STATE_RUNNING_CLOSED = 0;
