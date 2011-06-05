@@ -28,7 +28,7 @@ class HAPI{
 	 * True to log all requests/responses, false not to.
 	 * @var boolean
 	 */
-	private static $logMessages;
+	private static $logMessages = false;
 
 	/**
 	 * The HAPI session.
@@ -366,7 +366,7 @@ class HAPI{
 		$resp = $this->sendAuthRequest("logout");
 		$status = $resp["status"];
 		if ($status != "ok"){
-			throw new Exception("Logout failure.  Status code: $status");
+			throw new \Exception("Logout failure.  Status code: $status");
 		}
 	}
 	
@@ -430,7 +430,7 @@ class HAPI{
 		
 		//problem sending request?
 		if ($response === false){
-			throw new Exception("Problem sending the request.");
+			throw new \Exception("Problem sending the request.");
 		}
 		
 		//parse the query string into an assoc array
@@ -439,7 +439,7 @@ class HAPI{
 		//check for errors in the response
 		$error = @$respParams["error"];
 		if ($error !== null){
-			throw new Exception($error);
+			throw new \Exception($error);
 		}
 		
 		return $respParams;
