@@ -2,7 +2,8 @@
 namespace HAPI;
 
 /**
- * An interface for accessing the Hyperiums API (HAPI).
+ * An interface for accessing the Hyperiums API (HAPI).&nbsp;
+ * Supports v0.1.8 of HAPI.
  * @author mangst
  */
 class HAPI{
@@ -299,11 +300,14 @@ class HAPI{
 	/**
 	 * Gets info on your fleets and armies that are stationed on a planet.&nbsp;
 	 * Does not include fleets that are in transit (see getMovingFleets()).
-	 * @param $planetName (optional) the name of a specific planet to retrieve fleet info on. This can be a planet you own or a planet that you have fleets/armies stationed on. If this is left out, it will return info on all of your planets.
+	 * @param $planetName (optional) the name of a specific planet to retrieve fleet info on.
+	 * This can be a planet you own or a planet that you have fleets/armies stationed on.
+	 * If this is left out, it will return info on all of your planets and all planets that you have fleets/armies on.
 	 * @throws Exception if there was a problem making the request
+	 * @return array(FleetsInfo) an array of objects where each object represents planet that has 0 or more fleets
 	 */
 	public function getFleetsInfo($planetName = null){
-		//$fleetsInfo = new FleetsInfo();
+		$fleetsInfos = array();
 		
 		$params = array();
 		$params["planet"] = ($planetName == null) ? "*" : $planetName;
@@ -312,15 +316,83 @@ class HAPI{
 		$params["data"] = "own_planets";
 		$resp = $this->sendAuthRequest("getfleetsinfo", $params);
 		for ($i = 0; isset($resp["planet$i"]); $i++){
-			//TODO finish
+			$fleetsInfo = new FleetsInfo();
+			$fleetsInfo->setOwnPlanet(true);
+			$fleetsInfo->setPlanetName($resp["planet$i"]);
+			$fleetsInfo->setStasis(self::boolean($resp["stasis$i"]));
+			$fleetsInfo->setVacation(self::boolean($resp["vacation$i"]));
+			$fleetsInfo->setNrj($resp["nrj$i"]);
+			$fleetsInfo->setNrjMax($resp["nrjmax$i"]);
+			$fleets = array();
+			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
+				$fleet = new Fleet();
+				$fleet->setId($resp["fleetid{$i}_$j"]);
+				$fleet->setName($resp["fname{$i}_$j"]);
+				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
+				$fleet->setRace($resp["frace{$i}_$j"]);
+				$fleet->setOwner($resp["owner{$i}_$j"]);
+				$fleet->setDefending(self::boolean($resp["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::boolean($resp["camouf{$i}_$j"]));
+				$fleet->setBombing(self::boolean($resp["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::boolean($resp["autodrop{$i}_$j"]));
+				$fleet->setDelay($resp["delay{$i}_$j"]);
+				
+				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
+				
+				$fleet->setGroundArmies(@$resp["garmies{$i}_$j"]);
+				
+				$fleet->setScouts(@$resp["scou{$i}_$j"]);
+				$fleet->setCruisers(@$resp["crui{$i}_$j"]);
+				$fleet->setBombers(@$resp["bomb{$i}_$j"]);
+				$fleet->setDestroyers(@$resp["dest{$i}_$j"]);
+				$fleet->setCarriedArmies(@$resp["carmies{$i}_$j"]);
+				
+				$fleets[] = $fleet;
+			}
+			$fleetsInfo->setFleets($fleets);
+			$fleetsInfos[] = $fleetsInfo;
 		}
 		
 		//foreign planets
 		$params["data"] = "foreign_planets";
 		$resp = $this->sendAuthRequest("getfleetsinfo", $params);
 		for ($i = 0; isset($resp["planet$i"]); $i++){
-			//TODO finish
+			$fleetsInfo = new FleetsInfo();
+			$fleetsInfo->setOwnPlanet(false);
+			$fleetsInfo->setPlanetName($resp["planet$i"]);
+			$fleetsInfo->setStasis(self::boolean($resp["stasis$i"]));
+			$fleetsInfo->setVacation(self::boolean($resp["vacation$i"]));
+			$fleets = array();
+			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
+				$fleet = new Fleet();
+				$fleet->setId($resp["fleetid{$i}_$j"]);
+				$fleet->setName(@$resp["fname{$i}_$j"]);
+				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
+				$fleet->setRace($resp["frace{$i}_$j"]);
+				$fleet->setOwner($resp["owner{$i}_$j"]);
+				$fleet->setDefending(self::boolean($resp["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::boolean($resp["camouf{$i}_$j"]));
+				$fleet->setBombing(self::boolean(@$resp["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::boolean(@$resp["autodrop{$i}_$j"]));
+				$fleet->setDelay(@$resp["delay{$i}_$j"]);
+				
+				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
+				
+				$fleet->setGroundArmies(@$resp["garmies{$i}_$j"]);
+				
+				$fleet->setScouts(@$resp["scou{$i}_$j"]);
+				$fleet->setCruisers(@$resp["crui{$i}_$j"]);
+				$fleet->setBombers(@$resp["bomb{$i}_$j"]);
+				$fleet->setDestroyers(@$resp["dest{$i}_$j"]);
+				$fleet->setCarriedArmies(@$resp["carmies{$i}_$j"]);
+				
+				$fleets[] = $fleet;
+			}
+			$fleetsInfo->setFleets($fleets);
+			$fleetsInfos[] = $fleetsInfo;
 		}
+		
+		return $fleetsInfos;
 	}
 	
 	/**

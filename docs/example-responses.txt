@@ -31,6 +31,9 @@ getfleetsinfo
   own_planets
   dummy=&planet0=Fayette&stasis0=0&vacation0=0&nrj0=10&nrjmax0=10&fleetid0.0=6032425&fname0.0=null&sellprice0.0=0&frace0.0=0&owner0.0=mangst&defend0.0=1&camouf0.0=0&bombing0.0=0&autodrop0.0=0&delay0.0=0&scou0.0=9&crui0.0=0&bomb0.0=0&dest0.0=2&carmies0.0=0&fleetid0.1=6032424&fname0.1=null&sellprice0.1=0&frace0.1=0&owner0.1=mangst&defend0.1=1&camouf0.1=0&bombing0.1=0&autodrop0.1=0&delay0.1=0&garmies0.1=4&fleetid0.2=6037749&fname0.2=myname&sellprice0.2=0&frace0.2=0&owner0.2=mangst&defend0.2=1&camouf0.2=0&bombing0.2=0&autodrop0.2=0&delay0.2=0&scou0.2=1&crui0.2=0&bomb0.2=0&dest0.2=0&carmies0.2=0
   
+  foreign_planets
+  dummy=&planet0=BlackPier&stasis0=0&vacation0=0&fleetid0.0=6037749&fname0.0=myname&sellprice0.0=0&frace0.0=0&owner0.0=mangst&defend0.0=1&camouf0.0=0&bombing0.0=0&autodrop0.0=0&delay0.0=1&scou0.0=1&crui0.0=0&bomb0.0=0&dest0.0=0&carmies0.0=0&fleetid0.1=5919099&sellprice0.1=0&frace0.1=1&owner0.1=?&defend0.1=1&camouf0.1=1&scou0.1=0&crui0.1=0&bomb0.1=2&dest0.1=7372&fleetid0.2=5905230&sellprice0.2=0&frace0.2=0&owner0.2=?&defend0.2=1&camouf0.2=1&garmies0.2=?&fleetid0.3=5893695&sellprice0.3=0&frace0.3=0&owner0.3=?&defend0.3=1&camouf0.3=1&scou0.3=0&crui0.3=0&bomb0.3=1&dest0.3=0
+  
 getplayerinfo
   <self>
   name=mangst&hyprank=2&rankinf=2773&scoreinf=959791&cash=470679829&rankfin=2889&scorefin=500955747&rankpow=4359&scorepow=1392&nbplanets=1&lastincome=338732
