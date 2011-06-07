@@ -40,3 +40,9 @@ getplayerinfo
   
   other player
   name=KenpachiZ&hyprank=6&rankinf=1&scoreinf=21638175275
+
+getnewmsg
+  nbmsg=2&date0=2011-06-07 01:14:06&type0=0&msg0=playermsggggg&subj0=playermsg&sender0=Lt.Cdr. mangst&planet0=Fayette&planetstart0=1&date1=2011-06-07 01:13:53&type1=16&msg1=test&subj1=test&sender1=Lt.Cdr. mangst
+  
+  & is not URL encoded
+  nbmsg=1&date0=2011-06-07 01:20:06&type0=0&msg0=test[:&:]test&subj0=test[:&:]test&sender0=Lt.Cdr. mangst

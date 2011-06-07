@@ -3,7 +3,7 @@ namespace HAPI;
 
 /**
  * An interface for accessing the Hyperiums API (HAPI).&nbsp;
- * Supports v0.1.8 of HAPI.
+ * Compatable with HAPI v0.1.8.
  * @author mangst
  * @version 0.1.0
  */
@@ -427,6 +427,12 @@ class HAPI{
 		return $isMsgInfo;
 	}
 	
+	public function getNewMessages(){
+		//TODO finish
+		$resp = $this->sendAuthRequest("getnewmsg");
+		return $resp;
+	}
+	
 	/**
 	 * Gets the version of HAPI.
 	 * @throws Exception if there was a problem making the request
@@ -511,6 +517,9 @@ class HAPI{
 		if ($response === false){
 			throw new \Exception("Problem sending the request.");
 		}
+		
+		//ampersands are not URL encoded, so make them URL encoded so parse_str() doesn't break
+		$response = str_replace("[:&:]", urlencode("&"), $response);
 		
 		//parse the query string into an assoc array
 		parse_str($response, $respParams);
