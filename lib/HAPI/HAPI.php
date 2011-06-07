@@ -383,6 +383,7 @@ class HAPI{
 	 * You must belong to the alliance.
 	 * @param string $tag the alliance tag (without brakets)
 	 * @param integer $start
+	 * @throws Exception if there was a problem making the request
 	 */
 	public function getAlliancePlanets($tag, $start = 0){
 		$params = array(
@@ -393,14 +394,37 @@ class HAPI{
 		//TODO finish
 	}
 	
-	public function isMessage(){
-		return $this->sendAuthRequest("ismsg");
-		//TODO what is this??
+	/**
+	 * Calls the "ismsg" method.
+	 * @throws Exception if there was a problem making the request
+	 * @return IsMsg the response
+	 */
+	public function isMsg(){
+		$resp = $this->sendAuthRequest("ismsg");
+		
+		$isMsg = new IsMsg();
+		$isMsg->setMsg(self::boolean($resp["ismsg"]));
+		$isMsg->setReport(self::boolean($resp["isreport"]));
+		return $isMsg;
 	}
 	
-	public function isMessageInfo(){
-		return $this->sendAuthRequest("ismsginfo");
-		//TODO what is this??
+	/**
+	 * Calls the "ismsginfo" method.
+	 * @throws Exception if there was a problem making the request
+	 * @teturn IsMsgInfo the response
+	 */
+	public function isMsgInfo(){
+		$resp = $this->sendAuthRequest("ismsginfo");
+		
+		$isMsgInfo = new IsMsgInfo();
+		$isMsgInfo->setMsg(self::boolean($resp["ismsg"]));
+		$isMsgInfo->setPlanet(self::boolean($resp["isplanet"]));
+		$isMsgInfo->setReport(self::boolean($resp["isreport"]));
+		$isMsgInfo->setMilitary(self::boolean($resp["ismilitary"]));
+		$isMsgInfo->setTrading(self::boolean($resp["istrading"]));
+		$isMsgInfo->setInfiltration(self::boolean($resp["isinfiltr"]));
+		$isMsgInfo->setControl(self::boolean($resp["iscontrol"]));
+		return $isMsgInfo;
 	}
 	
 	/**
