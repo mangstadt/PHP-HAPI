@@ -9,6 +9,7 @@ PHP-HAPI requires PHP 5.3 or above.
 # Example Code
 
 ```php
+<?php
 require_once dirname(__FILE__) .  '/../lib/HAPI/bootstrap.php';
 use HAPI\HAPI;
 use HAPI\Game;
@@ -37,23 +38,34 @@ foreach (HAPI::getAllGames() as $game){
 }
 
 //authenticate with HAPI by creating a new object
-$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
+$hapi = null;
+try{
+	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
+} catch (Exception $e){
+	//an exception is thrown if there is an authentication failure
+	echo "Error authenticating: " . $e->getMessage();
+}
 
 //you can save the HAPI object to the PHP session and re-use it later
-//this makes things faster, as another auth request does not need to be sent 
+//this makes things faster, because when you construct a new HAPI object, it sends an auth request, which you don't have to do if you've already authenticated
 $_SESSION['hapi'] = $hapi;
 
-//then, simply call the methods from the HAPI class
-foreach ($hapi->getMovingFleets() as $mf){
-	$name = $mf->getName();
-	if ($name == null){
-		$name = "no name";
+try{
+	//then, simply call the methods from the HAPI class
+	$movingFleets = $hapi->getMovingFleets();
+	foreach ($movingFleets as $mf){
+		$name = $mf->getName();
+		if ($name == null){
+			$name = "no name";
+		}
+		$from = $mf->getFrom();
+		$to = $mf->getTo();
+		$action = $mf->isDefending() ? "defend" : "attack";
+		$eta = $mf->getDistance();
+		
+		echo "Fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
 	}
-	$from = $mf->getFrom();
-	$to = $mf->getTo();
-	$action = $mf->isDefending() ? "defend" : "attack";
-	$eta = $mf->getDistance();
-	
-	echo "Fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
+} catch (Exception $e){
+	echo "Error getting moving fleets: " . $e->getMessage();
 }
 ```
