@@ -5,6 +5,7 @@ namespace HAPI;
  * An interface for accessing the Hyperiums API (HAPI).&nbsp;
  * Supports v0.1.8 of HAPI.
  * @author mangst
+ * @version 0.1.0
  */
 class HAPI{
 	/**
@@ -38,32 +39,14 @@ class HAPI{
 	private $session;
 	
 	/**
-	 * Creates a new HAPI object.
-	 * @param HAPISession $session the HAPI session
-	 */
-	private function __construct(HAPISession $session){
-		$this->session = $session;
-	}
-	
-	/**
-	 * Creates a HAPI connection and starts a new HAPI session.
+	 * Creates a new HAPI connection.
 	 * @param string $gameName the game to connect to
-	 * @param string $username your username
+	 * @param string $username the username
 	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to Preferences &gt; Authentication to generate one)
-	 * @return HAPI the HAPI connection
+	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 */
-	public static function connectNewSession($gameName, $username, $hapiKey){
-		$session = self::authenticate($gameName, $username, $hapiKey);
-		return self::connectExistingSession($session);
-	}
-	
-	/**
-	 * Creates a HAPI connection using an existing HAPI session.
-	 * @param HAPISession $session the HAPI session to use when making requests
-	 * @return HAPI the HAPI connection
-	 */
-	public static function connectExistingSession(HAPISession $session){
-		return new HAPI($session);
+	public function __construct($gameName, $username, $hapiKey){
+		$this->session = $this->authenticate($gameName, $username, $hapiKey);
 	}
 	
 	/**
@@ -74,7 +57,7 @@ class HAPI{
 	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 * @return HAPISession the HAPI session info
 	 */
-	protected static function authenticate($gameName, $username, $hapiKey){
+	protected function authenticate($gameName, $username, $hapiKey){
 		$params = array(
 			"game"=>$gameName,
 			"player"=>$username,

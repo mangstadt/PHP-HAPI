@@ -9,19 +9,39 @@ PHP-HAPI requires PHP 5.3 or above.
 # Example Code
 
 ```php
-require_once 'lib/HAPI/bootstrap.php';
+require_once dirname(__FILE__) .  '/../lib/HAPI/bootstrap.php';
 use HAPI\HAPI;
+use HAPI\Game;
 
-//static HAPI methods don't require authentication
-var_dump(HAPI::getAllGames());
+//static methods in HAPI class don't require authentication
+foreach (HAPI::getAllGames() as $game){
+	$name = $game->getName();
+	$description = $game->getDescription();
+	$state = $game->getState();
+	switch ($state){
+		case Game::STATE_NOT_RUNNING_CLOSED:
+			$state = "not running, closed";
+			break;
+		case Game::STATE_NOT_RUNNING_OPEN_REGISTRATION:
+			$state = "not running, open for registration";
+			break;
+		case Game::STATE_RUNNING_CLOSED:
+			$state = "running, closed to new players";
+			break;
+		case Game::STATE_RUNNING_OPEN:
+			$state = "running, open to new players";
+			break;
+	}
+	$initCash = number_format($game->getInitCash());
+	echo "$name: $description -- $state\n";
+}
 
-//create a connection from a new session
-$hapi = HAPI::connectNewSession("Hyperiums6", "username", "3a2c9bextauthkey26c72");
+//authenticate with HAPI by creating a new object
+$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
 
-//once you've created a session, you can re-use the session so that you don't have to authenticate every time you create a new HAPI object
-$session = $hapi->getSession();
-$_SESSION['hapi_session'] = $session;
-$hapi = HAPI::connectExistingSession($_SESSION['hapi_session']);
+//you can save the HAPI object to the PHP session and re-use it later
+//this makes things faster, as another auth request does not need to be sent 
+$_SESSION['hapi'] = $hapi;
 
 //then, simply call the methods from the HAPI class
 foreach ($hapi->getMovingFleets() as $mf){
