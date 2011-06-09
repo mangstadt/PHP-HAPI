@@ -427,10 +427,44 @@ class HAPI{
 		return $isMsgInfo;
 	}
 	
+	/**
+	 * Gets all new player and planet messages.&nbsp;
+	 * Note that these messages will be marked as "read" after this method is called.
+	 * @throws Exception if there was a problem making the request
+	 * @return array(Message) all new messages
+	 */
 	public function getNewMessages(){
-		//TODO finish
+		$newMessages = array();
+		
+		//this is confusing, see docs/example-responses.txt
 		$resp = $this->sendAuthRequest("getnewmsg");
-		return $resp;
+		$num = $resp["nbmsg"];
+		if ($num > 0){
+			$cur = 0;
+			$curRecipient = null;
+			$nextIndex = @$resp["planetstart$cur"];
+			if ($nextIndex === null){
+				$nextIndex = -1;
+			}
+			for ($i = 0; $i < $num; $i++){
+				$newMessage = new Message();
+	
+				if ($i == $nextIndex){
+					$curRecipient = $resp["planet$cur"];
+					$cur++;
+					$nextIndex = @$resp["planetstart$cur"];
+				}
+				
+				$newMessage->setDate(strtotime($resp["date$i"]));
+				$newMessage->setType($resp["type$i"]);
+				$newMessage->setMessage($resp["msg$i"]);
+				$newMessage->setSubject($resp["subj$i"]);
+				$newMessage->setSender($resp["sender$i"]);
+				$newMessage->setRecipient($curRecipient);
+				$newMessages[] = $newMessage;
+			}
+		}
+		return $newMessages;
 	}
 	
 	/**

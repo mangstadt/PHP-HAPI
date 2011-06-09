@@ -1,17 +1,25 @@
-errors
+This document compliments the official HAPI docs, providing additional explainations and response examples.
+
+encoding===============================
+Even though the responses look like query strings, they are not quite because HAPI does not URL encode special characters.  The ampersand character ("&") appears as "[:&:]".
+
+timestamps=============================
+All timestampes are in GMT.
+
+errors=================================
 If an error occurs, a response containing an "error" parameter will be returned:
 error=this it the error
 
-authentication
+authentication=========================
 gameid=0&playerid=143057&playername=mangst&authkey=214595267&servertime=2011-06-05 00:44:38
 
-games
+games==================================
 dummy=&game0=Hyperiums6&state0=1&descr0=Permanent game (Round #6)&length0=replaced_by_maxenddate&maxenddate0=null&ispeec0=0&maxplanets0=14&initcash0=500000&maxofferedplanets0=15&nextplanetdelay0=5&game1=HyperiumsRLF&state1=1&descr1=Permanent RLF game (Real Life Friendly)&length1=replaced_by_maxenddate&maxenddate1=null&ispeec1=0&maxplanets1=14&initcash1=300000&maxofferedplanets1=10&nextplanetdelay1=5&game2=RLF2&state2=1&descr2=Permanent Real Life Friendly v2&length2=replaced_by_maxenddate&maxenddate2=null&ispeec2=0&maxplanets2=10&initcash2=300000&maxofferedplanets2=10&nextplanetdelay2=3
 
-getexploitations
+getexploitations=======================
 dummy=&planet0=Fayette&planetid0=91338&nbexp0=50&inpipe0=0&tobedem0=0&nbonsale0=0&sellprice0=0&rentability0=0
 
-getplanetinfo
+getplanetinfo==========================
   general
   dummy=&planet0=Fayette&x0=22&y0=-855&size0=4&orbit0=2&gov0=3&govd0=0&ptype0=2&tax0=30&exploits0=50&expinpipe0=0&activity0=15000&pop0=1000&race0=0&nrj0=5&nrjmax0=5&purif0=0&parano0=1&block0=0&bhole0=0&stasis0=0&nexus0=1&nxbuild0=11&nxbtot0=11&ecomark0=100&planetid0=91338&publictag0=&factories0=3&civlevel0=1&defbonus0=0
   
@@ -21,28 +29,27 @@ getplanetinfo
   infiltr
   dummy=&planet0=Fayette&infid0.0=443059&planetname0.0=Boistrosity&tag0.0=/2nd/&x0.0=21&y0.0=-69&level0.0=0&security0.0=90&growing0.0=1&captive0.0=0
 
-getexploitations
+getexploitations=======================
 dummy=&planet0=Fayette&planetid0=91338&nbexp0=50&inpipe0=0&tobedem0=0&nbonsale0=0&sellprice0=0&rentability0=0
 
-getmovingfleets
+getmovingfleets========================
 dummy=&fleetid0=6037820&fname0=&from0=Fayette&to0=Aussie_Blues&dist0=3&delay0=0&defend0=1&autodrop0=0&camouf0=0&bombing0=0&race0=0&nbbomb0=0&nbdest0=0&nbcrui0=0&nbscou0=1&nbarm0=0&fleetid1=6037749&fname1=myname&from1=Fayette&to1=BlackPier&dist1=2&delay1=0&defend1=1&autodrop1=0&camouf1=0&bombing1=0&race1=0&nbbomb1=0&nbdest1=0&nbcrui1=0&nbscou1=1&nbarm1=0
 
-getfleetsinfo
+getfleetsinfo==========================
   own_planets
   dummy=&planet0=Fayette&stasis0=0&vacation0=0&nrj0=10&nrjmax0=10&fleetid0.0=6032425&fname0.0=null&sellprice0.0=0&frace0.0=0&owner0.0=mangst&defend0.0=1&camouf0.0=0&bombing0.0=0&autodrop0.0=0&delay0.0=0&scou0.0=9&crui0.0=0&bomb0.0=0&dest0.0=2&carmies0.0=0&fleetid0.1=6032424&fname0.1=null&sellprice0.1=0&frace0.1=0&owner0.1=mangst&defend0.1=1&camouf0.1=0&bombing0.1=0&autodrop0.1=0&delay0.1=0&garmies0.1=4&fleetid0.2=6037749&fname0.2=myname&sellprice0.2=0&frace0.2=0&owner0.2=mangst&defend0.2=1&camouf0.2=0&bombing0.2=0&autodrop0.2=0&delay0.2=0&scou0.2=1&crui0.2=0&bomb0.2=0&dest0.2=0&carmies0.2=0
   
   foreign_planets
   dummy=&planet0=BlackPier&stasis0=0&vacation0=0&fleetid0.0=6037749&fname0.0=myname&sellprice0.0=0&frace0.0=0&owner0.0=mangst&defend0.0=1&camouf0.0=0&bombing0.0=0&autodrop0.0=0&delay0.0=1&scou0.0=1&crui0.0=0&bomb0.0=0&dest0.0=0&carmies0.0=0&fleetid0.1=5919099&sellprice0.1=0&frace0.1=1&owner0.1=?&defend0.1=1&camouf0.1=1&scou0.1=0&crui0.1=0&bomb0.1=2&dest0.1=7372&fleetid0.2=5905230&sellprice0.2=0&frace0.2=0&owner0.2=?&defend0.2=1&camouf0.2=1&garmies0.2=?&fleetid0.3=5893695&sellprice0.3=0&frace0.3=0&owner0.3=?&defend0.3=1&camouf0.3=1&scou0.3=0&crui0.3=0&bomb0.3=1&dest0.3=0
   
-getplayerinfo
+getplayerinfo==========================
   <self>
   name=mangst&hyprank=2&rankinf=2773&scoreinf=959791&cash=470679829&rankfin=2889&scorefin=500955747&rankpow=4359&scorepow=1392&nbplanets=1&lastincome=338732
   
   other player
   name=KenpachiZ&hyprank=6&rankinf=1&scoreinf=21638175275
 
-getnewmsg
-  nbmsg=2&date0=2011-06-07 01:14:06&type0=0&msg0=playermsggggg&subj0=playermsg&sender0=Lt.Cdr. mangst&planet0=Fayette&planetstart0=1&date1=2011-06-07 01:13:53&type1=16&msg1=test&subj1=test&sender1=Lt.Cdr. mangst
+getnewmsg==============================
+  This groups the messages in a particular way.  First comes the player messages (messages that are directly addressed to the player).  Then comes the planet messages (messages that are addressed to one of the player's planets).  The planet messages are grouped by planet.  The way you know that a group of planet messages is for a particular planet is by using these parameters: "planet0=Fayette&planetstart0=2".  The messages whose indexes are >= the value of "planetstartN" are for the planet specified in the "planetN" parameter, up until the message whose index is specified in "planetstart(n+1)".  The these parameters make up their own "list" apart from the list of messages, so, for example, "planet0" doesn't mean this parameter belongs to the message at index 0.
+  nbmsg=4&date0=2011-06-08 23:15:48&type0=0&msg0=to player&subj0=to player&sender0=Lt.Cdr. mangst&date1=2011-06-08 23:15:35&type1=0&msg1=to player&subj1=to player&sender1=Lt.Cdr. mangst&planet0=Fayette&planetstart0=2&date2=2011-06-08 23:15:58&type2=16&msg2=to planet&subj2=to planet&sender2=Lt.Cdr. mangst&date3=2011-06-08 23:15:41&type3=16&msg3=to planet&subj3=to planet&sender3=Lt.Cdr. mangst
   
-  & is not URL encoded
-  nbmsg=1&date0=2011-06-07 01:20:06&type0=0&msg0=test[:&:]test&subj0=test[:&:]test&sender0=Lt.Cdr. mangst
