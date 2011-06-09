@@ -1,0 +1,2 @@
+This file is needed for the flood protection functionality (see HAPI::setFloodProtection()).
+If flood protection is enabled, this file must be writable by the web server so that its last-modified time can be changed.

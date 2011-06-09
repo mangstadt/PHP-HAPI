@@ -31,6 +31,12 @@ class HAPI{
 	 * @var boolean
 	 */
 	private static $logMessages = false;
+	
+	/**
+	 * True to enable flood protection, false not to.
+	 * @var boolean
+	 */
+	private static $floodProtection = false;
 
 	/**
 	 * The HAPI session.
@@ -616,9 +622,32 @@ class HAPI{
 		$params["request"] = $method;
 		$url = self::URL . "?" . http_build_query($params);
 		
+		if (self::$floodProtection){
+			//only allow one request to be sent every 2 seconds
+			$lockFile = __DIR__ . "/flood.lock";
+			$secondsPerRequest = 60/self::MAX_REQUESTS_PER_MIN;
+			$fp = fopen($lockFile, "r");
+			flock($fp, LOCK_EX);
+			clearstatcache();
+			$t = fileatime($lockFile);
+			$diff = time() - $t;
+			if ($diff >= 0 && $diff < $secondsPerRequest){
+				//pause if a request was made recently
+				sleep($secondsPerRequest-$diff);
+			}
+		}
+		
 		//make the request
 		$response = file_get_contents($url);
+		
+		if (self::$floodProtection){
+			//update the last-modified time and unlock
+			touch($lockFile);
+			flock($fp, LOCK_UN);
+		}
+		
 		if (self::$logMessages){
+			//log request/response
 			error_log("HAPI request: $method\n  url: $url\n  response: $response\n\n");
 		}
 		
@@ -659,11 +688,20 @@ class HAPI{
 	}
 	
 	/**
-	 * Sets whether or not to log all requests/responses to the PHP error log.&nbsp;
-	 * Defaults to false.
-	 * @param boolean $logMessage true to log all requests/responses, false not to
+	 * Enables or disables the logging of all requests/responses to the PHP error log (disabled by default).
+	 * @param boolean $logMessage true to enable, false to disable
 	 */
 	public static function setLogMessages($logMessages){
 		self::$logMessages = $logMessages;
+	}
+	
+	/**
+	 * Enables or disables flood protection (disabled by default).&nbsp;
+	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules.&nbsp;
+	 * The file "flood.lock" must be writable by the web server process.
+	 * @param boolean $floodProtection true to enable, false to disable
+	 */
+	public static function setFloodProtection($floodProtection){
+		self::$floodProtection = $floodProtection;
 	}
 }

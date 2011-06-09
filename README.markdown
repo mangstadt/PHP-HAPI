@@ -43,7 +43,7 @@ try{
 	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
 } catch (Exception $e){
 	//an exception is thrown if there is an authentication failure
-	echo "Error authenticating: " . $e->getMessage();
+	die("Error authenticating: " . $e->getMessage());
 }
 
 //you can save the HAPI object to the PHP session and re-use it later
@@ -66,6 +66,13 @@ try{
 		echo "Fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
 	}
 } catch (Exception $e){
-	echo "Error getting moving fleets: " . $e->getMessage();
+	die("Error getting moving fleets: " . $e->getMessage());
 }
+
+//flood protection prevents you from being locked out of HAPI from making requests too fast
+HAPI::setFloodProtection(true);
+for ($i = 0; $i < 100; $i++){
+	$hapi->getNewMessages();
+}
+//without flood protection, you could be locked out by now
 ```
