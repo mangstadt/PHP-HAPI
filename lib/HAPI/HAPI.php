@@ -434,7 +434,7 @@ class HAPI{
 	 * @return array(Message) all new messages
 	 */
 	public function getNewMessages(){
-		$newMessages = array();
+		$messages = array();
 		
 		//this is confusing, see docs/example-responses.txt
 		$resp = $this->sendAuthRequest("getnewmsg");
@@ -447,24 +447,99 @@ class HAPI{
 				$nextIndex = -1;
 			}
 			for ($i = 0; $i < $num; $i++){
-				$newMessage = new Message();
-	
 				if ($i == $nextIndex){
 					$curRecipient = $resp["planet$cur"];
 					$cur++;
 					$nextIndex = @$resp["planetstart$cur"];
 				}
 				
-				$newMessage->setDate(strtotime($resp["date$i"]));
-				$newMessage->setType($resp["type$i"]);
-				$newMessage->setMessage($resp["msg$i"]);
-				$newMessage->setSubject($resp["subj$i"]);
-				$newMessage->setSender($resp["sender$i"]);
-				$newMessage->setRecipient($curRecipient);
-				$newMessages[] = $newMessage;
+				$message = new Message();
+				$message->setDate(strtotime($resp["date$i"]));
+				$message->setType($resp["type$i"]);
+				$message->setMessage($resp["msg$i"]);
+				$message->setSubject($resp["subj$i"]);
+				$sender = $resp["sender$i"];
+				if ($sender == "null"){
+					$sender = null;
+				}
+				$message->setSender($sender);
+				$message->setRecipient($curRecipient);
+				$messages[] = $message;
 			}
 		}
-		return $newMessages;
+		return $messages;
+	}
+	
+	/**
+	 * Gets old player messages.
+	 * @param \DateTime $startDate the start date
+	 * @param integer $maxMessages the max number of messages to return
+	 * @throws Exception if there was a problem making the request
+	 * @return array(Message) the messages
+	 */
+	public function getOldPlayerMessages(\DateTime $startDate, $maxMessages){
+		$messages = array();
+		
+		//TODO figure out how the start date works
+		
+		//$startDate->setTimezone(new \DateTimeZone("GMT")); //convert the start date to GMT
+		$params = array(
+			"startmsg"=>$startDate->format("Y-m-d G:i:s"),
+			"maxmsg"=>$maxMessages
+		);
+		$resp = $this->sendAuthRequest("getoldpersomsg", $params);
+		$num = $resp["nbmsg"];
+		for ($i = 0; $i < $num; $i++){
+			$message = new Message();
+			$message->setDate(strtotime($resp["date$i"]));
+			$message->setType(Message::TYPE_PERSONAL);
+			$message->setMessage($resp["msg$i"]);
+			$message->setSubject($resp["subj$i"]);
+			$sender = $resp["sender$i"];
+			if ($sender == "null"){
+				$sender = null;
+			}
+			$message->setSender($sender);
+			$messages[] = $message;
+		}
+		return $messages;
+	}
+	
+	/**
+	 * Gets old planet messages.
+	 * @param \DateTime $startDate the start date
+	 * @param integer $maxMessages the max number of messages to return
+	 * @param string $planetName (optional) the planet you want to retrieve the messages of or null to get messages from all planets
+	 * @throws Exception if there was a problem making the request
+	 * @return array(Message) the messages
+	 */
+	public function getOldPlanetMessages(\DateTime $startDate, $maxMessages, $planetName = null){
+		$messages = array();
+		
+		//TODO figure out how the start date works
+		
+		//$startDate->setTimezone(new \DateTimeZone("GMT")); //convert the start date to GMT
+		$params = array(
+			"startmsg"=>$startDate->format("Y-m-d G:i:s"),
+			"maxmsg"=>$maxMessages,
+			"planet"=>($planetName === null) ? "*" : $planetName
+		);
+		$resp = $this->sendAuthRequest("getoldplanetmsg", $params);
+		$num = $resp["nbmsg"];
+		for ($i = 0; $i < $num; $i++){
+			$message = new Message();
+			$message->setDate(strtotime($resp["date$i"]));
+			$message->setType($resp["type$i"]);
+			$message->setMessage($resp["msg$i"]);
+			$message->setSubject($resp["subj$i"]);
+			$sender = $resp["sender$i"];
+			if ($sender == "null"){
+				$sender = null;
+			}
+			$message->setSender($sender);
+			$messages[] = $message;
+		}
+		return $messages;
 	}
 	
 	/**

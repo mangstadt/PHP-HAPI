@@ -14,9 +14,20 @@ class Message{
 	 * @var integer
 	 */
 	private $date;
+	
+	/**
+	 * The type of message (see Message::TYPE_* constants).
+	 * @var integer
+	 */
 	private $type;
+	
 	private $message;
 	private $subject;
+	
+	/**
+	 * The sender of the message or null if it's a system message.
+	 * @var string
+	 */
 	private $sender;
 	
 	/**
@@ -41,10 +52,18 @@ class Message{
 		$this->date = $date;
 	}
 
+	/**
+	 * Gets the type of message (see Message::TYPE_* constants).
+	 * @return integer the message type
+	 */
 	public function getType(){
 		return $this->type;
 	}
 
+	/**
+	 * Sets the type of message (see Message::TYPE_* constants).
+	 * @param integer $type the message type
+	 */
 	public function setType($type){
 		$this->type = $type;
 	}
@@ -65,10 +84,18 @@ class Message{
 		$this->subject = $subject;
 	}
 
+	/**
+	 * Gets the sender of the message.
+	 * @return string the sender or null if it's a system message
+	 */
 	public function getSender(){
 		return $this->sender;
 	}
 
+	/**
+	 * Sets the sender of the message.
+	 * @param string $sender the sender or null if it's a system message
+	 */
 	public function setSender($sender){
 		$this->sender = $sender;
 	}
