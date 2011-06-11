@@ -3,8 +3,8 @@ namespace HAPI;
 
 class PlanetInfo{
 	const NEXUS_TYPE_NONE = 0;
-	const NEXUS_TYPE_MAIN = 1;
-	const NEXUS_TYPE_SATILLITE = 2;
+	const NEXUS_TYPE_ADMIN = 1;
+	const NEXUS_TYPE_SATEL = 2;
 	
 	private $name;
 	private $x;
