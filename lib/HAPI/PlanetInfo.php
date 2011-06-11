@@ -2,6 +2,10 @@
 namespace HAPI;
 
 class PlanetInfo{
+	const NEXUS_TYPE_NONE = 0;
+	const NEXUS_TYPE_MAIN = 1;
+	const NEXUS_TYPE_SATILLITE = 2;
+	
 	private $name;
 	private $x;
 	private $y;
@@ -22,7 +26,12 @@ class PlanetInfo{
 	private $blockaded;
 	private $blackHole;
 	private $stasis;
-	private $nexus;
+	
+	/**
+	 * The nexus type (see PlanetInfo::NEXUS_TYPE_* constants).
+	 * @var integer
+	 */
+	private $nexusType;
 	
 	/**
 	 * The number of hours left it will take to build the nexus.&nbsp;
@@ -218,12 +227,20 @@ class PlanetInfo{
 		$this->stasis = $stasis;
 	}
 
-	public function isNexus(){
-		return $this->nexus;
+	/**
+	 * Gets the nexus type.
+	 * @return integer the nexus type (see PlanetInfo::NEXUS_TYPE_* constants)
+	 */
+	public function getNexusType(){
+		return $this->nexusType;
 	}
 
-	public function setNexus($nexus){
-		$this->nexus = $nexus;
+	/**
+	 * Sets the nexus type.
+	 * @param integer $nexusType the nexus type (see PlanetInfo::NEXUS_TYPE_* constants)
+	 */
+	public function setNexusType($nexusType){
+		$this->nexusType = $nexusType;
 	}
 
 	/**
