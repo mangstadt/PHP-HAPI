@@ -58,8 +58,8 @@ class HAPI{
 	/**
 	 * Authenticates the user so HAPI requests can be made.
 	 * @param string $gameName the game to connect to
-	 * @param string $username your username
-	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to Preferences &gt; Authentication to generate one)
+	 * @param string $username the player's username
+	 * @param string $hapiKey the external authentication key (to generate one, login to Hyperiums and go to "Preferences &gt; Authentication")
 	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 * @return HAPISession the HAPI session info
 	 */
@@ -143,7 +143,7 @@ class HAPI{
 	}
 	
 	/**
-	 * Gets all exploitation information from all your planets.
+	 * Gets exploitation information from all your planets.
 	 * @throws Exception if there was a problem making the request
 	 * @return array(Exploitation)
 	 */
@@ -171,7 +171,7 @@ class HAPI{
 	 * Includes general, trading, and infiltration info.
 	 * @param $planetName (optional) the name of a specific planet to retrieve info on. This can be a planet you own or a planet that you have fleets/armies stationed on. If this is left out, it will return info on all of your planets.
 	 * @throws Exception if a planet with the given name does not exist or it is not under the player's control or there was a problem sending the request
-	 * @return PlanetInfo|array(PlanetInfo) returns an array if no planet name was specified
+	 * @return PlanetInfo|array(PlanetInfo) a single object if a planet name was specified, an array if not
 	 */
 	public function getPlanetInfo($planetName = null){
 		//TODO what does the response look like when it's a foreign planet that you have units on?
@@ -379,9 +379,9 @@ class HAPI{
 	}
 	/**
 	 * Gets a list of all planets that belong to an alliance.&nbsp;
-	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the <code>$start</code> parameter to specify where in the list it should start returning planets.
-	 * @param string $tag the alliance tag (without brakets, case-insensitive)
-	 * @param integer $start (optional) where in the list it should start returning planets (defaults to the start of the list)
+	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the <code>$start</code> parameter to specify what row it should start on.
+	 * @param string $tag the alliance tag (without brackets, case-insensitive)
+	 * @param integer $start (optional) the row in the list it should start on (defaults to the beginning of the list, first row is "0")
 	 * @throws Exception if there was a problem making the request
 	 * @return array(AlliancePlanet) the alliance planets
 	 */
