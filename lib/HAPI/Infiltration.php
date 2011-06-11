@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents an infiltration (used for the "getplanetinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class Infiltration{
 	private $id;
 	private $planetName;

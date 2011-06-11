@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Contains information on a player (used for the "getplayerinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class PlayerInfo{
 	private $name;
 	private $hypRank;

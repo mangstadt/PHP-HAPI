@@ -2,10 +2,10 @@
 namespace HAPI;
 
 /**
- * An interface for accessing the Hyperiums API (HAPI).&nbsp;
+ * The interface for interacting with the Hyperiums API (HAPI).&nbsp;
  * Compatable with HAPI v0.1.8.
- * @author mangst
- * @version 0.1.0
+ * @author Mike Angstadt [github.com/mangstadt]
+ * @version 0.1.0-SNAPSHOT
  */
 class HAPI{
 	/**

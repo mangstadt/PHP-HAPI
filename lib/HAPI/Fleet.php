@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a fleet (used for the "getfleetsinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class Fleet{
 	private $id;
 	private $name;

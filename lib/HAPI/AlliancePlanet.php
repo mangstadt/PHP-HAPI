@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a planet that belongs to an alliance (used for the "getallianceplanets" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class AlliancePlanet{
 	private $name;
 	private $owner;

@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Contains various information on a planet (used for the "getplanetinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class PlanetInfo{
 	const NEXUS_TYPE_NONE = 0;
 	const NEXUS_TYPE_ADMIN = 1;
@@ -56,13 +60,13 @@ class PlanetInfo{
 	private $defBonus;
 	
 	/**
-	 * 
+	 * The planet's trading relations.
 	 * @var array(Trade)
 	 */
 	private $trades = array();
 	
 	/**
-	 * 
+	 * The planet's infiltrations.
 	 * @var array(Infiltration)
 	 */
 	private $infiltrations = array();
@@ -323,18 +327,34 @@ class PlanetInfo{
 		$this->defBonus = $defBonus;
 	}
 
+	/**
+	 * Gets the planet's trading relations.
+	 * @return array(Trade) the trading relations
+	 */
 	public function getTrades(){
 		return $this->trades;
 	}
 
+	/**
+	 * Sets the planet's trading relations.
+	 * @param array(Trade) $trades the trading relations
+	 */
 	public function setTrades($trades){
 		$this->trades = $trades;
 	}
 	
+	/**
+	 * Gets the planet's infiltrations.
+	 * @return array(Infiltration) the infiltrations
+	 */
 	public function getInfiltrations(){
 		return $this->infiltrations;
 	}
 	
+	/**
+	 * Sets the planet's infiltrations.
+	 * @param array(Infiltration) $infiltrations the infiltrations
+	 */
 	public function setInfiltrations($infiltrations){
 		$this->infiltrations = $infiltrations;
 	}

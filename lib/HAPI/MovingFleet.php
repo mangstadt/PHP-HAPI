@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a moving fleet (used for the "getmovingfleets" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class MovingFleet{
 	private $id;
 	private $name;

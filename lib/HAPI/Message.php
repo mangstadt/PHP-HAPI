@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a player or planet message (used for the "getnewmsg", "getoldpersomsg", and "getoldplanetmsg" HAPI methods).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class Message{
 	const TYPE_PERSONAL = 0;
 	const TYPE_MILITARY = 1;

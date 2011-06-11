@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * IsMsg class (used for the "ismsg" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class IsMsg{
 	private $msg;
 	private $report;

@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a Hyperiums game (used for the "games" HAPI method).
+ * @author github.com/mangstadt
+ */
 class Game{
 	const STATE_NOT_RUNNING_CLOSED = -1;
 	const STATE_RUNNING_CLOSED = 0;

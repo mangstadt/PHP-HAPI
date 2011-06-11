@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a trading relation (used for the "getplanetinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class Trade{
 	private $id;
 	private $planetName;

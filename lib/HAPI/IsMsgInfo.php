@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * IsMsgInfo class (used for the "ismsginfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class IsMsgInfo{
 	private $msg;
 	private $planet;

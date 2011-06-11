@@ -1,6 +1,10 @@
 <?php
 namespace HAPI;
 
+/**
+ * Represents a planet that has fleets orbiting it (used for the "getfleetsinfo" HAPI method).
+ * @author Mike Angstadt [github.com/mangstadt]
+ */
 class FleetsInfo{
 	private $ownPlanet;
 	private $planetName;
