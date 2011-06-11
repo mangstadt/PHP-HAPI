@@ -2,6 +2,10 @@
 
 PHP-HAPI is a PHP library that allows you to easily query the [Hyperiums](http://www.hyperiums.com) API (HAPI).
 
+[Hyperiums](http://www.hyperiums.com) is a massively multiplayer, online strategy game that you play from your web browser.
+
+PHP-HAPI version 0.1.0 supports HAPI version 0.1.8.
+
 # Requirements
 
 PHP-HAPI requires PHP 5.3 or above.

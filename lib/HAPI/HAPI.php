@@ -103,6 +103,94 @@ class HAPI{
 	}
 	
 	/**
+	 * Downloads the daily-generated list of alliances.&nbsp;
+	 * The list is gzipped and can only be downloaded once per day.
+	 * @param string $username the account username
+	 * @param string $password the account password
+	 * @param string $gameName the game name
+	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 */
+	public static function downloadAlliances($username, $password, $gameName, $file){
+		self::download("alliances", $username, $password, $gameName, $file);
+	}
+	
+	/**
+	 * Downloads the daily-generated list of events.&nbsp;
+	 * The list is gzipped and can only be downloaded once per day.
+	 * @param string $username the account username
+	 * @param string $password the account password
+	 * @param string $gameName the game name
+	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 */
+	public static function downloadEvents($username, $password, $gameName, $file){
+		self::download("events", $username, $password, $gameName, $file);
+	}
+	
+	/**
+	 * Downloads the daily-generated list of players.&nbsp;
+	 * The list is gzipped and can only be downloaded once per day.
+	 * @param string $username the account username
+	 * @param string $password the account password
+	 * @param string $gameName the game name
+	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 */
+	public static function downloadPlayers($username, $password, $gameName, $file){
+		self::download("players", $username, $password, $gameName, $file);
+	}
+	
+	/**
+	 * Downloads the daily-generated list of planets.&nbsp;
+	 * The list is gzipped and can only be downloaded once per day.
+	 * @param string $username the account username
+	 * @param string $password the account password
+	 * @param string $gameName the game name
+	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 */
+	public static function downloadPlanets($username, $password, $gameName, $file){
+		self::download("planets", $username, $password, $gameName, $file);
+	}
+	
+	/**
+	 * Downloads one of the daily-generated lists.&nbsp;
+	 * Each list is gzipped and can only be downloaded once per day.
+	 * @param string $type the file type
+	 * @param string $username the account username
+	 * @param string $password the account password
+	 * @param string $gameName the game name
+	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".  If a file already exists with this name, it will be overwritten.
+	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 */
+	private static function download($type, $username, $password, $gameName, $file){
+		//create non-existant directories
+		$dir = dirname($file);
+		if (!file_exists($dir)){
+			$result = mkdir($dir, 0774, true);
+			if ($result === false){
+				throw new \Exception("Could not create non-existant directories.");
+			}
+		}
+		
+		//send request
+		$params = array(
+			"game"=>$gameName,
+			"player"=>$username,
+			"passwd"=>$password,
+			"filetype"=>$type
+		);
+		$response = self::sendRequest("download", $params, true);
+		
+		//save response to file
+		$result = file_put_contents($file, $response);
+		if ($result === false){
+			throw new \Exception("Could not save the file.");
+		}
+	}
+	
+	/**
 	 * Gets the HAPI session information.
 	 * @return HAPISession the HAPI session information
 	 */
@@ -615,10 +703,11 @@ class HAPI{
 	 * Sends a HAPI request.
 	 * @param string $method the method to call
 	 * @param array(string=>string) $params (optional) additional parameters to add to the request
+	 * @param boolean $rawResponse (optional) true to return the raw response, false to parse the response as a query string and return an assoc array (default is false)
 	 * @throws Exception if there was a problem sending the request or an error response was returned
-	 * @return array(string=>string) the response
+	 * @return array(string=>string)|string the response
 	 */
-	protected static function sendRequest($method, array $params = array()){
+	protected static function sendRequest($method, array $params = array(), $rawResponse = false){
 		//build request URL
 		$params["request"] = $method;
 		$url = self::URL . "?" . http_build_query($params);
@@ -647,17 +736,37 @@ class HAPI{
 			flock($fp, LOCK_UN);
 		}
 		
+		$failed = $response === false; //problem sending the request?
+		
 		if (self::$logMessages){
-			//log request/response
+			//log the request and response
+			
 			$m = ($method == null) ? "<no method name>" : $method;
-			error_log("HAPI request: $m\n  url: $url\n  response: $response\n\n");
+			
+			if ($failed){
+				$r = "<request failed>";
+			} else if ($rawResponse && strlen($response) > 200){
+				$r = substr($response, 0, 200) . "...snipped";
+			} else {
+				$r = $response;
+			}
+			
+			error_log("HAPI request: $m\n  url: $url\n  response: $r\n\n");
 		}
 		
 		//problem sending request?
-		if ($response === false){
+		if ($failed){
 			throw new \Exception("Problem sending the request.");
 		}
 		
+		if ($rawResponse){
+			//only return the raw response if it is not an error response
+			$sub = substr($response, 0, 5);
+			if ($sub != "error"){
+				return $response;
+			}
+		}
+
 		//ampersands are not URL encoded, so make them URL encoded so parse_str() doesn't break
 		$response = str_replace("[:&:]", urlencode("&"), $response);
 		
@@ -700,7 +809,7 @@ class HAPI{
 	/**
 	 * Enables or disables flood protection (disabled by default).&nbsp;
 	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).&nbsp;
-	 * The file "flood.lock" must be writable by the web server process.
+	 * The file "flood.lock" must be writable by the web server process for this to work.
 	 * @param boolean $floodProtection true to enable, false to disable
 	 */
 	public static function setFloodProtection($floodProtection){
