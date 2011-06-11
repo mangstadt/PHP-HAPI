@@ -216,9 +216,6 @@ class HAPI{
 			$planetInfo->setDefBonus($respParams["defbonus$i"]);
 			$planetInfos[] = $planetInfo;
 		}
-		
-		//no more than 3 requests are allowed per second, so wait before sending the next request to be safe
-		sleep(1);
 
 		//get trading info
 		$params["data"] = "trading";
@@ -252,9 +249,6 @@ class HAPI{
 			$planetInfo->setTrades($trades);
 			$planetInfos[] = $planetInfo;
 		}
-
-		//no more than 3 requests are allowed per second, so wait before sending the next request to be safe
-		sleep(1);
 		
 		//get infiltration info
 		$params["data"] = "infiltr";
@@ -383,21 +377,37 @@ class HAPI{
 		
 		return $fleetsInfos;
 	}
-	
 	/**
 	 * Gets a list of all planets that belong to an alliance.&nbsp;
-	 * You must belong to the alliance.
-	 * @param string $tag the alliance tag (without brakets)
-	 * @param integer $start
+	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the <code>$start</code> parameter to specify where in the list it should start returning planets.
+	 * @param string $tag the alliance tag (without brakets, case-insensitive)
+	 * @param integer $start (optional) where in the list it should start returning planets (defaults to the start of the list)
 	 * @throws Exception if there was a problem making the request
+	 * @return array(AlliancePlanet) the alliance planets
 	 */
 	public function getAlliancePlanets($tag, $start = 0){
+		$alliancePlanets = array();
+		
 		$params = array(
 			"tag"=>$tag,
 			"start"=>$start
 		);
 		$resp = $this->sendAuthRequest("getallianceplanets", $params);
-		//TODO finish
+		$num = $resp["nb"];
+		for ($i = 0; $i < $num; $i++){
+			$alliancePlanet = new AlliancePlanet();
+			$alliancePlanet->setName($resp["planet$i"]);
+			$alliancePlanet->setOwner($resp["owner$i"]);
+			$alliancePlanet->setX($resp["x$i"]);
+			$alliancePlanet->setY($resp["y$i"]);
+			$alliancePlanet->setProdType($resp["prodtype$i"]);
+			$alliancePlanet->setRace($resp["race$i"]);
+			$alliancePlanet->setActivity($resp["activity$i"]);
+			$alliancePlanet->setPublicTag(@$resp["publictag$i"]); //not included if planet does not have a public tag
+			$alliancePlanet->setPublicTagId(@$resp["ptagid$i"]); //not included if planet does not have a public tag
+			$alliancePlanets[] = $alliancePlanet;
+		}
+		return $alliancePlanets;
 	}
 	
 	/**
@@ -572,7 +582,7 @@ class HAPI{
 	
 	/**
 	 * Gets info on a particular player.
-	 * @param string $playerName (optional) the name of the player. If this is left out, then it will retrieve info on you.
+	 * @param string $playerName (optional) the name of the player. If this is left out, then it will retrieve info on the authenticated player.
 	 * @throws Exception if there was a problem making the request
 	 * @return PlayerInfo the info on the player
 	 */
@@ -639,7 +649,8 @@ class HAPI{
 		
 		if (self::$logMessages){
 			//log request/response
-			error_log("HAPI request: $method\n  url: $url\n  response: $response\n\n");
+			$m = ($method == null) ? "<no method name>" : $method;
+			error_log("HAPI request: $m\n  url: $url\n  response: $response\n\n");
 		}
 		
 		//problem sending request?
@@ -688,7 +699,7 @@ class HAPI{
 	
 	/**
 	 * Enables or disables flood protection (disabled by default).&nbsp;
-	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules.&nbsp;
+	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).&nbsp;
 	 * The file "flood.lock" must be writable by the web server process.
 	 * @param boolean $floodProtection true to enable, false to disable
 	 */
