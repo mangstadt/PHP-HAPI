@@ -23,8 +23,22 @@ class PlanetInfo{
 	private $blackHole;
 	private $stasis;
 	private $nexus;
+	
+	/**
+	 * The number of hours left it will take to build the nexus.&nbsp;
+	 * Null if there is no completed nexus or no nexus being built.
+	 * @var integer
+	 */
 	private $nexusBuildTimeLeft;
+	
+	/**
+	 * The total number of hours it will take to build the nexus.&nbsp;
+	 * Zero if the nexus is complete.&nbsp;
+	 * Null if there is no completed nexus or no nexus being built.
+	 * @var integer
+	 */
 	private $nexusBuildTimeTotal;
+	
 	private $ecomark;
 	private $id;
 	private $publicTag;
@@ -212,18 +226,34 @@ class PlanetInfo{
 		$this->nexus = $nexus;
 	}
 
+	/**
+	 * Gets the number of hours left it will take to build the nexus.
+	 * @return integer the number of hours left. Null if there is no completed nexus or no nexus being built.
+	 */
 	public function getNexusBuildTimeLeft(){
 		return $this->nexusBuildTimeLeft;
 	}
 
+	/**
+	 * Sets the number of hours left it will take to build the nexus.
+	 * @param integer $nexusBuildTimeLeft the number of hours left. Null if there is no completed nexus or no nexus being built.
+	 */
 	public function setNexusBuildTimeLeft($nexusBuildTimeLeft){
 		$this->nexusBuildTimeLeft = $nexusBuildTimeLeft;
 	}
 
+	/**
+	 * Gets the total number of hours it will take to build the nexus.
+	 * @return integer the total number of hours. Zero if the nexus is complete. Null if there is no completed nexus or no nexus being built.
+	 */
 	public function getNexusBuildTimeTotal(){
 		return $this->nexusBuildTimeTotal;
 	}
 
+	/**
+	 * Sets the total number of hours it will take to build the nexus.
+	 * @param integer $nexusBuildTimeTotal the total number of hours. Zero if the nexus is complete. Null if there is no completed nexus or no nexus being built.
+	 */
 	public function setNexusBuildTimeTotal($nexusBuildTimeTotal){
 		$this->nexusBuildTimeTotal = $nexusBuildTimeTotal;
 	}

@@ -206,8 +206,8 @@ class HAPI{
 			$planetInfo->setBlackHole($respParams["bhole$i"]);
 			$planetInfo->setStasis($respParams["stasis$i"]);
 			$planetInfo->setNexus($respParams["nexus$i"]);
-			$planetInfo->setNexusBuildTimeLeft($respParams["nxbuild$i"]);
-			$planetInfo->setNexusBuildTimeTotal($respParams["nxbtot$i"]);
+			$planetInfo->setNexusBuildTimeLeft(@$respParams["nxbuild$i"]); //left out the planet does not have a nexus
+			$planetInfo->setNexusBuildTimeTotal(@$respParams["nxbtot$i"]); //left out the planet does not have a nexus
 			$planetInfo->setEcomark($respParams["ecomark$i"]);
 			$planetInfo->setId($respParams["planetid$i"]);
 			$planetInfo->setPublicTag($respParams["publictag$i"]);

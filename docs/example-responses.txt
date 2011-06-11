@@ -4,11 +4,11 @@ encoding===============================
 Even though the responses look like query strings, they are not quite because HAPI does not URL encode special characters.  The ampersand character ("&") appears as "[:&:]".
 
 timestamps=============================
-All timestampes are in GMT.
+All timestamps are in GMT.
 
 errors=================================
 If an error occurs, a response containing an "error" parameter will be returned:
-error=this it the error
+error=this is the error
 
 authentication=========================
 gameid=0&playerid=143057&playername=mangst&authkey=214595267&servertime=2011-06-05 00:44:38
@@ -21,6 +21,7 @@ dummy=&planet0=Fayette&planetid0=91338&nbexp0=50&inpipe0=0&tobedem0=0&nbonsale0=
 
 getplanetinfo==========================
   general
+  The "nxbuild" and "nxbtot" parameters will be left out if there is no nexus being built on the planet.  They will both be "0" if the planet has a completed nexus.
   dummy=&planet0=Fayette&x0=22&y0=-855&size0=4&orbit0=2&gov0=3&govd0=0&ptype0=2&tax0=30&exploits0=50&expinpipe0=0&activity0=15000&pop0=1000&race0=0&nrj0=5&nrjmax0=5&purif0=0&parano0=1&block0=0&bhole0=0&stasis0=0&nexus0=1&nxbuild0=11&nxbtot0=11&ecomark0=100&planetid0=91338&publictag0=&factories0=3&civlevel0=1&defbonus0=0
   
   trading
@@ -50,7 +51,7 @@ getplayerinfo==========================
   name=KenpachiZ&hyprank=6&rankinf=1&scoreinf=21638175275
 
 getnewmsg==============================
-  This groups the messages in a particular way.  First comes the player messages (messages that are directly addressed to the player).  Then comes the planet messages (messages that are addressed to one of the player's planets).  The planet messages are grouped by planet.  The way you know that a group of planet messages is for a particular planet is by using these parameters: "planet0=Fayette&planetstart0=2".  The messages whose indexes are >= the value of "planetstartN" are for the planet specified in the "planetN" parameter, up until the message whose index is specified in "planetstart(n+1)".  The these parameters make up their own "list" apart from the list of messages, so, for example, "planet0" doesn't mean this parameter belongs to the message at index 0.
+  This groups the messages in a particular way.  First comes the player messages (messages that are directly addressed to the player).  Then comes the planet messages (messages that are addressed to one of the player's planets).  The planet messages are grouped by planet.  The way you know that a group of planet messages is for a particular planet is by using these parameters: "planet0=Fayette&planetstart0=2".  The messages whose indexes are >= the value of "planetstartN" are for the planet specified in the "planetN" parameter, up until the message whose index is specified in "planetstart(n+1)".  These parameters make up their own "list" apart from the list of messages, so, for example, "planet0" doesn't mean this parameter belongs to the message at index 0.
   nbmsg=4&date0=2011-06-08 23:15:48&type0=0&msg0=to player&subj0=to player&sender0=Lt.Cdr. mangst&date1=2011-06-08 23:15:35&type1=0&msg1=to player&subj1=to player&sender1=Lt.Cdr. mangst&planet0=Fayette&planetstart0=2&date2=2011-06-08 23:15:58&type2=16&msg2=to planet&subj2=to planet&sender2=Lt.Cdr. mangst&date3=2011-06-08 23:15:41&type3=16&msg3=to planet&subj3=to planet&sender3=Lt.Cdr. mangst
   
 getoldpersomsg=========================
@@ -61,7 +62,7 @@ getoldpersomsg=========================
   messages.&subj2=Re: Pro14 Recruitement&sender2=Cptn. JeromeM62&date3=2011-06-08 06:56:29&msg3=Cash tick: your investments brought in 294,927.&subj3=&sender3=null&date4=2011-06-07 22:56:15&msg4=Cash tick: your investments brought in 355,928.&subj4=&sender4=null&date5=2011-06-07 14:56:00&msg5=Cash tick: your investments brought in 352,655.&subj5=&sender5=null&date6=2011-06-07 09:25:54&msg6=Planet  Fayette has been accepted by the  [Pro-T] alliance.&subj6=&sender6=null&date7=2011-06-07 07:05:21&msg7=Hi! ...&subj7=Re: Pro14 Recruitement&sender7=Cptn. JeromeM62&date8=2011-06-07 06:56:37&msg8=Cash tick: your investments brought in 358,613.&subj8=&sender8=null&date9=2011-06-07 01:12:26&msg9=test&subj9=test&sender9=Lt.Cdr. mangst
   
 getoldplanetmsg========================
-  If you request messages from all your planets, there doesn't appear to be a way of knowing which planet each message is for.
+  If you request messages from all your planets, there doesn't appear to be a way of knowing which planet each message belongs to.
   nbmsg=10&date0=2011-06-09 00:07:00&type0=16&msg0=&subj0=&sender0=Lt.Cdr. mangst&date1=2011-06-08 23:15:58&type1=16&msg1=to planet&subj1=to planet&sender1=Lt.Cdr. mangst&date2=2011-06-08 23:15:41&type2=16&msg2=to planet&subj2=to planet&sender2=Lt.Cdr. mangst&date3=2011-06-08 23:14:40&type3=16&msg3=to planet&subj3=to planet&sender3=Lt.Cdr. mangst&date4=2011-06-08 23:14:35&type4=16&msg4=to planet&subj4=to planet&sender4=Lt.Cdr. mangst&date5=2011-06-08 23:13:04&type5=16&msg5=to planet&subj5=to planet&sender5=Lt.Cdr. mangst&date6=2011-06-08 23:12:59&type6=16&msg6=to planet&subj6=to planet&sender6=Lt.Cdr. mangst&date7=2011-06-08 23:07:51&type7=16&msg7=from planet, to planet&subj7=from planet, to planet&sender7=Fayette&date8=2011-06-08 23:07:23&type8=16&msg8=from player, to planet&subj8=from player, to planet&sender8=Lt.Cdr. mangst&date9=2011-06-07 01:18:18&type9=16&msg9=planetmsg&subj9=planetmsg&sender9=Lt.Cdr. mangst
   
 getallianceplanets=====================
