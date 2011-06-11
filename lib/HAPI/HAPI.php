@@ -398,7 +398,16 @@ class HAPI{
 			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
 				$fleet = new Fleet();
 				$fleet->setId($resp["fleetid{$i}_$j"]);
-				$fleet->setName($resp["fname{$i}_$j"]);
+				
+				//if a fleet is never named, "null" will be returned
+				//if a fleet is named, but its name is later removed, an empty string will be returned
+				//this is true despite the fact that "[No name]" is displayed on the website in both cases 
+				$name = $resp["fname{$i}_$j"];
+				if ($name == "null"){
+					$name = "";
+				}
+				
+				$fleet->setName($name);
 				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
 				$fleet->setRace($resp["frace{$i}_$j"]);
 				$fleet->setOwner($resp["owner{$i}_$j"]);
