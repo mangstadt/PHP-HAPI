@@ -598,21 +598,18 @@ class HAPI{
 	}
 	
 	/**
-	 * Gets old player messages.
-	 * @param \DateTime $startDate the start date
-	 * @param integer $maxMessages the max number of messages to return
+	 * Gets old player messages sorted by date descending (newest messgaes first).
+	 * @param integer $start the message to start on ("0" for the most recent message)
+	 * @param integer $max the max number of messages to return
 	 * @throws Exception if there was a problem making the request
 	 * @return array(Message) the messages
 	 */
-	public function getOldPlayerMessages(\DateTime $startDate, $maxMessages){
+	public function getOldPlayerMessages($start, $max){
 		$messages = array();
 		
-		//TODO figure out how the start date works
-		
-		//$startDate->setTimezone(new \DateTimeZone("GMT")); //convert the start date to GMT
 		$params = array(
-			"startmsg"=>$startDate->format("Y-m-d G:i:s"),
-			"maxmsg"=>$maxMessages
+			"startmsg"=>$start,
+			"maxmsg"=>$max
 		);
 		$resp = $this->sendAuthRequest("getoldpersomsg", $params);
 		$num = $resp["nbmsg"];
@@ -634,22 +631,19 @@ class HAPI{
 	
 	/**
 	 * Gets old planet messages.
-	 * @param \DateTime $startDate the start date
-	 * @param integer $maxMessages the max number of messages to return
+	 * @param integer $start the message to start on ("0" for the most recent message)
+	 * @param integer $max the max number of messages to return
 	 * @param string $planetName (optional) the planet you want to retrieve the messages of or null to get messages from all planets
 	 * @throws Exception if there was a problem making the request
 	 * @return array(Message) the messages
 	 */
-	public function getOldPlanetMessages(\DateTime $startDate, $maxMessages, $planetName = null){
+	public function getOldPlanetMessages($start, $max, $planetName = null){
 		$messages = array();
-		
-		//TODO figure out how the start date works
-		
-		//$startDate->setTimezone(new \DateTimeZone("GMT")); //convert the start date to GMT
+
 		$params = array(
-			"startmsg"=>$startDate->format("Y-m-d G:i:s"),
-			"maxmsg"=>$maxMessages,
-			"planet"=>($planetName === null) ? "*" : $planetName
+			"startmsg"=>$start,
+			"maxmsg"=>$max,
+			"planet"=>($planetName == null) ? "*" : $planetName
 		);
 		$resp = $this->sendAuthRequest("getoldplanetmsg", $params);
 		$num = $resp["nbmsg"];
