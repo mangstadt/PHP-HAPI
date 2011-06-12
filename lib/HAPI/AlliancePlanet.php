@@ -10,8 +10,19 @@ class AlliancePlanet{
 	private $owner;
 	private $x;
 	private $y;
+	
+	/**
+	 * The planet's production type (see HAPI::PROD_TYPE_*).
+	 * @var integer
+	 */
 	private $prodType;
+	
+	/**
+	 * The planet's race (see HAPI::RACE_*).
+	 * @var integer
+	 */
 	private $race;
+	
 	private $activity;
 	
 	/**
@@ -58,18 +69,34 @@ class AlliancePlanet{
 		$this->y = $y;
 	}
 
+	/**
+	 * Gets the planet's production type.
+	 * @return integer the planet's production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function getProdType(){
 		return $this->prodType;
 	}
 
+	/**
+	 * Sets the planet's production type.
+	 * @param integer $prodType the planet's production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function setProdType($prodType){
 		$this->prodType = $prodType;
 	}
 
+	/**
+	 * Gets the planet's race.
+	 * @return integer the planet's race (see HAPI::RACE_*)
+	 */
 	public function getRace(){
 		return $this->race;
 	}
 
+	/**
+	 * Sets the planet's race.
+	 * @param integer $race the planet's race (see HAPI::RACE_*)
+	 */
 	public function setRace($race){
 		$this->race = $race;
 	}

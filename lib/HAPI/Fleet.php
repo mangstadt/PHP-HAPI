@@ -9,7 +9,13 @@ class Fleet{
 	private $id;
 	private $name;
 	private $sellPrice;
+	
+	/**
+	 * The fleet's race (see HAPI::RACE_*).
+	 * @var integer
+	 */
 	private $race;
+	
 	private $owner;
 	private $defending;
 	private $camouflaged;
@@ -47,10 +53,18 @@ class Fleet{
 		$this->sellPrice = $sellPrice;
 	}
 
+	/**
+	 * Gets the fleet's race.
+	 * @return integer the fleet's race (see HAPI::RACE_*)
+	 */
 	public function getRace(){
 		return $this->race;
 	}
 
+	/**
+	 * Sets the fleet's race.
+	 * @param integer $race the fleet's race (see HAPI::RACE_*)
+	 */
 	public function setRace($race){
 		$this->race = $race;
 	}

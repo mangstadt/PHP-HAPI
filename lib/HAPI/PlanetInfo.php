@@ -15,14 +15,31 @@ class PlanetInfo{
 	private $y;
 	private $size;
 	private $orbit;
+	
+	/**
+	 * The planet's government type (see HAPI::GOV_*).
+	 * @var integer
+	 */
 	private $government;
+	
+	/**
+	 * The planet's production type (see HAPI::PROD_TYPE_*).
+	 * @var integer
+	 */
 	private $prodType;
+	
 	private $tax;
 	private $numExploits;
 	private $numExploitsInPipe;
 	private $activity;
 	private $population;
+	
+	/**
+	 * The planet's race (see HAPI::RACE_*).
+	 * @var integer
+	 */
 	private $race;
+	
 	private $nrj;
 	private $nrjMax;
 	private $purifying;
@@ -111,18 +128,34 @@ class PlanetInfo{
 		$this->orbit = $orbit;
 	}
 
+	/**
+	 * Gets the planet's government type.
+	 * @return integer the planet's government type (see HAPI::GOV_*)
+	 */
 	public function getGovernment(){
 		return $this->government;
 	}
 
+	/**
+	 * Sets the planet's government type.
+	 * @param integer $government the planet's government type (see HAPI::GOV_*)
+	 */
 	public function setGovernment($government){
 		$this->government = $government;
 	}
 
+	/**
+	 * Gets the planet's production type.
+	 * @return integer the planet's production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function getProdType(){
 		return $this->prodType;
 	}
 
+	/**
+	 * Sets the planet's production type.
+	 * @param integer $prodType the planet's production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function setProdType($prodType){
 		$this->prodType = $prodType;
 	}
@@ -167,10 +200,18 @@ class PlanetInfo{
 		$this->population = $population;
 	}
 
+	/**
+	 * Gets the planet's race.
+	 * @return integer the planet's race (see HAPI::RACE_*)
+	 */
 	public function getRace(){
 		return $this->race;
 	}
 
+	/**
+	 * Sets the planet's race.
+	 * @param integer $race the planet's race (see HAPI::RACE_*)
+	 */
 	public function setRace($race){
 		$this->race = $race;
 	}

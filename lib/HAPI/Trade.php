@@ -21,7 +21,13 @@ class Trade{
 	private $accepted;
 	private $requestor;
 	private $upkeep;
+	
+	/**
+	 * The production type (see HAPI::PROD_TYPE_*).
+	 * @var integer
+	 */
 	private $prodType;
+	
 	private $planetBlockaded;
 	
 	public function getId(){
@@ -144,10 +150,18 @@ class Trade{
 		$this->upkeep = $upkeep;
 	}
 
+	/**
+	 * Gets the production type.
+	 * @return integer the production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function getProdType(){
 		return $this->prodType;
 	}
 
+	/**
+	 * Sets the production type.
+	 * @param integer $prodType the production type (see HAPI::PROD_TYPE_*)
+	 */
 	public function setProdType($prodType){
 		$this->prodType = $prodType;
 	}

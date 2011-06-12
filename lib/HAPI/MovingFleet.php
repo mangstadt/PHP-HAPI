@@ -16,7 +16,13 @@ class MovingFleet{
 	private $autoDropping;
 	private $camouflaged;
 	private $bombing;
+	
+	/**
+	 * The fleet's race (see HAPI::RACE_*).
+	 * @var integer
+	 */
 	private $race;
+	
 	private $bombers;
 	private $destroyers;
 	private $cruisers;
@@ -103,10 +109,18 @@ class MovingFleet{
 		$this->bombing = $bombing;
 	}
 
+	/**
+	 * Gets the fleet's race.
+	 * @return integer the fleet's race (see HAPI::RACE_*)
+	 */
 	public function getRace(){
 		return $this->race;
 	}
 
+	/**
+	 * Sets the fleet's race.
+	 * @param integer $race the fleet's race (see HAPI::RACE_*)
+	 */
 	public function setRace($race){
 		$this->race = $race;
 	}
