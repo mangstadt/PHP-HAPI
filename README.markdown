@@ -57,23 +57,36 @@ try{
 	//then, simply call the methods from the HAPI class
 	$movingFleets = $hapi->getMovingFleets();
 	foreach ($movingFleets as $mf){
-		$name = $mf->getName();
-		if ($name == null){
-			$name = "no name";
-		}
 		$from = $mf->getFrom();
 		$to = $mf->getTo();
 		$action = $mf->isDefending() ? "defend" : "attack";
 		$eta = $mf->getDistance();
 		
-		echo "Fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
+		$name = $mf->getName();
+		if ($name == null){
+			$name = "no name";
+		}
+
+		switch ($mf->getRace()){
+			case HAPI::RACE_AZTERK:
+				$race = 'Azterk';
+				break;
+			case HAPI::RACE_HUMAN:
+				$race = 'Human';
+				break;
+			case HAPI::RACE_XILLOR:
+				$race = 'Xillor';
+				break;
+		}
+		
+		echo "The $race fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
 	}
 } catch (Exception $e){
 	die("Error getting moving fleets: " . $e->getMessage());
 }
 
 //flood protection prevents you from being locked out of HAPI from making requests too fast
-HAPI::setFloodProtection(__DIR__ . "/flood.lock");
+$hapi->setFloodProtection(__DIR__ . "/flood-locks");
 for ($i = 0; $i < 100; $i++){
 	$hapi->getNewMessages();
 }

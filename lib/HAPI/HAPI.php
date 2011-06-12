@@ -46,10 +46,11 @@ class HAPI{
 	private static $logMessages = false;
 	
 	/**
-	 * The path to the lock file that is used for flood protection or null to disable flood protection.
+	 * The absolute path to the lock directory that is used for flood protection or null to disable flood protection.&nbsp;
+	 * This directory's permissions must allow PHP to write to it.
 	 * @var string
 	 */
-	private static $floodLockFile;
+	private $floodLockDir;
 
 	/**
 	 * The HAPI session.
@@ -194,7 +195,7 @@ class HAPI{
 			"passwd"=>$password,
 			"filetype"=>$type
 		);
-		$response = self::sendRequest("download", $params, true);
+		$response = self::sendRequest("download", $params, null, true);
 		
 		//save response to file
 		$result = file_put_contents($file, $response);
@@ -725,23 +726,23 @@ class HAPI{
 	 * Sends a HAPI request.
 	 * @param string $method the method to call
 	 * @param array(string=>string) $params (optional) additional parameters to add to the request
+	 * @param string $floodLockFile (optional) the *absolute* path to the lock file or null to not use flood protection.  The lock file is an empty file that must be writable by the web server process.
 	 * @param boolean $rawResponse (optional) true to return the raw response, false to parse the response as a query string and return an assoc array (default is false)
 	 * @throws Exception if there was a problem sending the request or an error response was returned
 	 * @return array(string=>string)|string the response
 	 */
-	protected static function sendRequest($method, array $params = array(), $rawResponse = false){
+	protected static function sendRequest($method, array $params = array(), $floodLockFile = null, $rawResponse = false){
 		//build request URL
 		$params["request"] = $method;
 		$url = self::URL . "?" . http_build_query($params);
-		
-		//TODO HAPI only enforces flood protection by authenticated session (so you can call getAllGames() all you want)
-		if (self::$floodLockFile != null){
+
+		if ($floodLockFile != null){
 			//only allow one request to be sent every 2 seconds
 			$secondsPerRequest = 60/self::MAX_REQUESTS_PER_MIN;
-			$fp = fopen(self::$floodLockFile, "r");
+			$fp = fopen($floodLockFile, "r");
 			flock($fp, LOCK_EX);
 			clearstatcache();
-			$t = fileatime(self::$floodLockFile);
+			$t = fileatime($floodLockFile);
 			$diff = time() - $t;
 			if ($diff >= 0 && $diff < $secondsPerRequest){
 				//pause if a request was made recently
@@ -752,9 +753,9 @@ class HAPI{
 		//make the request
 		$response = file_get_contents($url);
 		
-		if (self::$floodLockFile != null){
+		if ($floodLockFile != null){
 			//update the last-modified time and unlock
-			touch(self::$floodLockFile);
+			touch($floodLockFile);
 			flock($fp, LOCK_UN);
 		}
 		
@@ -817,7 +818,20 @@ class HAPI{
 		$params["playerid"] = $this->session->getPlayerId();
 		$params["authkey"] = $this->session->getAuthKey();
 		
-		return self::sendRequest($method, $params);
+		//get the path to the lock file
+		$lockFile = null;
+		if ($this->floodLockDir != null){
+			$lockFile = $this->floodLockDir . "/" . $this->session->getPlayerId();
+			if (!file_exists($lockFile)){
+				//create the lock file if it doesn't exist
+				$success = touch($lockFile, time()-2, time()-2);
+				if (!$success){
+					throw new \Exception("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
+				}
+			}  
+		}
+		
+		return self::sendRequest($method, $params, $lockFile);
 	}
 	
 	/**
@@ -831,24 +845,29 @@ class HAPI{
 	/**
 	 * Enables or disables flood protection (disabled by default).&nbsp;
 	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).
-	 * @param string $lockFile the *absolute* path to the lock file or null to disable flood protection.  The lock file is an empty file that must be writable by the web server process.
-	 * @throws Exception if the lock file isn't writable or can't be created
+	 * @param string $lockDir the *absolute* path to the directory where the lock files will be stored (one file per user) or null to disable flood protection.  The directory must be writable by the web server process.
+	 * @throws Exception if the lock directory isn't a directory, isn't writable, or can't be created
 	 */
-	public static function setFloodProtection($lockFile){
-		if ($lockFile != null){
-			if (file_exists($lockFile)){
-				//make sure the lock file is writable
-				if (!is_writable($lockFile)){
-					throw new \Exception("Cannot enable flood protection. The file permissions of the lock file \"$lockFile\" do not allow PHP to write to it.");
+	public function setFloodProtection($lockDir){
+		if ($lockDir != null){
+			if (file_exists($lockDir)){
+				//make sure it's a directory
+				if (!is_dir($lockDir)){
+					throw new \Exception("Cannot enable flood protection.  The lock directory is not a directory: \"$lockDir\"");
+				}
+				
+				//make sure the lock direcotry is writable
+				if (!is_writable($lockDir)){
+					throw new \Exception("Cannot enable flood protection. The file permissions of the lock directory do not allow PHP to write to it: \"$lockDir\"");
 				}
 			} else {
-				//create the lock file if it doesn't exist
-				$success = touch($lockFile);
+				//create the lock directory if it doesn't exist
+				$success = mkdir($lockDir, 0774, true);
 				if (!$success){
-					throw new \Exception("Could not create lock file \"$lockFile\". Check to make sure that it's an absolute path. Also, that its parent directories exist and that they give PHP permission to create new files in them. Alternatively, you can create the file yourself and set its permissions so that PHP can write to it.");
+					throw new \Exception("Could not create lock directory \"$lockDir\". Check to make sure that it's an absolute path and that it's writable by PHP.");
 				}
 			}
 		}
-		self::$floodLockFile = $lockFile;
+		$this->floodLockDir = $lockDir;
 	}
 }
