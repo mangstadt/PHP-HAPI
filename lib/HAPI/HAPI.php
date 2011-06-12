@@ -26,6 +26,19 @@ class HAPI{
 	 */
 	const MAX_REQUESTS_PER_MIN = 30;
 	
+	const RACE_HUMAN = 0;
+	const RACE_AZTERK = 1;
+	const RACE_XILLOR = 2;
+	
+	const PROD_TYPE_ARGO = 0;
+	const PROD_TYPE_MINERO = 1;
+	const PROD_TYPE_TECHNO = 2;
+	
+	const GOV_DICT = 0;
+	const GOV_AUTH = 1;
+	const GOV_DEMO = 2;
+	const GOV_HYP = 3;
+	
 	/**
 	 * True to log all requests/responses, false not to.
 	 * @var boolean
@@ -33,10 +46,10 @@ class HAPI{
 	private static $logMessages = false;
 	
 	/**
-	 * True to enable flood protection, false not to.
-	 * @var boolean
+	 * The path to the lock file that is used for flood protection or null to disable flood protection.
+	 * @var string
 	 */
-	private static $floodProtection = false;
+	private static $floodLockFile;
 
 	/**
 	 * The HAPI session.
@@ -167,10 +180,10 @@ class HAPI{
 	private static function download($type, $username, $password, $gameName, $file){
 		//create non-existant directories
 		$dir = dirname($file);
-		if (!file_exists($dir)){
+		if ($dir != "." && !file_exists($dir)){
 			$result = mkdir($dir, 0774, true);
 			if ($result === false){
-				throw new \Exception("Could not create non-existant directories.");
+				throw new \Exception("Could not create non-existant directories: $dir");
 			}
 		}
 		
@@ -721,14 +734,14 @@ class HAPI{
 		$params["request"] = $method;
 		$url = self::URL . "?" . http_build_query($params);
 		
-		if (self::$floodProtection){
+		//TODO HAPI only enforces flood protection by authenticated session (so you can call getAllGames() all you want)
+		if (self::$floodLockFile != null){
 			//only allow one request to be sent every 2 seconds
-			$lockFile = __DIR__ . "/flood.lock";
 			$secondsPerRequest = 60/self::MAX_REQUESTS_PER_MIN;
-			$fp = fopen($lockFile, "r");
+			$fp = fopen(self::$floodLockFile, "r");
 			flock($fp, LOCK_EX);
 			clearstatcache();
-			$t = fileatime($lockFile);
+			$t = fileatime(self::$floodLockFile);
 			$diff = time() - $t;
 			if ($diff >= 0 && $diff < $secondsPerRequest){
 				//pause if a request was made recently
@@ -739,9 +752,9 @@ class HAPI{
 		//make the request
 		$response = file_get_contents($url);
 		
-		if (self::$floodProtection){
+		if (self::$floodLockFile != null){
 			//update the last-modified time and unlock
-			touch($lockFile);
+			touch(self::$floodLockFile);
 			flock($fp, LOCK_UN);
 		}
 		
@@ -817,11 +830,25 @@ class HAPI{
 	
 	/**
 	 * Enables or disables flood protection (disabled by default).&nbsp;
-	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).&nbsp;
-	 * The file "flood.lock" must be writable by the web server process for this to work.
-	 * @param boolean $floodProtection true to enable, false to disable
+	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).
+	 * @param string $lockFile the *absolute* path to the lock file or null to disable flood protection.  The lock file is an empty file that must be writable by the web server process.
+	 * @throws Exception if the lock file isn't writable or can't be created
 	 */
-	public static function setFloodProtection($floodProtection){
-		self::$floodProtection = $floodProtection;
+	public static function setFloodProtection($lockFile){
+		if ($lockFile != null){
+			if (file_exists($lockFile)){
+				//make sure the lock file is writable
+				if (!is_writable($lockFile)){
+					throw new \Exception("Cannot enable flood protection. The file permissions of the lock file \"$lockFile\" do not allow PHP to write to it.");
+				}
+			} else {
+				//create the lock file if it doesn't exist
+				$success = touch($lockFile);
+				if (!$success){
+					throw new \Exception("Could not create lock file \"$lockFile\". Check to make sure that it's an absolute path. Also, that its parent directories exist and that they give PHP permission to create new files in them. Alternatively, you can create the file yourself and set its permissions so that PHP can write to it.");
+				}
+			}
+		}
+		self::$floodLockFile = $lockFile;
 	}
 }

@@ -8,7 +8,7 @@
 $args = new Arguments($argv);
 
 if ($args->get("h", "help")) {
-	?>
+?>
 Hyperiums Data File Downloader
 http://www.hyperiums.com
 by Mike Angstadt [github.com/mangstadt]
@@ -33,7 +33,7 @@ Arguments:
 
 --help, -h
     Prints this help message.
-	<?php
+<?php
 	exit();
 }
 
@@ -58,7 +58,8 @@ if (count($errors) > 0){
 	exit();
 }
 
-require_once dirname(__FILE__) . '/../lib/HAPI/bootstrap.php';
+//require_once __DIR__ .  '/PHP-HAPI-0.1.0.phar';
+require_once __DIR__ . '/../lib/index.php';
 use HAPI\HAPI;
 
 $games = HAPI::getAllGames();

@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__) .  '/../lib/HAPI/bootstrap.php';
+//require_once __DIR__ .  '/PHP-HAPI-0.1.0.phar';
+require_once __DIR__ .  '/../lib/index.php';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -29,7 +30,7 @@ foreach (HAPI::getAllGames() as $game){
 //authenticate with HAPI by creating a new object
 $hapi = null;
 try{
-	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
+	$hapi = new HAPI("Hyperiums6", "mangst", "659194d68abafc6a4");
 } catch (Exception $e){
 	//an exception is thrown if there is an authentication failure
 	die("Error authenticating: " . $e->getMessage());
@@ -59,8 +60,8 @@ try{
 }
 
 //flood protection prevents you from being locked out of HAPI from making requests too fast
-HAPI::setFloodProtection(true);
+HAPI::setFloodProtection(__DIR__ . "/flood.lock");
 for ($i = 0; $i < 100; $i++){
 	$hapi->getNewMessages();
 }
-//without flood protection, you could be locked out by now
+//without flood protection, you would be locked out by now

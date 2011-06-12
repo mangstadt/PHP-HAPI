@@ -1,7 +1,10 @@
+TODO include descriptions of every parameter in the request and response, along with request and response examples.
+
 This document compliments the official HAPI docs, providing additional explainations and response examples.
 
 encoding===============================
 Even though the responses look like query strings, they are not quite because HAPI does not URL encode special characters.  The ampersand character ("&") appears as "[:&:]".
+All responses, except for responses to the "download" method, have the content type "text/plain".  Responses to the "download" method have the content type "application/download", unless an error response is returned, in which case the content type is "text/plain".
 
 timestamps=============================
 All timestamps are in GMT.

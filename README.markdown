@@ -14,7 +14,7 @@ PHP-HAPI requires PHP 5.3 or above.
 
 ```php
 <?php
-require_once dirname(__FILE__) .  '/../lib/HAPI/bootstrap.php';
+require_once 'PHP-HAPI-0.1.0.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -42,7 +42,6 @@ foreach (HAPI::getAllGames() as $game){
 }
 
 //authenticate with HAPI by creating a new object
-$hapi = null;
 try{
 	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
 } catch (Exception $e){
@@ -74,7 +73,7 @@ try{
 }
 
 //flood protection prevents you from being locked out of HAPI from making requests too fast
-HAPI::setFloodProtection(true);
+HAPI::setFloodProtection(__DIR__ . "/flood.lock");
 for ($i = 0; $i < 100; $i++){
 	$hapi->getNewMessages();
 }
