@@ -1,9 +1,14 @@
 #!/bin/sh
 
-#Install phar-util via PEAR (https://github.com/koto/phar-util)
+#Install PEAR
 #sudo apt-get install php-pear
+
+#Install phar-util (https://github.com/koto/phar-util)
 #sudo pear channel-discover pear.kotowicz.net
 #sudo pear install kotowicz/PharUtil-beta
+
+#Enable Phar writing support in php.ini
+#phar.readonly = Off
 
 VERSION=0.1.0-SNAPSHOT
 
