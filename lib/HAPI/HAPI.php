@@ -122,7 +122,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadAlliances($username, $password, $gameName, $file){
@@ -135,7 +135,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadEvents($username, $password, $gameName, $file){
@@ -148,7 +148,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlayers($username, $password, $gameName, $file){
@@ -161,7 +161,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlanets($username, $password, $gameName, $file){
@@ -175,7 +175,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the path to save the file to.  The file name should end with ".txt.gz".  If a file already exists with this name, it will be overwritten.
+	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".  If a file already exists with this name, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	private static function download($type, $username, $password, $gameName, $file){
