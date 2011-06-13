@@ -10,6 +10,8 @@ PHP-HAPI version 0.1.0 supports HAPI version 0.1.8.
 
 PHP-HAPI requires PHP 5.3 or above.
 
+Requires phar-util (https://github.com/koto/phar-util) to build the Phar file.
+
 # Example Code
 
 ```php
