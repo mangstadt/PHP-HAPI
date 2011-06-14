@@ -92,5 +92,5 @@ $hapi->setFloodProtection(__DIR__ . "/flood-locks");
 for ($i = 0; $i < 100; $i++){
 	$hapi->getNewMessages();
 }
-//without flood protection, you could be locked out by now
+//without flood protection, you would be locked out by now
 ```

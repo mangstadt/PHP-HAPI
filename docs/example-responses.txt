@@ -3,14 +3,17 @@ TODO include descriptions of every parameter in the request and response, along 
 This document compliments the official HAPI docs, providing additional explainations and response examples.
 
 encoding===============================
-Even though the responses look like query strings, they are not quite because HAPI does not URL encode special characters.  The ampersand character ("&") appears as "[:&:]".
+The responses look like query strings, but they are not quite because the parameters are not URL encoded to escape special characters.  So, if you are using special URL libraries (such as PHP's "parse_str()" function), you must be careful.
+
+An escaped ampersand character ("&") appears as "[:&:]".
+
 All responses, except for responses to the "download" method, have the content type "text/plain".  Responses to the "download" method have the content type "application/download", unless an error response is returned, in which case the content type is "text/plain".
 
 timestamps=============================
 All timestamps are in GMT.
 
-errors=================================
-If an error occurs, a response containing an "error" parameter will be returned:
+errors
+If an error occurs with a request, a response containing an "error" parameter will be returned.  For example:
 error=this is the error
 
 authentication=========================
@@ -20,14 +23,25 @@ games==================================
 dummy=&game0=Hyperiums6&state0=1&descr0=Permanent game (Round #6)&length0=replaced_by_maxenddate&maxenddate0=null&ispeec0=0&maxplanets0=14&initcash0=500000&maxofferedplanets0=15&nextplanetdelay0=5&game1=HyperiumsRLF&state1=1&descr1=Permanent RLF game (Real Life Friendly)&length1=replaced_by_maxenddate&maxenddate1=null&ispeec1=0&maxplanets1=14&initcash1=300000&maxofferedplanets1=10&nextplanetdelay1=5&game2=RLF2&state2=1&descr2=Permanent Real Life Friendly v2&length2=replaced_by_maxenddate&maxenddate2=null&ispeec2=0&maxplanets2=10&initcash2=300000&maxofferedplanets2=10&nextplanetdelay2=3
 
 getexploitations=======================
-dummy=&planet0=Fayette&planetid0=91338&nbexp0=50&inpipe0=0&tobedem0=0&nbonsale0=0&sellprice0=0&rentability0=0
+dummy=&planet0=Fayette&planetid0=91338&nbexp0=250&inpipe0=0&tobedem0=0&nbonsale0=0&sellprice0=0&rentability0=0&planet1=Spruce&planetid1=96999&nbexp1=102&inpipe1=98&tobedem1=0&nbonsale1=0&sellprice1=0&rentability1=0
 
 getplanetinfo==========================
   general
   The "nxbuild" and "nxbtot" parameters will be left out if there is no nexus being built on the planet.  They will both be "0" if the planet has a completed nexus.
   dummy=&planet0=Fayette&x0=22&y0=-855&size0=4&orbit0=2&gov0=3&govd0=0&ptype0=2&tax0=30&exploits0=50&expinpipe0=0&activity0=15000&pop0=1000&race0=0&nrj0=5&nrjmax0=5&purif0=0&parano0=1&block0=0&bhole0=0&stasis0=0&nexus0=1&nxbuild0=11&nxbtot0=11&ecomark0=100&planetid0=91338&publictag0=&factories0=3&civlevel0=1&defbonus0=0
   
+  general info from a foreign planet
+  If a controlled planet is specified, then an index appends each parameter, even though there's only one planet.
+  If a foreign planet is specified, then there will be no index appending each parameter.
+  foreign planet with a battle: dummy=&planet=H-1656B-94ED&stasis=0&battle=1&blockade=1&vacation=0&hypergate=0&isneutral=1&defbonus=0
+  foreign planet without a battle: dummy=&planet=Aussie_Blues&stasis=0&battle=0&blockade=0&vacation=0&hypergate=0
+  dummy=&planet=H-1656B-94ED&stasis=0&battle=1&blockade=0&vacation=0&hypergate=0&isneutral=1&defbonus=0
+  
   trading
+  "transtype"
+  0 = normal
+  1 = hypergate?
+  2 = teleport
   dummy=&planet0=Fayette&tid0.0=884754&toplanet0.0=theuberplanet&tag0.0=&dist0.0=1&x0.0=21&y0.0=-854&race0.0=2&activity0.0=21355&incomeBT0.0=18177&capacity0.0=0&transtype0.0=0&ispending0.0=0&isaccepted0.0=0&isrequestor0.0=1&upkeep0.0=0&prodtype0.0=1&isblockade0.0=0
   
   infiltr

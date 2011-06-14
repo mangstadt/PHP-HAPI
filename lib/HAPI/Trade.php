@@ -6,6 +6,10 @@ namespace HAPI;
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class Trade{
+	const TRANS_TYPE_NORMAL = 0;
+	const TRANS_TYPE_HYPERGATE = 1;
+	const TRANS_TYPE_TELEPORT = 2;
+	
 	private $id;
 	private $planetName;
 	private $planetTag;
@@ -16,7 +20,13 @@ class Trade{
 	private $planetActivity;
 	private $income;
 	private $capacity;
+	
+	/**
+	 * The transport type (see Trade::TRANS_TYPE_* constants).
+	 * @var integer
+	 */
 	private $transportType;
+	
 	private $pending;
 	private $accepted;
 	private $requestor;
@@ -110,10 +120,18 @@ class Trade{
 		$this->capacity = $capacity;
 	}
 
+	/**
+	 * Gets the transport type (see Trade::TRANS_TYPE_* constants).
+	 * @return integer the transport type
+	 */
 	public function getTransportType(){
 		return $this->transportType;
 	}
 
+	/**
+	 * Sets the transport type (see Trade::TRANS_TYPE_* constants).
+	 * @param integer $transportType the transport type
+	 */
 	public function setTransportType($transportType){
 		$this->transportType = $transportType;
 	}

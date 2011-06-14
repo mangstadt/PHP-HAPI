@@ -276,7 +276,6 @@ class HAPI{
 	 * @return PlanetInfo|array(PlanetInfo) a single object if a planet name was specified, an array if not
 	 */
 	public function getPlanetInfo($planetName = null){
-		//TODO what does the response look like when it's a foreign planet that you have units on?
 		$planetInfos = array();
 
 		$params = array();
@@ -285,8 +284,25 @@ class HAPI{
 		//get general info
 		$params["data"] = "general";
 		$respParams = $this->sendAuthRequest("getplanetinfo", $params);
+		
+		//if the planet is foreign, then indexes aren't appended to the parameters and different info is returned
+		if (isset($respParams["planet"])){
+			$planetInfo = new PlanetInfo();
+			$planetInfo->setForeign(true);
+			$planetInfo->setName($respParams["planet"]);
+			$planetInfo->setStasis($respParams["stasis"]);
+			$planetInfo->setBattle($respParams["battle"]);
+			$planetInfo->setBlockaded($respParams["blockade"]);
+			$planetInfo->setVacation($respParams["vacation"]);
+			$planetInfo->setHypergate($respParams["hypergate"]);
+			$planetInfo->setNeutral(@$respParams["isneutral"]); //only appears if the planet is neutral?
+			$planetInfo->setDefBonus(@$respParams["defbonus"]); //only appears if there's a battle?
+			return $planetInfo;
+		}
+		
 		for ($i = 0; isset($respParams["planet$i"]); $i++){
 			$planetInfo = new PlanetInfo();
+			$planetInfo->setForeign(false);
 			$planetInfo->setName($respParams["planet$i"]);
 			$planetInfo->setX($respParams["x$i"]);
 			$planetInfo->setY($respParams["y$i"]);
@@ -331,7 +347,7 @@ class HAPI{
 				$trade = new Trade();
 				$trade->setId($respParams["tid{$i}_$j"]);
 				$trade->setPlanetName($respParams["toplanet{$i}_$j"]);
-				$trade->setPlanetTag($respParams["tag{$i}_$j"]);
+				$trade->setPlanetTag($respParams["tag{$i}_$j"]); //blank if the planet does not have a public tag
 				$trade->setPlanetDistance($respParams["dist{$i}_$j"]);
 				$trade->setPlanetX($respParams["x{$i}_$j"]);
 				$trade->setPlanetY($respParams["y{$i}_$j"]);
@@ -364,7 +380,7 @@ class HAPI{
 				$infil = new Infiltration();
 				$infil->setId($respParams["infid{$i}_$j"]);
 				$infil->setPlanetName($respParams["planetname{$i}_$j"]);
-				$infil->setPlanetTag($respParams["planettag{$i}_$j"]);
+				$infil->setPlanetTag(@$respParams["planettag{$i}_$j"]); //not included if planet does not have a public tag
 				$infil->setPlanetX($respParams["x{$i}_$j"]);
 				$infil->setPlanetY($respParams["y{$i}_$j"]);
 				$infil->setLevel($respParams["level{$i}_$j"]);

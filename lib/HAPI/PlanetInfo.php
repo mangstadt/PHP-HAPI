@@ -10,6 +10,12 @@ class PlanetInfo{
 	const NEXUS_TYPE_ADMIN = 1;
 	const NEXUS_TYPE_SATEL = 2;
 	
+	/**
+	 * True if the planet is foreign, false if the player controls it.
+	 * @var boolean
+	 */
+	private $foreign;
+	
 	private $name;
 	private $x;
 	private $y;
@@ -75,6 +81,10 @@ class PlanetInfo{
 	private $numFactories;
 	private $civLevel;
 	private $defBonus;
+	private $hypergate;
+	private $neutral;
+	private $battle;
+	private $vacation;
 	
 	/**
 	 * The planet's trading relations.
@@ -87,6 +97,22 @@ class PlanetInfo{
 	 * @var array(Infiltration)
 	 */
 	private $infiltrations = array();
+	
+	/**
+	 * Gets whether the planet is foreign or not.
+	 * @return boolean true if the planet is foreign, false if the player controls the planet
+	 */
+	public function isForeign(){
+		return $this->foreign;
+	}
+	
+	/**
+	 * Sets whether the planet is foreign or not.
+	 * @param boolean $foreign true if the planet is foreign, false if the player controls the planet
+	 */
+	public function setForeign($foreign){
+		$this->foreign = $foreign;
+	}
 	
 	public function getName(){
 		return $this->name;
@@ -366,6 +392,38 @@ class PlanetInfo{
 
 	public function setDefBonus($defBonus){
 		$this->defBonus = $defBonus;
+	}
+	
+	public function isHypergate(){
+		return $this->hypergate;
+	}
+	
+	public function setHypergate($hypergate){
+		$this->hypergate = $hypergate;
+	}
+	
+	public function isNeutral(){
+		return $this->neutral;
+	}
+	
+	public function setNeutral($neutral){
+		$this->neutral = $neutral;
+	}
+	
+	public function isBattle(){
+		return $this->battle;
+	}
+
+	public function setBattle($battle){
+		$this->battle = $battle;
+	}
+
+	public function isVacation(){
+		return $this->vacation;
+	}
+
+	public function setVacation($vacation){
+		$this->vacation = $vacation;
 	}
 
 	/**
