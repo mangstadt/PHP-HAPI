@@ -12,6 +12,7 @@ class Message{
 	const TYPE_INFILTRATION = 4;
 	const TYPE_PLANET_CONTROL = 8;
 	const TYPE_PLANET_MESSAGE = 16;
+	const TYPE_SCAN_REPORT = 32;
 	
 	/**
 	 * The date the message was received.
