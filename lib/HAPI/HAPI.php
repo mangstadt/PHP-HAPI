@@ -506,7 +506,7 @@ class HAPI{
 	}
 	/**
 	 * Gets a list of all planets that belong to an alliance.&nbsp;
-	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the <code>$start</code> parameter to specify what row it should start on.
+	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the $start parameter to specify what row it should start on.
 	 * @param string $tag the alliance tag (without brackets, case-insensitive)
 	 * @param integer $start (optional) the row in the list it should start on (defaults to the beginning of the list, first row is "0")
 	 * @throws Exception if there was a problem making the request
