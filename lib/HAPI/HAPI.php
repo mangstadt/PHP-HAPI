@@ -554,7 +554,7 @@ class HAPI{
 	/**
 	 * Calls the "ismsginfo" method.
 	 * @throws Exception if there was a problem making the request
-	 * @teturn IsMsgInfo the response
+	 * @return IsMsgInfo the response
 	 */
 	public function isMsgInfo(){
 		$resp = $this->sendAuthRequest("ismsginfo");
@@ -563,7 +563,7 @@ class HAPI{
 		$isMsgInfo->setMsg($resp["ismsg"]);
 		$isMsgInfo->setPlanet($resp["isplanet"]);
 		$isMsgInfo->setReport($resp["isreport"]);
-		$isMsgInfo->setMilitary($resp["ismilitary"]);
+		$isMsgInfo->setMilitary($resp["ismilit"]);
 		$isMsgInfo->setTrading($resp["istrading"]);
 		$isMsgInfo->setInfiltration($resp["isinfiltr"]);
 		$isMsgInfo->setControl($resp["iscontrol"]);
