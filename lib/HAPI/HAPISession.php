@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * A HAPI session.
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class HAPISession{

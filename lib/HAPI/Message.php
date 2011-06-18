@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a player or planet message (used for the "getnewmsg", "getoldpersomsg", and "getoldplanetmsg" HAPI methods).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class Message{

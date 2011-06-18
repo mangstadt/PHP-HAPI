@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Contains various information on a planet (used for the "getplanetinfo" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class PlanetInfo{

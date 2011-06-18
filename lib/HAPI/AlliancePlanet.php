@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a planet that belongs to an alliance (used for the "getallianceplanets" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class AlliancePlanet{

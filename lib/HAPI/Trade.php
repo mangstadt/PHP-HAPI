@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a trading relation (used for the "getplanetinfo" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class Trade{

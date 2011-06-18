@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a fleet (used for the "getfleetsinfo" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class Fleet{

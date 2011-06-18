@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * IsMsgInfo class (used for the "ismsginfo" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class IsMsgInfo{

@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Contains information on a player (used for the "getplayerinfo" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class PlayerInfo{

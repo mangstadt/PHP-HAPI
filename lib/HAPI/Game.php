@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a Hyperiums game (used for the "games" HAPI method).
+ * @package HAPI
  * @author github.com/mangstadt
  */
 class Game{

@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * IsMsg class (used for the "ismsg" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class IsMsg{

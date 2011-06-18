@@ -3,6 +3,7 @@ namespace HAPI;
 
 /**
  * Represents a moving fleet (used for the "getmovingfleets" HAPI method).
+ * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class MovingFleet{
