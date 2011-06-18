@@ -30,6 +30,12 @@ class PlanetInfo{
 	private $government;
 	
 	/**
+	 * The number of days before the planet's government type can be changed.
+	 * @var integer
+	 */
+	private $governmentCooldown;
+	
+	/**
 	 * The planet's production type (see HAPI::PROD_TYPE_*).
 	 * @var integer
 	 */
@@ -169,6 +175,22 @@ class PlanetInfo{
 	 */
 	public function setGovernment($government){
 		$this->government = $government;
+	}
+	
+	/**
+	 * Gets the number of days before the planet's government type can be changed.
+	 * @return integer the number of days before the planet's government type can be changed.
+	 */
+	public function getGovernmentCooldown(){
+		return $this->governmentCooldown;
+	}
+	
+	/**
+	 * Sets the number of days before the planet's government type can be changed.
+	 * @param integer $governmentCooldown the number of days before the planet's government type can be changed.
+	 */
+	public function setGovernmentCooldown($governmentCooldown){
+		$this->governmentCooldown = $governmentCooldown;
 	}
 
 	/**

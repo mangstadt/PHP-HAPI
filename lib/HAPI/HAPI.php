@@ -310,6 +310,7 @@ class HAPI{
 			$planetInfo->setSize($respParams["size$i"]);
 			$planetInfo->setOrbit($respParams["orbit$i"]);
 			$planetInfo->setGovernment($respParams["gov$i"]);
+			$planetInfo->setGovernmentCooldown($respParams["govd$i"]);
 			$planetInfo->setProdType($respParams["ptype$i"]);
 			$planetInfo->setTax($respParams["tax$i"]);
 			$planetInfo->setNumExploits($respParams["exploits$i"]);
