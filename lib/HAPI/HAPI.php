@@ -539,7 +539,7 @@ class HAPI{
 	}
 	
 	/**
-	 * Calls the "ismsg" method.
+	 * Determines whether the player has new messages or not.
 	 * @throws Exception if there was a problem making the request
 	 * @return IsMsg the response
 	 */
@@ -553,7 +553,7 @@ class HAPI{
 	}
 	
 	/**
-	 * Calls the "ismsginfo" method.
+	 * Determines whether the player has new messages or not.
 	 * @throws Exception if there was a problem making the request
 	 * @return IsMsgInfo the response
 	 */
