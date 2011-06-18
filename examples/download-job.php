@@ -27,8 +27,8 @@ Arguments:
     The password of your Hyperiums account.
 
 --directory=PATH -d=PATH
-    The directory that you want the data files to be saved to.
-    Non-existant directories will be created.
+    The directory that you want the data files to be saved to.  Non-existant
+    directories will be created.  Must be an absolute path.
     (defaults to the working directory)
 
 --help, -h
@@ -125,6 +125,7 @@ class Arguments{
 		unset($argv[0]); //ignore the PHP file name
 		foreach ($argv as $arg){
 			if ($arg[0] == "-"){
+				$long = @$arg[1] == "-";
 				$arg = ltrim($arg, "-"); //remove dashes
 			} else {
 				continue; //ignore args that don't start with "-"
@@ -138,7 +139,15 @@ class Arguments{
 				$key = substr($arg, 0, $equals);
 				$value = ($equals == strlen($arg)-1) ? "" : substr($arg, $equals+1);
 			}
-			$this->args[$key] = $value;
+			
+			if ($long){
+				$this->args[$key] = $value;
+			} else {
+				//flags can be grouped together (example: "-abc" is the same as "-a -b -c")
+				for ($i = 0; $i < strlen($key); $i++){
+					$this->args[$key[$i]] = $value;
+				}
+			}
 		}
 	}
 	
