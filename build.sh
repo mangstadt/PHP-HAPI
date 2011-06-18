@@ -14,7 +14,7 @@
 #phar.readonly = Off
 
 #define version
-VERSION=0.1.0-SNAPSHOT
+VERSION=0.1.0
 
 #clean build directory
 rm -rf build
@@ -24,7 +24,7 @@ mkdir build
 phar-build --ns --src=lib --phar build/PHP-HAPI-$VERSION.phar
 
 #generate phpdocs
-phpdoc --directory lib --target build/phpdocs/ --ignore index.php --title "PHP-HAPI v$VERSION" --sourcecode on --defaultpackagename HAPI
+phpdoc --directory lib --target build/phpdocs --ignore index.php --title "PHP-HAPI v$VERSION" --sourcecode on --defaultpackagename HAPI
 cd build/phpdocs/
 zip -r "../PHP-HAPI-$VERSION-phpdocs.zip" *
 cd ../..

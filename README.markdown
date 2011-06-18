@@ -98,3 +98,9 @@ for ($i = 0; $i < 100; $i++){
 ```
 
 [Click here](https://github.com/mangstadt/PHP-HAPI/tree/master/examples) for more examples.
+
+# Changelog
+
+**v0.1.0**
+
+First version.
