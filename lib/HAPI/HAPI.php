@@ -750,7 +750,7 @@ class HAPI{
 	 * @throws Exception if there was a problem sending the request or an error response was returned
 	 * @return array(string=>string)|string the response
 	 */
-	protected static function sendRequest($method, array $params = array(), $floodLockDir = null, $rawResponse = false){
+	protected static function sendRequest($method, array $params = array(), $floodLockFile = null, $rawResponse = false){
 		//build request URL
 		$params["request"] = $method;
 		if (self::$cacheDetection){
