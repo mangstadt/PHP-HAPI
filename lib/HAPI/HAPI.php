@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.1.1
+ * @version 0.2.0
  */
 class HAPI{
 	/**
@@ -52,6 +52,12 @@ class HAPI{
 	 * @var string
 	 */
 	private $floodLockDir;
+	
+	/**
+	 * True to check to see if each response comes from a cache or not, false not to.
+	 * @var boolean
+	 */
+	private static $cacheDetection = true;
 
 	/**
 	 * The HAPI session.
@@ -64,9 +70,11 @@ class HAPI{
 	 * @param string $gameName the game to connect to
 	 * @param string $username the username
 	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to Preferences &gt; Authentication to generate one)
+	 * @param string $floodLockDir (optional) the *absolute* path to the directory where the lock files will be stored (one file per user) or null to disable flood protection (defaults to null).  The directory must be writable by the web server process.
 	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 */
-	public function __construct($gameName, $username, $hapiKey){
+	public function __construct($gameName, $username, $hapiKey, $floodLockDir = null){
+		$this->floodLockDir = $floodLockDir;
 		$this->session = $this->authenticate($gameName, $username, $hapiKey);
 	}
 	
@@ -742,9 +750,13 @@ class HAPI{
 	 * @throws Exception if there was a problem sending the request or an error response was returned
 	 * @return array(string=>string)|string the response
 	 */
-	protected static function sendRequest($method, array $params = array(), $floodLockFile = null, $rawResponse = false){
+	protected static function sendRequest($method, array $params = array(), $floodLockDir = null, $rawResponse = false){
 		//build request URL
 		$params["request"] = $method;
+		if (self::$cacheDetection){
+			$reqFailsafe = time();
+			$params["failsafe"] = $reqFailsafe;
+		}
 		$url = self::URL . "?" . http_build_query($params);
 
 		if ($floodLockFile != null){
@@ -806,6 +818,14 @@ class HAPI{
 		
 		//parse the query string into an assoc array
 		parse_str($response, $respParams);
+		
+		//throw an exception if the response is from a cache
+		if (self::$cacheDetection){
+			$respFailsafe = @$respParams["failsafe"];
+			if ($respFailsafe != $reqFailsafe){
+				throw new \Exception("A different failsafe value was returned in the response.  Response has come from a cache and does not contain up-to-date information.");
+			}
+		}
 		
 		//check for errors in the response
 		$error = @$respParams["error"];
@@ -880,5 +900,15 @@ class HAPI{
 			}
 		}
 		$this->floodLockDir = $lockDir;
+	}
+	
+	/**
+	 * Enables or disables cache detection (enabled by default).&nbsp;
+	 * Use this to check if the responses are cached (and do not contain up-to-date information).&nbsp;
+	 * An exception will be thrown if it is found that a response comes from a cache.
+	 * @param boolean $enable true to enable, false to disable
+	 */
+	public static function setCacheDetection($enable){
+		self::$cacheDetection = $enable;
 	}
 }

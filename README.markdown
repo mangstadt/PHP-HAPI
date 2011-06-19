@@ -18,7 +18,7 @@ Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
 ```php
 <?php
-require_once 'PHP-HAPI-0.1.1.phar';
+require_once 'PHP-HAPI-0.2.0.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -100,6 +100,10 @@ for ($i = 0; $i < 100; $i++){
 [Click here](https://github.com/mangstadt/PHP-HAPI/tree/master/examples) for more examples.
 
 # Changelog
+
+**v0.2.0**
+
+ * Added cache detection--checks to see if a response has come from a cache and does not contain up-to-date information (uses "failsafe" parameter).
 
 **v0.1.1**
 

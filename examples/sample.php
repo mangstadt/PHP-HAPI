@@ -1,5 +1,5 @@
 <?php
-//require_once __DIR__ .  '/PHP-HAPI-0.1.1.phar';
+//require_once __DIR__ .  '/PHP-HAPI-0.2.0.phar';
 require_once __DIR__ .  '/../lib/index.php';
 use HAPI\HAPI;
 use HAPI\Game;
