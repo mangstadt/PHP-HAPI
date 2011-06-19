@@ -58,7 +58,7 @@ if (count($errors) > 0){
 	exit();
 }
 
-//require_once __DIR__ .  '/PHP-HAPI-0.1.0.phar';
+//require_once __DIR__ .  '/PHP-HAPI-0.1.1.phar';
 require_once __DIR__ . '/../lib/index.php';
 use HAPI\HAPI;
 

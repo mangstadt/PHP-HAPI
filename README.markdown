@@ -18,7 +18,7 @@ Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
 ```php
 <?php
-require_once 'PHP-HAPI-0.1.0.phar';
+require_once 'PHP-HAPI-0.1.1.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -100,6 +100,11 @@ for ($i = 0; $i < 100; $i++){
 [Click here](https://github.com/mangstadt/PHP-HAPI/tree/master/examples) for more examples.
 
 # Changelog
+
+**v0.1.1**
+
+ * Fixed bug where HAPI::getPlanetInfo() was returning each planet twice if no planet name was specified.
+ * Fixed bug where HAPI::getPlanetInfo() was not unmarshalling "government cooldown days" parameter.
 
 **v0.1.0**
 

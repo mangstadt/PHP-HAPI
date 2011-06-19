@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.1.1-SNAPSHOT
+ * @version 0.1.1
  */
 class HAPI{
 	/**
