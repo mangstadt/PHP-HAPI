@@ -101,6 +101,10 @@ for ($i = 0; $i < 100; $i++){
 
 # Changelog
 
+**v0.2.1**
+
+ * Added player name to HAPISession object.
+
 **v0.2.0**
 
  * Added cache detection--checks to see if a response has come from a cache and does not contain up-to-date information (uses "failsafe" parameter).

@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.2.0
+ * @version 0.2.1-SNAPSHOT
  */
 class HAPI{
 	/**
@@ -94,7 +94,7 @@ class HAPI{
 		);
 		$respParams = self::sendRequest(null, $params);
 
-		$session = new HAPISession($respParams["gameid"], $respParams["playerid"], $respParams["authkey"], strtotime($respParams["servertime"]));
+		$session = new HAPISession($respParams["gameid"], $respParams["playerid"], $respParams["playername"], $respParams["authkey"], strtotime($respParams["servertime"]));
 		return $session;
 	}
 	

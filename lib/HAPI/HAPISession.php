@@ -20,6 +20,12 @@ class HAPISession{
 	private $playerId;
 	
 	/**
+	 * The player name.
+	 * @var string
+	 */
+	private $playerName;
+	
+	/**
 	 * The authentication key.
 	 * @var string
 	 */
@@ -35,12 +41,14 @@ class HAPISession{
 	 * Creates a new session object.
 	 * @param integer $gameId the game ID
 	 * @param integer $playerId the player ID
+	 * @param string $playerName the player name
 	 * @param string $authKey the authentication key
 	 * @param integer $creationTime the time that the session was created (server time, timestamp)
 	 */
-	public function __construct($gameId, $playerId, $authKey, $creationTime = null){
+	public function __construct($gameId, $playerId, $playerName, $authKey, $creationTime = null){
 		$this->gameId = $gameId;
 		$this->playerId = $playerId;
+		$this->playerName = $playerName;
 		$this->authKey = $authKey;
 		$this->creationTime = $creationTime;
 	}
@@ -59,6 +67,14 @@ class HAPISession{
 	 */
 	public function getPlayerId(){
 		return $this->playerId;
+	}
+	
+	/**
+	 * Gets the player name.
+	 * @return string the player name
+	 */
+	public function getPlayerName(){
+		return $this->playerName;
 	}
 
 	/**
