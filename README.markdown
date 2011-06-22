@@ -6,6 +6,8 @@ PHP-HAPI is a PHP library that allows you to easily query the [Hyperiums](http:/
 
 PHP-HAPI supports HAPI version 0.1.8.
 
+Check outs the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html) and my [HAPI Developer Reference Manual](https://github.com/downloads/mangstadt/PHP-HAPI/hapi-reference-manual.pdf) for more details about HAPI.
+
 # Requirements
 
 PHP-HAPI requires PHP 5.3 or above.
