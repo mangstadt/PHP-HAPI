@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.2.1-SNAPSHOT
+ * @version 0.3.0
  */
 class HAPI{
 	/**
@@ -39,6 +39,19 @@ class HAPI{
 	const GOV_AUTH = 1;
 	const GOV_DEMO = 2;
 	const GOV_HYP = 3;
+	
+	const RANK_ENSIGN = 0;
+	const RANK_LIEUTENANT = 1;
+	const RANK_LIEUTENANT_COMMANDER = 2;
+	const RANK_COMMANDER = 3;
+	const RANK_CAPTAIN = 4;
+	const RANK_FLEET_CAPTAIN = 5;
+	const RANK_COMMODORE = 6;
+	const RANK_REAR_ADMIRAL = 7;
+	const RANK_VICE_ADMIRAL = 8;
+	const RANK_ADMIRAL = 9;
+	const RANK_FLEET_ADMIRAL = 10;
+	
 	
 	/**
 	 * True to log all requests/responses, false not to.

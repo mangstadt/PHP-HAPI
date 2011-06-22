@@ -18,7 +18,7 @@ Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
 ```php
 <?php
-require_once 'PHP-HAPI-0.2.0.phar';
+require_once 'PHP-HAPI-0.3.0.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -101,8 +101,9 @@ for ($i = 0; $i < 100; $i++){
 
 # Changelog
 
-**v0.2.1**
+**v0.3.0**
 
+ * Added functionality that parses the alliance, event, planet, and player data files.
  * Added player name to HAPISession object.
 
 **v0.2.0**
