@@ -32,7 +32,7 @@ class PlayerParser extends Parser{
 			
 			$player->setName($matches[$i++]);
 			$player->setInfluenceRank($matches[$i++]);
-			$player->setInfluenceRankSC(strtotime($matches[$i++]));
+			$player->setInfluenceRankSC($matches[$i++]);
 			$player->setInfluenceScore($matches[$i++]);
 			$player->setHypRank($matches[$i++]);
 			
