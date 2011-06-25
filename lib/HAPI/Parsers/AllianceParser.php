@@ -38,9 +38,9 @@ class AllianceParser extends Parser{
 			$alliance->setName($matches[2]);
 			
 			//line 2
-			$alliance->setDescription($lines[1]);
+			$alliance->setDescription(html_entity_decode($lines[1]));
 			
-			//line3
+			//line 3
 			$i = 0;
 			$split = preg_split("/ /", $lines[2]);
 			$alliance->setPresident($split[$i++]);
