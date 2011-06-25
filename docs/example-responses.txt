@@ -62,7 +62,7 @@ getfleetsinfo==========================
   
 getplayerinfo==========================
   <self>
-  name=mangst&hyprank=2&rankinf=2773&scoreinf=959791&cash=470679829&rankfin=2889&scorefin=500955747&rankpow=4359&scorepow=1392&nbplanets=1&lastincome=338732
+  name=mangst&hyprank=2&rankinf=2064&scoreinf=23364538&cash=492037361&rankfin=2623&scorefin=824974949&rankpow=2161&scorepow=342254&nbplanets=7&lastincome=4460945
   
   other player
   name=KenpachiZ&hyprank=6&rankinf=1&scoreinf=21638175275

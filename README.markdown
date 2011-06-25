@@ -20,7 +20,7 @@ Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
 ```php
 <?php
-require_once 'PHP-HAPI-0.3.0.phar';
+require_once 'PHP-HAPI.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 
@@ -103,6 +103,11 @@ for ($i = 0; $i < 100; $i++){
 
 # Changelog
 
+**v0.3.1**
+
+ * Alliance descriptions from the alliance data file are now HTML-decoded, as they can contain HTML-encode characters.
+ * Fix bug in PlayerParser where a field was being treated as a date, when it shouldn't have been. 
+ 
 **v0.3.0**
 
  * Added functionality that parses the alliance, event, planet, and player data files.
