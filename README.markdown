@@ -20,7 +20,7 @@ Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
 ```php
 <?php
-require_once 'PHP-HAPI-0.3.0.phar';
+require_once 'PHP-HAPI.phar';
 use HAPI\HAPI;
 use HAPI\Game;
 

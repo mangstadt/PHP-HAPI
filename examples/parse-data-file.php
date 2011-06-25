@@ -4,7 +4,7 @@
  * @author Mike Angstadt [github.com/mangstadt]
  */
 
-//require_once __DIR__ . '/PHP-HAPI-0.3.0.phar';
+//require_once __DIR__ . '/PHP-HAPI.phar';
 require_once __DIR__ . '/../lib/index.php';
 
 use HAPI\Parsers\AllianceParser;
