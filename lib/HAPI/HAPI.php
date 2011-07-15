@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.3.1
+ * @version 0.3.2
  */
 class HAPI{
 	/**
@@ -87,7 +87,7 @@ class HAPI{
 	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 */
 	public function __construct($gameName, $username, $hapiKey, $floodLockDir = null){
-		$this->floodLockDir = $floodLockDir;
+		$this->setFloodProtection($floodLockDir);
 		$this->session = $this->authenticate($gameName, $username, $hapiKey);
 	}
 	

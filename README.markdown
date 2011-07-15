@@ -103,6 +103,10 @@ for ($i = 0; $i < 100; $i++){
 
 # Changelog
 
+**v0.3.2**
+
+ * Fixed bug in HAPI constructor where the flood lock directory wasn't being properly initialized.
+
 **v0.3.1**
 
  * Alliance descriptions from the alliance data file are now HTML-decoded, as they can contain HTML-encode characters.
