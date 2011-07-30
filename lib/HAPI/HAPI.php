@@ -6,7 +6,7 @@ namespace HAPI;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.3.2
+ * @version 0.3.3
  */
 class HAPI{
 	/**
@@ -57,7 +57,7 @@ class HAPI{
 	 * True to log all requests/responses, false not to.
 	 * @var boolean
 	 */
-	private static $logMessages = false;
+	private static $logFile;
 	
 	/**
 	 * The absolute path to the lock directory that is used for flood protection or null to disable flood protection.&nbsp;
@@ -797,7 +797,7 @@ class HAPI{
 		
 		$failed = $response === false; //problem sending the request?
 		
-		if (self::$logMessages){
+		if (self::$logFile != null){
 			//log the request and response
 			
 			$m = ($method == null) ? "<no method name>" : $method;
@@ -810,7 +810,17 @@ class HAPI{
 				$r = $response;
 			}
 			
-			error_log("HAPI request: $m\n  url: $url\n  response: $r\n\n");
+			$msg = "HAPI request: $m\n  url: $url\n  response: $r\n";
+			if (self::$logFile == 'php_error_log'){
+				error_log($msg);
+			} else {
+				$now = date('Y-m-d H:i:s');
+				$fp = fopen(self::$logFile, 'a');
+				flock($fp, LOCK_EX);
+				fwrite($fp, "$now: $msg");
+				flock($fp, LOCK_UN);
+				fclose($fp);
+			}
 		}
 		
 		//problem sending request?
@@ -826,7 +836,7 @@ class HAPI{
 			}
 		}
 
-		//ampersands are not URL encoded, so make them URL encoded so parse_str() doesn't break
+		//URL-encode ampersands for parse_str()
 		$response = str_replace("[:&:]", urlencode("&"), $response);
 		
 		//parse the query string into an assoc array
@@ -879,11 +889,11 @@ class HAPI{
 	}
 	
 	/**
-	 * Enables or disables the logging of all requests/responses to the PHP error log (disabled by default).
-	 * @param boolean $logMessage true to enable, false to disable
+	 * Sets the file where all requests/responses will be logged (logging is disabled by default).
+	 * @param string $logFile the *absolute* path to the log file, "php_error_log" to write to the PHP error log, or null to disable logging
 	 */
-	public static function setLogMessages($logMessages){
-		self::$logMessages = $logMessages;
+	public static function setLogFile($logFile){
+		self::$logFile = $logFile;
 	}
 	
 	/**

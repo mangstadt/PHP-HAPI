@@ -103,6 +103,10 @@ for ($i = 0; $i < 100; $i++){
 
 # Changelog
 
+**v0.3.3** - Jul 30 2011
+
+ * Added the ability to log requests/responses to a log file of your choice instead of just the PHP error log. 
+
 **v0.3.2**
 
  * Fixed bug in HAPI constructor where the flood lock directory wasn't being properly initialized.
