@@ -16,16 +16,11 @@ class HAPI{
 	const URL = 'http://www.hyperiums.com/servlet/HAPI';
 	
 	/**
-	 * The max number of requests per second you are allowed to send.
+	 * One request can be sent every 2 seconds without breaking HAPI query limits.&nbsp;
+	 * HAPI allows a max of 3 requests per second and 30 requests per minute.
 	 * @var integer
 	 */
-	const MAX_REQUESTS_PER_SEC = 3;
-	
-	/**
-	 * The max number of requests per minute you are allowed to send.
-	 * @var integer
-	 */
-	const MAX_REQUESTS_PER_MIN = 30;
+	const SECONDS_PER_REQUEST = 2;
 	
 	const RACE_HUMAN = 0;
 	const RACE_AZTERK = 1;
@@ -773,16 +768,14 @@ class HAPI{
 		$url = self::URL . "?" . http_build_query($params);
 
 		if ($floodLockFile != null){
-			//only allow one request to be sent every 2 seconds
-			$secondsPerRequest = 60/self::MAX_REQUESTS_PER_MIN;
 			$fp = fopen($floodLockFile, "r");
 			flock($fp, LOCK_EX);
 			clearstatcache();
 			$t = fileatime($floodLockFile);
 			$diff = time() - $t;
-			if ($diff >= 0 && $diff < $secondsPerRequest){
+			if ($diff >= 0 && $diff < self::SECONDS_PER_REQUEST){
 				//pause if a request was made recently
-				sleep($secondsPerRequest-$diff);
+				sleep(self::SECONDS_PER_REQUEST-$diff);
 			}
 		}
 		
@@ -878,7 +871,7 @@ class HAPI{
 			$lockFile = $this->floodLockDir . "/" . $this->session->getPlayerId();
 			if (!file_exists($lockFile)){
 				//create the lock file if it doesn't exist
-				$success = touch($lockFile, time()-2, time()-2);
+				$success = touch($lockFile, time()-self::SECONDS_PER_REQUEST, time()-self::SECONDS_PER_REQUEST);
 				if (!$success){
 					throw new \Exception("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
 				}
