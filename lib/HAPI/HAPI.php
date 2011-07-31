@@ -105,7 +105,13 @@ class HAPI{
 			$game->setState($response["state$i"]);
 			$game->setDescription($response["descr$i"]);
 			$game->setLength($response["length$i"]);
-			$game->setMaxEndDate($response["maxenddate$i"]); //this isn't a date
+			$maxEndDate = $response["maxenddate$i"];
+			if ($maxEndDate == "null"){
+				$maxEndDate = null;
+			} else {
+				$maxEndDate = strtotime($maxEndDate);
+			}
+			$game->setMaxEndDate($maxEndDate);
 			$game->setPeec($response["ispeec$i"]);
 			$game->setMaxPlanets($response["maxplanets$i"]);
 			$game->setInitCash($response["initcash$i"]);
