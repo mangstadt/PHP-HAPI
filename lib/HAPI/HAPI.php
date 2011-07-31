@@ -73,7 +73,7 @@ class HAPI{
 	 * Creates a new HAPI connection.
 	 * @param string $gameName the game to connect to
 	 * @param string $username the username
-	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to Preferences &gt; Authentication to generate one)
+	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to "Preferences &gt; Authentication" to generate one)
 	 * @param string $floodLockDir (optional) the *absolute* path to the directory where the lock files will be stored (one file per user) or null to disable flood protection (defaults to null).  The directory must be writable by the web server process.
 	 * @throws Exception if there was a problem authenticating or the authentication failed
 	 */
@@ -135,7 +135,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadAlliances($username, $password, $gameName, $file){
@@ -148,7 +148,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadEvents($username, $password, $gameName, $file){
@@ -161,7 +161,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlayers($username, $password, $gameName, $file){
@@ -174,7 +174,7 @@ class HAPI{
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".
+	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlanets($username, $password, $gameName, $file){
@@ -184,11 +184,11 @@ class HAPI{
 	/**
 	 * Downloads one of the daily-generated lists.&nbsp;
 	 * Each list is gzipped and can only be downloaded once per day.
-	 * @param string $type the file type
+	 * @param string $type the type of data file to download
 	 * @param string $username the account username
 	 * @param string $password the account password
 	 * @param string $gameName the game name
-	 * @param string $file the *absolute* path to save the file to.  The file name should end with ".txt.gz".  If a file already exists with this name, it will be overwritten.
+	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
 	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	private static function download($type, $username, $password, $gameName, $file){
@@ -197,7 +197,7 @@ class HAPI{
 		if ($dir != "." && !file_exists($dir)){
 			$result = mkdir($dir, 0774, true);
 			if ($result === false){
-				throw new Exception("Could not create non-existant directories: $dir");
+				throw new Exception("Cannot create non-existant directories: $dir");
 			}
 		}
 		
@@ -213,7 +213,7 @@ class HAPI{
 		//save response to file
 		$result = file_put_contents($file, $response);
 		if ($result === false){
-			throw new Exception("Could not save the file.");
+			throw new Exception("Could not write the data file to disk after it was downloaded: $file");
 		}
 	}
 	
@@ -444,7 +444,6 @@ class HAPI{
 				
 				//if a fleet is never named, "null" will be returned
 				//if a fleet is named, but its name is later removed, an empty string will be returned
-				//this is true despite the fact that "[No name]" is displayed on the website in both cases 
 				$name = $response["fname{$i}_$j"];
 				if ($name == "null"){
 					$name = "";
@@ -519,9 +518,9 @@ class HAPI{
 	}
 	/**
 	 * Gets a list of all planets that belong to an alliance.&nbsp;
-	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the $start parameter to specify what row it should start on.
+	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the $start parameter to specify what index in the list it should start on.
 	 * @param string $tag the alliance tag (without brackets, case-insensitive)
-	 * @param integer $start (optional) the row in the list it should start on (defaults to the beginning of the list, first row is "0")
+	 * @param integer $start (optional) the list index that it should start on (defaults to the beginning of the list, first element is "0")
 	 * @throws Exception if there was a problem making the request
 	 * @return array(AlliancePlanet) the alliance planets
 	 */
@@ -592,7 +591,15 @@ class HAPI{
 	public function getNewMessages(){
 		$messages = array();
 		
-		//this is confusing, see docs/example-responses.txt
+		/*
+		 * The response for this method groups the messages in a particular way.
+		 * The player messages come first (messages that are directly addressed to the player).
+		 * The planet messages come next (messages that are addressed to one of the player's planets).
+		 * The planet messages are grouped by planet.
+		 * The way to determine what planet a group of planet messages is addressed to, is by using these parameters: "planet0=Fayette&planetstart0=2".
+		 * The messages whose indexes are >= the value of "planetstartN" are for the planet specified in the "planetN" parameter, up until the message whose index is specified in "planetstart(n+1)".
+		 * These parameters make up their own "list" apart from the list of messages, so, for example, "planet0" doesn't mean this parameter belongs to the message at index 0.
+		 */
 		$response = $this->sendAuthRequest("getnewmsg");
 		$num = $response["nbmsg"];
 		if ($num > 0){
@@ -662,7 +669,7 @@ class HAPI{
 	 * Gets old planet messages.
 	 * @param integer $start the message to start on ("0" for the most recent message)
 	 * @param integer $max the max number of messages to return
-	 * @param string $planetName (optional) the planet you want to retrieve the messages of or null to get messages from all planets
+	 * @param string $planetName (optional) the planet to retrieve the messages of or null to get messages from all planets (defaults to null)
 	 * @throws Exception if there was a problem making the request
 	 * @return array(Message) the messages
 	 */
@@ -716,7 +723,7 @@ class HAPI{
 	
 	/**
 	 * Gets info on a particular player.
-	 * @param string $playerName (optional) the name of the player. If this is left out, then it will retrieve info on the authenticated player.
+	 * @param string $playerName (optional) the name of the player (defaults to the name of the currently authenticated player)
 	 * @throws Exception if there was a problem making the request
 	 * @return PlayerInfo the info on the player
 	 */
