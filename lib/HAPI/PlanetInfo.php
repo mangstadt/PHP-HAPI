@@ -42,8 +42,8 @@ class PlanetInfo{
 	private $prodType;
 	
 	private $tax;
-	private $numExploits;
-	private $numExploitsInPipe;
+	private $exploits;
+	private $exploitsInPipe;
 	private $activity;
 	private $population;
 	
@@ -53,10 +53,10 @@ class PlanetInfo{
 	 */
 	private $race;
 	
-	private $nrj;
-	private $nrjMax;
+	private $energy;
+	private $energyMax;
 	private $purifying;
-	private $paranoidMode;
+	private $paranoid;
 	private $blockaded;
 	private $blackHole;
 	private $stasis;
@@ -85,7 +85,7 @@ class PlanetInfo{
 	private $ecomark;
 	private $id;
 	private $publicTag;
-	private $numFactories;
+	private $factories;
 	private $civLevel;
 	private $defBonus;
 	private $hypergate;
@@ -217,20 +217,20 @@ class PlanetInfo{
 		$this->tax = $tax;
 	}
 
-	public function getNumExploits(){
-		return $this->numExploits;
+	public function getExploits(){
+		return $this->exploits;
 	}
 
-	public function setNumExploits($numExploits){
-		$this->numExploits = $numExploits;
+	public function setExploits($exploits){
+		$this->exploits = $exploits;
 	}
 
-	public function getNumExploitsInPipe(){
-		return $this->numExploitsInPipe;
+	public function getExploitsInPipe(){
+		return $this->exploitsInPipe;
 	}
 
-	public function setNumExploitsInPipe($numExploitsInPipe){
-		$this->numExploitsInPipe = $numExploitsInPipe;
+	public function setExploitsInPipe($exploitsInPipe){
+		$this->exploitsInPipe = $exploitsInPipe;
 	}
 
 	public function getActivity(){
@@ -265,20 +265,20 @@ class PlanetInfo{
 		$this->race = $race;
 	}
 
-	public function getNrj(){
-		return $this->njr;
+	public function getEnergy(){
+		return $this->energy;
 	}
 
-	public function setNrj($nrj){
-		$this->nrj = $nrj;
+	public function setEnergy($energy){
+		$this->energy = $energy;
 	}
 
-	public function getNrjMax(){
-		return $this->nrjMax;
+	public function getEnergyMax(){
+		return $this->energyMax;
 	}
 
-	public function setNrjMax($nrjMax){
-		$this->nrjMax = $nrjMax;
+	public function setEnergyMax($energyMax){
+		$this->energyMax = $energyMax;
 	}
 
 	public function isPurifying(){
@@ -289,12 +289,12 @@ class PlanetInfo{
 		$this->purifying = $purifying;
 	}
 
-	public function isParanoidMode(){
-		return $this->paranoidMode;
+	public function isParanoid(){
+		return $this->paranoid;
 	}
 
-	public function setParanoidMode($paranoidMode){
-		$this->paranoidMode = $paranoidMode;
+	public function setParanoid($paranoid){
+		$this->paranoid = $paranoid;
 	}
 
 	public function isBlockaded(){
@@ -393,12 +393,12 @@ class PlanetInfo{
 		$this->publicTag = $publicTag;
 	}
 
-	public function getNumFactories(){
-		return $this->numFactories;
+	public function getFactories(){
+		return $this->factories;
 	}
 
-	public function setNumFactories($numFactories){
-		$this->numFactories = $numFactories;
+	public function setFactories($factories){
+		$this->factories = $factories;
 	}
 
 	public function getCivLevel(){

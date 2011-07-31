@@ -263,10 +263,10 @@ class HAPI{
 			$exploitation = new Exploitation();
 			$exploitation->setPlanetName($response["planet$i"]);
 			$exploitation->setPlanetId($response["planetid$i"]);
-			$exploitation->setNumExploits($response["nbexp$i"]);
-			$exploitation->setNumInPipe($response["inpipe$i"]);
-			$exploitation->setNumToBeDemolished($response["tobedem$i"]);
-			$exploitation->setNumOnSale($response["nbonsale$i"]);
+			$exploitation->setExploits($response["nbexp$i"]);
+			$exploitation->setInPipe($response["inpipe$i"]);
+			$exploitation->setToBeDemolished($response["tobedem$i"]);
+			$exploitation->setOnSale($response["nbonsale$i"]);
 			$exploitation->setSellPrice($response["sellprice$i"]);
 			$exploitation->setRentability($response["rentability$i"]);
 			$exploitations[] = $exploitation;
@@ -318,15 +318,15 @@ class HAPI{
 			$planetInfo->setGovernmentCooldown($response["govd$i"]);
 			$planetInfo->setProdType($response["ptype$i"]);
 			$planetInfo->setTax($response["tax$i"]);
-			$planetInfo->setNumExploits($response["exploits$i"]);
-			$planetInfo->setNumExploitsInPipe($response["expinpipe$i"]);
+			$planetInfo->setExploits($response["exploits$i"]);
+			$planetInfo->setExploitsInPipe($response["expinpipe$i"]);
 			$planetInfo->setActivity($response["activity$i"]);
 			$planetInfo->setPopulation($response["pop$i"]);
 			$planetInfo->setRace($response["race$i"]);
-			$planetInfo->setNrj($response["nrj$i"]);
-			$planetInfo->setNrjMax($response["nrjmax$i"]);
+			$planetInfo->setEnergy($response["nrj$i"]);
+			$planetInfo->setEnergyMax($response["nrjmax$i"]);
 			$planetInfo->setPurifying(self::bool($response["purif$i"]));
-			$planetInfo->setParanoidMode(self::bool($response["parano$i"]));
+			$planetInfo->setParanoid(self::bool($response["parano$i"]));
 			$planetInfo->setBlockaded(self::bool($response["block$i"]));
 			$planetInfo->setBlackHole(self::bool($response["bhole$i"]));
 			$planetInfo->setStasis(self::bool($response["stasis$i"]));
@@ -336,7 +336,7 @@ class HAPI{
 			$planetInfo->setEcomark($response["ecomark$i"]);
 			$planetInfo->setId($response["planetid$i"]);
 			$planetInfo->setPublicTag($response["publictag$i"]);
-			$planetInfo->setNumFactories($response["factories$i"]);
+			$planetInfo->setFactories($response["factories$i"]);
 			$planetInfo->setCivLevel($response["civlevel$i"]);
 			$planetInfo->setDefBonus($response["defbonus$i"]);
 			$planetInfos[] = $planetInfo;
@@ -368,7 +368,7 @@ class HAPI{
 				$trade->setRequestor(self::bool($response["isrequestor{$i}_$j"]));
 				$trade->setUpkeep($response["upkeep{$i}_$j"]);
 				$trade->setProdType($response["prodtype{$i}_$j"]);
-				$trade->setPlanetBlockaded(self::bool($response["isblockade{$i}_$j"]));
+				$trade->setBlockaded(self::bool($response["isblockade{$i}_$j"]));
 				$trades[] = $trade;
 			}
 			$planetInfo->setTrades($trades);
@@ -424,12 +424,12 @@ class HAPI{
 		$response = $this->sendAuthRequest("getfleetsinfo", $params);
 		for ($i = 0; isset($response["planet$i"]); $i++){
 			$fleetsInfo = new FleetsInfo();
-			$fleetsInfo->setOwnPlanet(true);
+			$fleetsInfo->setForeign(false);
 			$fleetsInfo->setPlanetName($response["planet$i"]);
 			$fleetsInfo->setStasis(self::bool($response["stasis$i"]));
 			$fleetsInfo->setVacation(self::bool($response["vacation$i"]));
-			$fleetsInfo->setNrj($response["nrj$i"]);
-			$fleetsInfo->setNrjMax($response["nrjmax$i"]);
+			$fleetsInfo->setEnergy($response["nrj$i"]);
+			$fleetsInfo->setEnergyMax($response["nrjmax$i"]);
 			$fleets = array();
 			for ($j = 0; isset($response["fleetid{$i}_$j"]); $j++){
 				$fleet = new Fleet();
@@ -473,7 +473,7 @@ class HAPI{
 		$response = $this->sendAuthRequest("getfleetsinfo", $params);
 		for ($i = 0; isset($response["planet$i"]); $i++){
 			$fleetsInfo = new FleetsInfo();
-			$fleetsInfo->setOwnPlanet(false);
+			$fleetsInfo->setForeign(true);
 			$fleetsInfo->setPlanetName($response["planet$i"]);
 			$fleetsInfo->setStasis(self::bool($response["stasis$i"]));
 			$fleetsInfo->setVacation(self::bool($response["vacation$i"]));
@@ -547,7 +547,7 @@ class HAPI{
 	 * @throws Exception if there was a problem making the request
 	 * @return IsMsg the response
 	 */
-	public function isMsg(){
+	public function getIsMsg(){
 		$response = $this->sendAuthRequest("ismsg");
 		
 		$isMsg = new IsMsg();
@@ -561,7 +561,7 @@ class HAPI{
 	 * @throws Exception if there was a problem making the request
 	 * @return IsMsgInfo the response
 	 */
-	public function isMsgInfo(){
+	public function getIsMsgInfo(){
 		$response = $this->sendAuthRequest("ismsginfo");
 		
 		$isMsgInfo = new IsMsgInfo();

@@ -7,24 +7,37 @@ namespace HAPI;
  * @author Mike Angstadt [github.com/mangstadt]
  */
 class FleetsInfo{
-	private $ownPlanet;
+	/**
+	 * True if the planet is foreign, false if the player controls it.
+	 * @var boolean
+	 */
+	private $foreign;
+	
 	private $planetName;
 	private $stasis;
 	private $vacation;
-	private $nrj;
-	private $nrjMax;
+	private $energy;
+	private $energyMax;
 	
 	/**
 	 * @var array(Fleet)
 	 */
 	private $fleets = array();
 	
-	public function isOwnPlanet(){
-		return $this->ownPlanet;
+	/**
+	 * Gets whether the planet is foreign or not.
+	 * @return boolean true if the planet is foreign, false if the player controls the planet
+	 */
+	public function isForeign(){
+		return $this->foreign;
 	}
-
-	public function setOwnPlanet($ownPlanet){
-		$this->ownPlanet = $ownPlanet;
+	
+	/**
+	 * Sets whether the planet is foreign or not.
+	 * @param boolean $foreign true if the planet is foreign, false if the player controls the planet
+	 */
+	public function setForeign($foreign){
+		$this->foreign = $foreign;
 	}
 
 	public function getPlanetName(){
@@ -51,20 +64,20 @@ class FleetsInfo{
 		$this->vacation = $vacation;
 	}
 
-	public function getNrj(){
-		return $this->nrj;
+	public function getEnergy(){
+		return $this->energy;
 	}
 
-	public function setNrj($nrj){
-		$this->nrj = $nrj;
+	public function setEnergy($energy){
+		$this->energy = $energy;
 	}
 
-	public function getNrjMax(){
-		return $this->nrjMax;
+	public function getEnergyMax(){
+		return $this->energyMax;
 	}
 
-	public function setNrjMax($nrjMax){
-		$this->nrjMax = $nrjMax;
+	public function setEnergyMax($energyMax){
+		$this->energyMax = $energyMax;
 	}
 
 	public function getFleets(){

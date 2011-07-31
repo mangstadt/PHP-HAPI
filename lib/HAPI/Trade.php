@@ -39,7 +39,7 @@ class Trade{
 	 */
 	private $prodType;
 	
-	private $planetBlockaded;
+	private $blockaded;
 	
 	public function getId(){
 		return $this->id;
@@ -185,11 +185,11 @@ class Trade{
 		$this->prodType = $prodType;
 	}
 
-	public function isPlanetBlockaded(){
-		return $this->planetBlockaded;
+	public function isBlockaded(){
+		return $this->blockaded;
 	}
 
-	public function setPlanetBlockaded($planetBlockaded){
-		$this->planetBlockaded = $planetBlockaded;
+	public function setBlockaded($blockaded){
+		$this->blockaded = $blockaded;
 	}
 }
