@@ -7,13 +7,25 @@ namespace HAPI\Parsers;
  * @package HAPI/Parsers
  */
 class Player{
+	const RANK_ENSIGN = 0;
+	const RANK_LIEUTENANT = 1;
+	const RANK_LIEUTENANT_COMMANDER = 2;
+	const RANK_COMMANDER = 3;
+	const RANK_CAPTAIN = 4;
+	const RANK_FLEET_CAPTAIN = 5;
+	const RANK_COMMODORE = 6;
+	const RANK_REAR_ADMIRAL = 7;
+	const RANK_VICE_ADMIRAL = 8;
+	const RANK_ADMIRAL = 9;
+	const RANK_FLEET_ADMIRAL = 10;
+	
 	private $name;
 	private $influenceRank;
 	private $influenceRankSC;
 	private $influenceScore;
 	
 	/**
-	 * The player's rank (see HAPI::RANK_*).
+	 * The player's rank (see Player::RANK_*).
 	 * @var integer
 	 */
 	private $hypRank;
@@ -56,7 +68,7 @@ class Player{
 	}
 
 	/**
-	 * Gets the player's rank (see HAPI::RANK_*).
+	 * Gets the player's rank (see Player::RANK_*).
 	 * @return integer the player's rank
 	 */
 	public function getHypRank(){
@@ -64,7 +76,7 @@ class Player{
 	}
 
 	/**
-	 * Sets the player's rank (see HAPI::RANK_*).
+	 * Sets the player's rank (see Player::RANK_*).
 	 * @param integer $hypRank the player's rank
 	 */
 	public function setHypRank($hypRank){
