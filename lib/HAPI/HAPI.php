@@ -108,22 +108,22 @@ class HAPI{
 	 * @return array(Game) all games
 	 */
 	public static function getAllGames(){
-		$respParams = self::sendRequest("games");
+		$response = self::sendRequest("games");
 		
 		//parse the game information from the response
 		$games = array();
-		for ($i = 0; isset($respParams["game$i"]); $i++){
+		for ($i = 0; isset($response["game$i"]); $i++){
 			$game = new Game();
-			$game->setName($respParams["game$i"]);
-			$game->setState($respParams["state$i"]);
-			$game->setDescription($respParams["descr$i"]);
-			$game->setLength($respParams["length$i"]);
-			$game->setMaxEndDate($respParams["maxenddate$i"]); //this isn't a date
-			$game->setPeec($respParams["ispeec$i"]);
-			$game->setMaxPlanets($respParams["maxplanets$i"]);
-			$game->setInitCash($respParams["initcash$i"]);
-			$game->setMaxOfferedPlanets($respParams["maxofferedplanets$i"]);
-			$game->setNextPlanetDelay($respParams["nextplanetdelay$i"]);
+			$game->setName($response["game$i"]);
+			$game->setState($response["state$i"]);
+			$game->setDescription($response["descr$i"]);
+			$game->setLength($response["length$i"]);
+			$game->setMaxEndDate($response["maxenddate$i"]); //this isn't a date
+			$game->setPeec($response["ispeec$i"]);
+			$game->setMaxPlanets($response["maxplanets$i"]);
+			$game->setInitCash($response["initcash$i"]);
+			$game->setMaxOfferedPlanets($response["maxofferedplanets$i"]);
+			$game->setNextPlanetDelay($response["nextplanetdelay$i"]);
 			$games[] = $game;
 		}
 		return $games;
@@ -231,27 +231,27 @@ class HAPI{
 	 * @return array(MovingFleet)
 	 */
 	public function getMovingFleets(){
-		$resp = $this->sendAuthRequest("getmovingfleets");
+		$response = $this->sendAuthRequest("getmovingfleets");
 		
 		$movingFleets = array();
-		for ($i = 0; isset($resp["fleetid$i"]); $i++){
+		for ($i = 0; isset($response["fleetid$i"]); $i++){
 			$movingFleet = new MovingFleet();
-			$movingFleet->setId($resp["fleetid$i"]);
-			$movingFleet->setName($resp["fname$i"]);
-			$movingFleet->setFrom($resp["from$i"]);
-			$movingFleet->setTo($resp["to$i"]);
-			$movingFleet->setDistance($resp["dist$i"]);
-			$movingFleet->setDelay($resp["delay$i"]);
-			$movingFleet->setDefending(self::bool($resp["defend$i"]));
-			$movingFleet->setAutoDropping(self::bool($resp["autodrop$i"]));
-			$movingFleet->setCamouflaged(self::bool($resp["camouf$i"]));
-			$movingFleet->setBombing(self::bool($resp["bombing$i"]));
-			$movingFleet->setRace($resp["race$i"]);
-			$movingFleet->setBombers($resp["nbbomb$i"]);
-			$movingFleet->setDestroyers($resp["nbdest$i"]);
-			$movingFleet->setCruisers($resp["nbcrui$i"]);
-			$movingFleet->setScouts($resp["nbscou$i"]);
-			$movingFleet->setArmies($resp["nbarm$i"]);
+			$movingFleet->setId($response["fleetid$i"]);
+			$movingFleet->setName($response["fname$i"]);
+			$movingFleet->setFrom($response["from$i"]);
+			$movingFleet->setTo($response["to$i"]);
+			$movingFleet->setDistance($response["dist$i"]);
+			$movingFleet->setDelay($response["delay$i"]);
+			$movingFleet->setDefending(self::bool($response["defend$i"]));
+			$movingFleet->setAutoDropping(self::bool($response["autodrop$i"]));
+			$movingFleet->setCamouflaged(self::bool($response["camouf$i"]));
+			$movingFleet->setBombing(self::bool($response["bombing$i"]));
+			$movingFleet->setRace($response["race$i"]);
+			$movingFleet->setBombers($response["nbbomb$i"]);
+			$movingFleet->setDestroyers($response["nbdest$i"]);
+			$movingFleet->setCruisers($response["nbcrui$i"]);
+			$movingFleet->setScouts($response["nbscou$i"]);
+			$movingFleet->setArmies($response["nbarm$i"]);
 			$movingFleets[] = $movingFleet;
 		}
 		return $movingFleets;
@@ -263,19 +263,19 @@ class HAPI{
 	 * @return array(Exploitation)
 	 */
 	public function getExploitations(){
-		$respParams = $this->sendAuthRequest("getexploitations");
+		$response = $this->sendAuthRequest("getexploitations");
 		
 		$exploitations = array();
-		for ($i = 0; isset($respParams["planet$i"]); $i++){
+		for ($i = 0; isset($response["planet$i"]); $i++){
 			$exploitation = new Exploitation();
-			$exploitation->setPlanetName($respParams["planet$i"]);
-			$exploitation->setPlanetId($respParams["planetid$i"]);
-			$exploitation->setNumExploits($respParams["nbexp$i"]);
-			$exploitation->setNumInPipe($respParams["inpipe$i"]);
-			$exploitation->setNumToBeDemolished($respParams["tobedem$i"]);
-			$exploitation->setNumOnSale($respParams["nbonsale$i"]);
-			$exploitation->setSellPrice($respParams["sellprice$i"]);
-			$exploitation->setRentability($respParams["rentability$i"]);
+			$exploitation->setPlanetName($response["planet$i"]);
+			$exploitation->setPlanetId($response["planetid$i"]);
+			$exploitation->setNumExploits($response["nbexp$i"]);
+			$exploitation->setNumInPipe($response["inpipe$i"]);
+			$exploitation->setNumToBeDemolished($response["tobedem$i"]);
+			$exploitation->setNumOnSale($response["nbonsale$i"]);
+			$exploitation->setSellPrice($response["sellprice$i"]);
+			$exploitation->setRentability($response["rentability$i"]);
 			$exploitations[] = $exploitation;
 		}
 		return $exploitations;
@@ -296,86 +296,86 @@ class HAPI{
 		
 		//get general info
 		$params["data"] = "general";
-		$respParams = $this->sendAuthRequest("getplanetinfo", $params);
+		$response = $this->sendAuthRequest("getplanetinfo", $params);
 		
 		//if the planet is foreign, then indexes aren't appended to the parameters and different info is returned
-		if (isset($respParams["planet"])){
+		if (isset($response["planet"])){
 			$planetInfo = new PlanetInfo();
 			$planetInfo->setForeign(true);
-			$planetInfo->setName($respParams["planet"]);
-			$planetInfo->setStasis(self::bool($respParams["stasis"]));
-			$planetInfo->setBattle(self::bool($respParams["battle"]));
-			$planetInfo->setBlockaded(self::bool($respParams["blockade"]));
-			$planetInfo->setVacation(self::bool($respParams["vacation"]));
-			$planetInfo->setHypergate(self::bool($respParams["hypergate"]));
-			$planetInfo->setNeutral(self::bool(@$respParams["isneutral"])); //only appears if the planet is neutral?
-			$planetInfo->setDefBonus(@$respParams["defbonus"]); //only appears if there's a battle?
+			$planetInfo->setName($response["planet"]);
+			$planetInfo->setStasis(self::bool($response["stasis"]));
+			$planetInfo->setBattle(self::bool($response["battle"]));
+			$planetInfo->setBlockaded(self::bool($response["blockade"]));
+			$planetInfo->setVacation(self::bool($response["vacation"]));
+			$planetInfo->setHypergate(self::bool($response["hypergate"]));
+			$planetInfo->setNeutral(self::bool(@$response["isneutral"])); //only appears if the planet is neutral?
+			$planetInfo->setDefBonus(@$response["defbonus"]); //only appears if there's a battle?
 			return $planetInfo;
 		}
 		
-		for ($i = 0; isset($respParams["planet$i"]); $i++){
+		for ($i = 0; isset($response["planet$i"]); $i++){
 			$planetInfo = new PlanetInfo();
 			$planetInfo->setForeign(false);
-			$planetInfo->setName($respParams["planet$i"]);
-			$planetInfo->setX($respParams["x$i"]);
-			$planetInfo->setY($respParams["y$i"]);
-			$planetInfo->setSize($respParams["size$i"]);
-			$planetInfo->setOrbit($respParams["orbit$i"]);
-			$planetInfo->setGovernment($respParams["gov$i"]);
-			$planetInfo->setGovernmentCooldown($respParams["govd$i"]);
-			$planetInfo->setProdType($respParams["ptype$i"]);
-			$planetInfo->setTax($respParams["tax$i"]);
-			$planetInfo->setNumExploits($respParams["exploits$i"]);
-			$planetInfo->setNumExploitsInPipe($respParams["expinpipe$i"]);
-			$planetInfo->setActivity($respParams["activity$i"]);
-			$planetInfo->setPopulation($respParams["pop$i"]);
-			$planetInfo->setRace($respParams["race$i"]);
-			$planetInfo->setNrj($respParams["nrj$i"]);
-			$planetInfo->setNrjMax($respParams["nrjmax$i"]);
-			$planetInfo->setPurifying(self::bool($respParams["purif$i"]));
-			$planetInfo->setParanoidMode(self::bool($respParams["parano$i"]));
-			$planetInfo->setBlockaded(self::bool($respParams["block$i"]));
-			$planetInfo->setBlackHole(self::bool($respParams["bhole$i"]));
-			$planetInfo->setStasis(self::bool($respParams["stasis$i"]));
-			$planetInfo->setNexusType($respParams["nexus$i"]);
-			$planetInfo->setNexusBuildTimeLeft(@$respParams["nxbuild$i"]); //left out the planet does not have a nexus
-			$planetInfo->setNexusBuildTimeTotal(@$respParams["nxbtot$i"]); //left out the planet does not have a nexus
-			$planetInfo->setEcomark($respParams["ecomark$i"]);
-			$planetInfo->setId($respParams["planetid$i"]);
-			$planetInfo->setPublicTag($respParams["publictag$i"]);
-			$planetInfo->setNumFactories($respParams["factories$i"]);
-			$planetInfo->setCivLevel($respParams["civlevel$i"]);
-			$planetInfo->setDefBonus($respParams["defbonus$i"]);
+			$planetInfo->setName($response["planet$i"]);
+			$planetInfo->setX($response["x$i"]);
+			$planetInfo->setY($response["y$i"]);
+			$planetInfo->setSize($response["size$i"]);
+			$planetInfo->setOrbit($response["orbit$i"]);
+			$planetInfo->setGovernment($response["gov$i"]);
+			$planetInfo->setGovernmentCooldown($response["govd$i"]);
+			$planetInfo->setProdType($response["ptype$i"]);
+			$planetInfo->setTax($response["tax$i"]);
+			$planetInfo->setNumExploits($response["exploits$i"]);
+			$planetInfo->setNumExploitsInPipe($response["expinpipe$i"]);
+			$planetInfo->setActivity($response["activity$i"]);
+			$planetInfo->setPopulation($response["pop$i"]);
+			$planetInfo->setRace($response["race$i"]);
+			$planetInfo->setNrj($response["nrj$i"]);
+			$planetInfo->setNrjMax($response["nrjmax$i"]);
+			$planetInfo->setPurifying(self::bool($response["purif$i"]));
+			$planetInfo->setParanoidMode(self::bool($response["parano$i"]));
+			$planetInfo->setBlockaded(self::bool($response["block$i"]));
+			$planetInfo->setBlackHole(self::bool($response["bhole$i"]));
+			$planetInfo->setStasis(self::bool($response["stasis$i"]));
+			$planetInfo->setNexusType($response["nexus$i"]);
+			$planetInfo->setNexusBuildTimeLeft(@$response["nxbuild$i"]); //left out the planet does not have a nexus
+			$planetInfo->setNexusBuildTimeTotal(@$response["nxbtot$i"]); //left out the planet does not have a nexus
+			$planetInfo->setEcomark($response["ecomark$i"]);
+			$planetInfo->setId($response["planetid$i"]);
+			$planetInfo->setPublicTag($response["publictag$i"]);
+			$planetInfo->setNumFactories($response["factories$i"]);
+			$planetInfo->setCivLevel($response["civlevel$i"]);
+			$planetInfo->setDefBonus($response["defbonus$i"]);
 			$planetInfos[] = $planetInfo;
 		}
 
 		//get trading info
 		$params["data"] = "trading";
-		$respParams = $this->sendAuthRequest("getplanetinfo", $params);
-		for ($i = 0; isset($respParams["planet$i"]) && $i < count($planetInfos); $i++){
+		$response = $this->sendAuthRequest("getplanetinfo", $params);
+		for ($i = 0; isset($response["planet$i"]) && $i < count($planetInfos); $i++){
 			$planetInfo = $planetInfos[$i];
 			
 			$trades = array();
 			//note: parse_str() replaces dots in parameter names with underscores (example: "tid0.0" becomes "tid0_0")
-			for ($j = 0; isset($respParams["tid{$i}_$j"]); $j++){
+			for ($j = 0; isset($response["tid{$i}_$j"]); $j++){
 				$trade = new Trade();
-				$trade->setId($respParams["tid{$i}_$j"]);
-				$trade->setPlanetName($respParams["toplanet{$i}_$j"]);
-				$trade->setPlanetTag($respParams["tag{$i}_$j"]); //blank if the planet does not have a public tag
-				$trade->setPlanetDistance($respParams["dist{$i}_$j"]);
-				$trade->setPlanetX($respParams["x{$i}_$j"]);
-				$trade->setPlanetY($respParams["y{$i}_$j"]);
-				$trade->setPlanetRace($respParams["race{$i}_$j"]);
-				$trade->setPlanetActivity($respParams["activity{$i}_$j"]);
-				$trade->setIncome($respParams["incomeBT{$i}_$j"]);
-				$trade->setCapacity($respParams["capacity{$i}_$j"]);
-				$trade->setTransportType($respParams["transtype{$i}_$j"]);
-				$trade->setPending(self::bool($respParams["ispending{$i}_$j"]));
-				$trade->setAccepted(self::bool($respParams["isaccepted{$i}_$j"]));
-				$trade->setRequestor(self::bool($respParams["isrequestor{$i}_$j"]));
-				$trade->setUpkeep($respParams["upkeep{$i}_$j"]);
-				$trade->setProdType($respParams["prodtype{$i}_$j"]);
-				$trade->setPlanetBlockaded(self::bool($respParams["isblockade{$i}_$j"]));
+				$trade->setId($response["tid{$i}_$j"]);
+				$trade->setPlanetName($response["toplanet{$i}_$j"]);
+				$trade->setPlanetTag($response["tag{$i}_$j"]); //blank if the planet does not have a public tag
+				$trade->setPlanetDistance($response["dist{$i}_$j"]);
+				$trade->setPlanetX($response["x{$i}_$j"]);
+				$trade->setPlanetY($response["y{$i}_$j"]);
+				$trade->setPlanetRace($response["race{$i}_$j"]);
+				$trade->setPlanetActivity($response["activity{$i}_$j"]);
+				$trade->setIncome($response["incomeBT{$i}_$j"]);
+				$trade->setCapacity($response["capacity{$i}_$j"]);
+				$trade->setTransportType($response["transtype{$i}_$j"]);
+				$trade->setPending(self::bool($response["ispending{$i}_$j"]));
+				$trade->setAccepted(self::bool($response["isaccepted{$i}_$j"]));
+				$trade->setRequestor(self::bool($response["isrequestor{$i}_$j"]));
+				$trade->setUpkeep($response["upkeep{$i}_$j"]);
+				$trade->setProdType($response["prodtype{$i}_$j"]);
+				$trade->setPlanetBlockaded(self::bool($response["isblockade{$i}_$j"]));
 				$trades[] = $trade;
 			}
 			$planetInfo->setTrades($trades);
@@ -383,23 +383,23 @@ class HAPI{
 		
 		//get infiltration info
 		$params["data"] = "infiltr";
-		$respParams = $this->sendAuthRequest("getplanetinfo", $params);
-		for ($i = 0; isset($respParams["planet$i"]) && $i < count($planetInfos); $i++){
+		$response = $this->sendAuthRequest("getplanetinfo", $params);
+		for ($i = 0; isset($response["planet$i"]) && $i < count($planetInfos); $i++){
 			$planetInfo = $planetInfos[$i];
 			
 			$infiltrations = array();
 			//note: parse_str() replaces dots in parameter names with underscores (example: "tid0.0" becomes "tid0_0")
-			for ($j = 0; isset($respParams["infid{$i}_$j"]); $j++){
+			for ($j = 0; isset($response["infid{$i}_$j"]); $j++){
 				$infil = new Infiltration();
-				$infil->setId($respParams["infid{$i}_$j"]);
-				$infil->setPlanetName($respParams["planetname{$i}_$j"]);
-				$infil->setPlanetTag(@$respParams["planettag{$i}_$j"]); //not included if planet does not have a public tag
-				$infil->setPlanetX($respParams["x{$i}_$j"]);
-				$infil->setPlanetY($respParams["y{$i}_$j"]);
-				$infil->setLevel($respParams["level{$i}_$j"]);
-				$infil->setSecurity($respParams["security{$i}_$j"]);
-				$infil->setGrowing(self::bool($respParams["growing{$i}_$j"]));
-				$infil->setCaptive($respParams["captive{$i}_$j"]);
+				$infil->setId($response["infid{$i}_$j"]);
+				$infil->setPlanetName($response["planetname{$i}_$j"]);
+				$infil->setPlanetTag(@$response["planettag{$i}_$j"]); //not included if planet does not have a public tag
+				$infil->setPlanetX($response["x{$i}_$j"]);
+				$infil->setPlanetY($response["y{$i}_$j"]);
+				$infil->setLevel($response["level{$i}_$j"]);
+				$infil->setSecurity($response["security{$i}_$j"]);
+				$infil->setGrowing(self::bool($response["growing{$i}_$j"]));
+				$infil->setCaptive($response["captive{$i}_$j"]);
 				$infiltrations[] = $infil;
 			}
 			$planetInfo->setInfiltrations($infiltrations);
@@ -428,47 +428,47 @@ class HAPI{
 		
 		//own planets
 		$params["data"] = "own_planets";
-		$resp = $this->sendAuthRequest("getfleetsinfo", $params);
-		for ($i = 0; isset($resp["planet$i"]); $i++){
+		$response = $this->sendAuthRequest("getfleetsinfo", $params);
+		for ($i = 0; isset($response["planet$i"]); $i++){
 			$fleetsInfo = new FleetsInfo();
 			$fleetsInfo->setOwnPlanet(true);
-			$fleetsInfo->setPlanetName($resp["planet$i"]);
-			$fleetsInfo->setStasis(self::bool($resp["stasis$i"]));
-			$fleetsInfo->setVacation(self::bool($resp["vacation$i"]));
-			$fleetsInfo->setNrj($resp["nrj$i"]);
-			$fleetsInfo->setNrjMax($resp["nrjmax$i"]);
+			$fleetsInfo->setPlanetName($response["planet$i"]);
+			$fleetsInfo->setStasis(self::bool($response["stasis$i"]));
+			$fleetsInfo->setVacation(self::bool($response["vacation$i"]));
+			$fleetsInfo->setNrj($response["nrj$i"]);
+			$fleetsInfo->setNrjMax($response["nrjmax$i"]);
 			$fleets = array();
-			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
+			for ($j = 0; isset($response["fleetid{$i}_$j"]); $j++){
 				$fleet = new Fleet();
-				$fleet->setId($resp["fleetid{$i}_$j"]);
+				$fleet->setId($response["fleetid{$i}_$j"]);
 				
 				//if a fleet is never named, "null" will be returned
 				//if a fleet is named, but its name is later removed, an empty string will be returned
 				//this is true despite the fact that "[No name]" is displayed on the website in both cases 
-				$name = $resp["fname{$i}_$j"];
+				$name = $response["fname{$i}_$j"];
 				if ($name == "null"){
 					$name = "";
 				}
 				
 				$fleet->setName($name);
-				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
-				$fleet->setRace($resp["frace{$i}_$j"]);
-				$fleet->setOwner($resp["owner{$i}_$j"]);
-				$fleet->setDefending(self::bool($resp["defend{$i}_$j"]));
-				$fleet->setCamouflaged(self::bool($resp["camouf{$i}_$j"]));
-				$fleet->setBombing(self::bool($resp["bombing{$i}_$j"]));
-				$fleet->setAutoDropping(self::bool($resp["autodrop{$i}_$j"]));
-				$fleet->setDelay($resp["delay{$i}_$j"]);
+				$fleet->setSellPrice($response["sellprice{$i}_$j"]);
+				$fleet->setRace($response["frace{$i}_$j"]);
+				$fleet->setOwner($response["owner{$i}_$j"]);
+				$fleet->setDefending(self::bool($response["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::bool($response["camouf{$i}_$j"]));
+				$fleet->setBombing(self::bool($response["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::bool($response["autodrop{$i}_$j"]));
+				$fleet->setDelay($response["delay{$i}_$j"]);
 				
 				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
 				
-				$fleet->setGroundArmies(@$resp["garmies{$i}_$j"]);
+				$fleet->setGroundArmies(@$response["garmies{$i}_$j"]);
 				
-				$fleet->setScouts(@$resp["scou{$i}_$j"]);
-				$fleet->setCruisers(@$resp["crui{$i}_$j"]);
-				$fleet->setBombers(@$resp["bomb{$i}_$j"]);
-				$fleet->setDestroyers(@$resp["dest{$i}_$j"]);
-				$fleet->setCarriedArmies(@$resp["carmies{$i}_$j"]);
+				$fleet->setScouts(@$response["scou{$i}_$j"]);
+				$fleet->setCruisers(@$response["crui{$i}_$j"]);
+				$fleet->setBombers(@$response["bomb{$i}_$j"]);
+				$fleet->setDestroyers(@$response["dest{$i}_$j"]);
+				$fleet->setCarriedArmies(@$response["carmies{$i}_$j"]);
 				
 				$fleets[] = $fleet;
 			}
@@ -478,36 +478,36 @@ class HAPI{
 		
 		//foreign planets
 		$params["data"] = "foreign_planets";
-		$resp = $this->sendAuthRequest("getfleetsinfo", $params);
-		for ($i = 0; isset($resp["planet$i"]); $i++){
+		$response = $this->sendAuthRequest("getfleetsinfo", $params);
+		for ($i = 0; isset($response["planet$i"]); $i++){
 			$fleetsInfo = new FleetsInfo();
 			$fleetsInfo->setOwnPlanet(false);
-			$fleetsInfo->setPlanetName($resp["planet$i"]);
-			$fleetsInfo->setStasis(self::bool($resp["stasis$i"]));
-			$fleetsInfo->setVacation(self::bool($resp["vacation$i"]));
+			$fleetsInfo->setPlanetName($response["planet$i"]);
+			$fleetsInfo->setStasis(self::bool($response["stasis$i"]));
+			$fleetsInfo->setVacation(self::bool($response["vacation$i"]));
 			$fleets = array();
-			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
+			for ($j = 0; isset($response["fleetid{$i}_$j"]); $j++){
 				$fleet = new Fleet();
-				$fleet->setId($resp["fleetid{$i}_$j"]);
-				$fleet->setName(@$resp["fname{$i}_$j"]);
-				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
-				$fleet->setRace($resp["frace{$i}_$j"]);
-				$fleet->setOwner($resp["owner{$i}_$j"]);
-				$fleet->setDefending(self::bool($resp["defend{$i}_$j"]));
-				$fleet->setCamouflaged(self::bool($resp["camouf{$i}_$j"]));
-				$fleet->setBombing(self::bool(@$resp["bombing{$i}_$j"]));
-				$fleet->setAutoDropping(self::bool(@$resp["autodrop{$i}_$j"]));
-				$fleet->setDelay(@$resp["delay{$i}_$j"]);
+				$fleet->setId($response["fleetid{$i}_$j"]);
+				$fleet->setName(@$response["fname{$i}_$j"]);
+				$fleet->setSellPrice($response["sellprice{$i}_$j"]);
+				$fleet->setRace($response["frace{$i}_$j"]);
+				$fleet->setOwner($response["owner{$i}_$j"]);
+				$fleet->setDefending(self::bool($response["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::bool($response["camouf{$i}_$j"]));
+				$fleet->setBombing(self::bool(@$response["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::bool(@$response["autodrop{$i}_$j"]));
+				$fleet->setDelay(@$response["delay{$i}_$j"]);
 				
 				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
 				
-				$fleet->setGroundArmies(@$resp["garmies{$i}_$j"]);
+				$fleet->setGroundArmies(@$response["garmies{$i}_$j"]);
 				
-				$fleet->setScouts(@$resp["scou{$i}_$j"]);
-				$fleet->setCruisers(@$resp["crui{$i}_$j"]);
-				$fleet->setBombers(@$resp["bomb{$i}_$j"]);
-				$fleet->setDestroyers(@$resp["dest{$i}_$j"]);
-				$fleet->setCarriedArmies(@$resp["carmies{$i}_$j"]);
+				$fleet->setScouts(@$response["scou{$i}_$j"]);
+				$fleet->setCruisers(@$response["crui{$i}_$j"]);
+				$fleet->setBombers(@$response["bomb{$i}_$j"]);
+				$fleet->setDestroyers(@$response["dest{$i}_$j"]);
+				$fleet->setCarriedArmies(@$response["carmies{$i}_$j"]);
 				
 				$fleets[] = $fleet;
 			}
@@ -532,19 +532,19 @@ class HAPI{
 			"tag"=>$tag,
 			"start"=>$start
 		);
-		$resp = $this->sendAuthRequest("getallianceplanets", $params);
-		$num = $resp["nb"];
+		$response = $this->sendAuthRequest("getallianceplanets", $params);
+		$num = $response["nb"];
 		for ($i = 0; $i < $num; $i++){
 			$alliancePlanet = new AlliancePlanet();
-			$alliancePlanet->setName($resp["planet$i"]);
-			$alliancePlanet->setOwner($resp["owner$i"]);
-			$alliancePlanet->setX($resp["x$i"]);
-			$alliancePlanet->setY($resp["y$i"]);
-			$alliancePlanet->setProdType($resp["prodtype$i"]);
-			$alliancePlanet->setRace($resp["race$i"]);
-			$alliancePlanet->setActivity($resp["activity$i"]);
-			$alliancePlanet->setPublicTag(@$resp["publictag$i"]); //not included if planet does not have a public tag
-			$alliancePlanet->setPublicTagId(@$resp["ptagid$i"]); //not included if planet does not have a public tag
+			$alliancePlanet->setName($response["planet$i"]);
+			$alliancePlanet->setOwner($response["owner$i"]);
+			$alliancePlanet->setX($response["x$i"]);
+			$alliancePlanet->setY($response["y$i"]);
+			$alliancePlanet->setProdType($response["prodtype$i"]);
+			$alliancePlanet->setRace($response["race$i"]);
+			$alliancePlanet->setActivity($response["activity$i"]);
+			$alliancePlanet->setPublicTag(@$response["publictag$i"]); //not included if planet does not have a public tag
+			$alliancePlanet->setPublicTagId(@$response["ptagid$i"]); //not included if planet does not have a public tag
 			$alliancePlanets[] = $alliancePlanet;
 		}
 		return $alliancePlanets;
@@ -556,11 +556,11 @@ class HAPI{
 	 * @return IsMsg the response
 	 */
 	public function isMsg(){
-		$resp = $this->sendAuthRequest("ismsg");
+		$response = $this->sendAuthRequest("ismsg");
 		
 		$isMsg = new IsMsg();
-		$isMsg->setMsg(self::bool($resp["ismsg"]));
-		$isMsg->setReport(self::bool($resp["isreport"]));
+		$isMsg->setMsg(self::bool($response["ismsg"]));
+		$isMsg->setReport(self::bool($response["isreport"]));
 		return $isMsg;
 	}
 	
@@ -570,16 +570,16 @@ class HAPI{
 	 * @return IsMsgInfo the response
 	 */
 	public function isMsgInfo(){
-		$resp = $this->sendAuthRequest("ismsginfo");
+		$response = $this->sendAuthRequest("ismsginfo");
 		
 		$isMsgInfo = new IsMsgInfo();
-		$isMsgInfo->setMsg(self::bool($resp["ismsg"]));
-		$isMsgInfo->setPlanet(self::bool($resp["isplanet"]));
-		$isMsgInfo->setReport(self::bool($resp["isreport"]));
-		$isMsgInfo->setMilitary(self::bool($resp["ismilit"]));
-		$isMsgInfo->setTrading(self::bool($resp["istrading"]));
-		$isMsgInfo->setInfiltration(self::bool($resp["isinfiltr"]));
-		$isMsgInfo->setControl(self::bool($resp["iscontrol"]));
+		$isMsgInfo->setMsg(self::bool($response["ismsg"]));
+		$isMsgInfo->setPlanet(self::bool($response["isplanet"]));
+		$isMsgInfo->setReport(self::bool($response["isreport"]));
+		$isMsgInfo->setMilitary(self::bool($response["ismilit"]));
+		$isMsgInfo->setTrading(self::bool($response["istrading"]));
+		$isMsgInfo->setInfiltration(self::bool($response["isinfiltr"]));
+		$isMsgInfo->setControl(self::bool($response["iscontrol"]));
 		return $isMsgInfo;
 	}
 	
@@ -593,28 +593,28 @@ class HAPI{
 		$messages = array();
 		
 		//this is confusing, see docs/example-responses.txt
-		$resp = $this->sendAuthRequest("getnewmsg");
-		$num = $resp["nbmsg"];
+		$response = $this->sendAuthRequest("getnewmsg");
+		$num = $response["nbmsg"];
 		if ($num > 0){
 			$cur = 0;
 			$curRecipient = null;
-			$nextIndex = @$resp["planetstart$cur"];
+			$nextIndex = @$response["planetstart$cur"];
 			if ($nextIndex === null){
 				$nextIndex = -1;
 			}
 			for ($i = 0; $i < $num; $i++){
 				if ($i == $nextIndex){
-					$curRecipient = $resp["planet$cur"];
+					$curRecipient = $response["planet$cur"];
 					$cur++;
-					$nextIndex = @$resp["planetstart$cur"];
+					$nextIndex = @$response["planetstart$cur"];
 				}
 				
 				$message = new Message();
-				$message->setDate(strtotime($resp["date$i"]));
-				$message->setType($resp["type$i"]);
-				$message->setMessage($resp["msg$i"]);
-				$message->setSubject($resp["subj$i"]);
-				$sender = $resp["sender$i"];
+				$message->setDate(strtotime($response["date$i"]));
+				$message->setType($response["type$i"]);
+				$message->setMessage($response["msg$i"]);
+				$message->setSubject($response["subj$i"]);
+				$sender = $response["sender$i"];
 				if ($sender == "null"){
 					$sender = null;
 				}
@@ -640,15 +640,15 @@ class HAPI{
 			"startmsg"=>$start,
 			"maxmsg"=>$max
 		);
-		$resp = $this->sendAuthRequest("getoldpersomsg", $params);
-		$num = $resp["nbmsg"];
+		$response = $this->sendAuthRequest("getoldpersomsg", $params);
+		$num = $response["nbmsg"];
 		for ($i = 0; $i < $num; $i++){
 			$message = new Message();
-			$message->setDate(strtotime($resp["date$i"]));
+			$message->setDate(strtotime($response["date$i"]));
 			$message->setType(Message::TYPE_PERSONAL);
-			$message->setMessage($resp["msg$i"]);
-			$message->setSubject($resp["subj$i"]);
-			$sender = $resp["sender$i"];
+			$message->setMessage($response["msg$i"]);
+			$message->setSubject($response["subj$i"]);
+			$sender = $response["sender$i"];
 			if ($sender == "null"){
 				$sender = null;
 			}
@@ -674,15 +674,15 @@ class HAPI{
 			"maxmsg"=>$max,
 			"planet"=>($planetName == null) ? "*" : $planetName
 		);
-		$resp = $this->sendAuthRequest("getoldplanetmsg", $params);
-		$num = $resp["nbmsg"];
+		$response = $this->sendAuthRequest("getoldplanetmsg", $params);
+		$num = $response["nbmsg"];
 		for ($i = 0; $i < $num; $i++){
 			$message = new Message();
-			$message->setDate(strtotime($resp["date$i"]));
-			$message->setType($resp["type$i"]);
-			$message->setMessage($resp["msg$i"]);
-			$message->setSubject($resp["subj$i"]);
-			$sender = $resp["sender$i"];
+			$message->setDate(strtotime($response["date$i"]));
+			$message->setType($response["type$i"]);
+			$message->setMessage($response["msg$i"]);
+			$message->setSubject($response["subj$i"]);
+			$sender = $response["sender$i"];
 			if ($sender == "null"){
 				$sender = null;
 			}
@@ -698,8 +698,8 @@ class HAPI{
 	 * @return string the version of HAPI
 	 */
 	public function getVersion(){
-		$resp = $this->sendAuthRequest("version");
-		return $resp["version"];
+		$response = $this->sendAuthRequest("version");
+		return $response["version"];
 	}
 	
 	/**
@@ -707,8 +707,8 @@ class HAPI{
 	 * @throws Exception if there was a problem making the request
 	 */
 	public function logout(){
-		$resp = $this->sendAuthRequest("logout");
-		$status = $resp["status"];
+		$response = $this->sendAuthRequest("logout");
+		$status = $response["status"];
 		if ($status != "ok"){
 			throw new Exception("Logout failure.  Status code: $status");
 		}
@@ -725,22 +725,22 @@ class HAPI{
 		if ($playerName != null){
 			$params["targetplayer"] = $playerName;
 		}
-		$resp = $this->sendAuthRequest("getplayerinfo", $params);
+		$response = $this->sendAuthRequest("getplayerinfo", $params);
 		
 		$playerInfo = new PlayerInfo();
-		$playerInfo->setName($resp["name"]);
-		$playerInfo->setHypRank($resp["hyprank"]);
-		$playerInfo->setRankinf($resp["rankinf"]);
-		$playerInfo->setScoreinf($resp["scoreinf"]);
+		$playerInfo->setName($response["name"]);
+		$playerInfo->setHypRank($response["hyprank"]);
+		$playerInfo->setRankinf($response["rankinf"]);
+		$playerInfo->setScoreinf($response["scoreinf"]);
 		if ($playerName == null){
 			//these parameters only appear if you are asking for information about yourself
-			$playerInfo->setCash($resp["cash"]);
-			$playerInfo->setRankfin($resp["rankfin"]);
-			$playerInfo->setScorefin($resp["scorefin"]);
-			$playerInfo->setRankpow($resp["rankpow"]);
-			$playerInfo->setScorepow($resp["scorepow"]);
-			$playerInfo->setPlanets($resp["nbplanets"]);
-			$playerInfo->setLastIncome($resp["lastincome"]);
+			$playerInfo->setCash($response["cash"]);
+			$playerInfo->setRankfin($response["rankfin"]);
+			$playerInfo->setScorefin($response["scorefin"]);
+			$playerInfo->setRankpow($response["rankpow"]);
+			$playerInfo->setScorepow($response["scorepow"]);
+			$playerInfo->setPlanets($response["nbplanets"]);
+			$playerInfo->setLastIncome($response["lastincome"]);
 		}
 		return $playerInfo;
 	}
