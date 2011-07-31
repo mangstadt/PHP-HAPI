@@ -25,7 +25,7 @@ use HAPI\HAPI;
 use HAPI\Game;
 
 //static methods in HAPI class don't require authentication
-foreach (HAPI::getAllGames() as $game){
+foreach (HAPI::getGames() as $game){
 	$name = $game->getName();
 	$description = $game->getDescription();
 	$state = $game->getState();

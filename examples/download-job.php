@@ -62,7 +62,7 @@ if (count($errors) > 0){
 require_once __DIR__ . '/../lib/index.php';
 use HAPI\HAPI;
 
-$games = HAPI::getAllGames();
+$games = HAPI::getGames();
 $date = date("Ymd");
 foreach ($games as $game){
 	$name = $game->getName();

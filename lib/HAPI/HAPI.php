@@ -94,7 +94,7 @@ class HAPI{
 	 * @throws Exception if there was a problem making the request
 	 * @return array(Game) all games
 	 */
-	public static function getAllGames(){
+	public static function getGames(){
 		$response = self::sendRequest("games");
 		
 		//parse the game information from the response
