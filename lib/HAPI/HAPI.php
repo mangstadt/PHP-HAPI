@@ -240,10 +240,10 @@ class HAPI{
 			$movingFleet->setTo($resp["to$i"]);
 			$movingFleet->setDistance($resp["dist$i"]);
 			$movingFleet->setDelay($resp["delay$i"]);
-			$movingFleet->setDefending($resp["defend$i"]);
-			$movingFleet->setAutoDropping($resp["autodrop$i"]);
-			$movingFleet->setCamouflaged($resp["camouf$i"]);
-			$movingFleet->setBombing($resp["bombing$i"]);
+			$movingFleet->setDefending(self::bool($resp["defend$i"]));
+			$movingFleet->setAutoDropping(self::bool($resp["autodrop$i"]));
+			$movingFleet->setCamouflaged(self::bool($resp["camouf$i"]));
+			$movingFleet->setBombing(self::bool($resp["bombing$i"]));
 			$movingFleet->setRace($resp["race$i"]);
 			$movingFleet->setBombers($resp["nbbomb$i"]);
 			$movingFleet->setDestroyers($resp["nbdest$i"]);
@@ -301,12 +301,12 @@ class HAPI{
 			$planetInfo = new PlanetInfo();
 			$planetInfo->setForeign(true);
 			$planetInfo->setName($respParams["planet"]);
-			$planetInfo->setStasis($respParams["stasis"]);
-			$planetInfo->setBattle($respParams["battle"]);
-			$planetInfo->setBlockaded($respParams["blockade"]);
-			$planetInfo->setVacation($respParams["vacation"]);
-			$planetInfo->setHypergate($respParams["hypergate"]);
-			$planetInfo->setNeutral(@$respParams["isneutral"]); //only appears if the planet is neutral?
+			$planetInfo->setStasis(self::bool($respParams["stasis"]));
+			$planetInfo->setBattle(self::bool($respParams["battle"]));
+			$planetInfo->setBlockaded(self::bool($respParams["blockade"]));
+			$planetInfo->setVacation(self::bool($respParams["vacation"]));
+			$planetInfo->setHypergate(self::bool($respParams["hypergate"]));
+			$planetInfo->setNeutral(self::bool(@$respParams["isneutral"])); //only appears if the planet is neutral?
 			$planetInfo->setDefBonus(@$respParams["defbonus"]); //only appears if there's a battle?
 			return $planetInfo;
 		}
@@ -330,11 +330,11 @@ class HAPI{
 			$planetInfo->setRace($respParams["race$i"]);
 			$planetInfo->setNrj($respParams["nrj$i"]);
 			$planetInfo->setNrjMax($respParams["nrjmax$i"]);
-			$planetInfo->setPurifying($respParams["purif$i"]);
-			$planetInfo->setParanoidMode($respParams["parano$i"]);
-			$planetInfo->setBlockaded($respParams["block$i"]);
-			$planetInfo->setBlackHole($respParams["bhole$i"]);
-			$planetInfo->setStasis($respParams["stasis$i"]);
+			$planetInfo->setPurifying(self::bool($respParams["purif$i"]));
+			$planetInfo->setParanoidMode(self::bool($respParams["parano$i"]));
+			$planetInfo->setBlockaded(self::bool($respParams["block$i"]));
+			$planetInfo->setBlackHole(self::bool($respParams["bhole$i"]));
+			$planetInfo->setStasis(self::bool($respParams["stasis$i"]));
 			$planetInfo->setNexusType($respParams["nexus$i"]);
 			$planetInfo->setNexusBuildTimeLeft(@$respParams["nxbuild$i"]); //left out the planet does not have a nexus
 			$planetInfo->setNexusBuildTimeTotal(@$respParams["nxbtot$i"]); //left out the planet does not have a nexus
@@ -368,12 +368,12 @@ class HAPI{
 				$trade->setIncome($respParams["incomeBT{$i}_$j"]);
 				$trade->setCapacity($respParams["capacity{$i}_$j"]);
 				$trade->setTransportType($respParams["transtype{$i}_$j"]);
-				$trade->setPending($respParams["ispending{$i}_$j"]);
-				$trade->setAccepted($respParams["isaccepted{$i}_$j"]);
-				$trade->setRequestor($respParams["isrequestor{$i}_$j"]);
+				$trade->setPending(self::bool($respParams["ispending{$i}_$j"]));
+				$trade->setAccepted(self::bool($respParams["isaccepted{$i}_$j"]));
+				$trade->setRequestor(self::bool($respParams["isrequestor{$i}_$j"]));
 				$trade->setUpkeep($respParams["upkeep{$i}_$j"]);
 				$trade->setProdType($respParams["prodtype{$i}_$j"]);
-				$trade->setPlanetBlockaded($respParams["isblockade{$i}_$j"]);
+				$trade->setPlanetBlockaded(self::bool($respParams["isblockade{$i}_$j"]));
 				$trades[] = $trade;
 			}
 			$planetInfo->setTrades($trades);
@@ -396,7 +396,7 @@ class HAPI{
 				$infil->setPlanetY($respParams["y{$i}_$j"]);
 				$infil->setLevel($respParams["level{$i}_$j"]);
 				$infil->setSecurity($respParams["security{$i}_$j"]);
-				$infil->setGrowing($respParams["growing{$i}_$j"]);
+				$infil->setGrowing(self::bool($respParams["growing{$i}_$j"]));
 				$infil->setCaptive($respParams["captive{$i}_$j"]);
 				$infiltrations[] = $infil;
 			}
@@ -431,8 +431,8 @@ class HAPI{
 			$fleetsInfo = new FleetsInfo();
 			$fleetsInfo->setOwnPlanet(true);
 			$fleetsInfo->setPlanetName($resp["planet$i"]);
-			$fleetsInfo->setStasis($resp["stasis$i"]);
-			$fleetsInfo->setVacation($resp["vacation$i"]);
+			$fleetsInfo->setStasis(self::bool($resp["stasis$i"]));
+			$fleetsInfo->setVacation(self::bool($resp["vacation$i"]));
 			$fleetsInfo->setNrj($resp["nrj$i"]);
 			$fleetsInfo->setNrjMax($resp["nrjmax$i"]);
 			$fleets = array();
@@ -452,10 +452,10 @@ class HAPI{
 				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
 				$fleet->setRace($resp["frace{$i}_$j"]);
 				$fleet->setOwner($resp["owner{$i}_$j"]);
-				$fleet->setDefending($resp["defend{$i}_$j"]);
-				$fleet->setCamouflaged($resp["camouf{$i}_$j"]);
-				$fleet->setBombing($resp["bombing{$i}_$j"]);
-				$fleet->setAutoDropping($resp["autodrop{$i}_$j"]);
+				$fleet->setDefending(self::bool($resp["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::bool($resp["camouf{$i}_$j"]));
+				$fleet->setBombing(self::bool($resp["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::bool($resp["autodrop{$i}_$j"]));
 				$fleet->setDelay($resp["delay{$i}_$j"]);
 				
 				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
@@ -481,8 +481,8 @@ class HAPI{
 			$fleetsInfo = new FleetsInfo();
 			$fleetsInfo->setOwnPlanet(false);
 			$fleetsInfo->setPlanetName($resp["planet$i"]);
-			$fleetsInfo->setStasis($resp["stasis$i"]);
-			$fleetsInfo->setVacation($resp["vacation$i"]);
+			$fleetsInfo->setStasis(self::bool($resp["stasis$i"]));
+			$fleetsInfo->setVacation(self::bool($resp["vacation$i"]));
 			$fleets = array();
 			for ($j = 0; isset($resp["fleetid{$i}_$j"]); $j++){
 				$fleet = new Fleet();
@@ -491,10 +491,10 @@ class HAPI{
 				$fleet->setSellPrice($resp["sellprice{$i}_$j"]);
 				$fleet->setRace($resp["frace{$i}_$j"]);
 				$fleet->setOwner($resp["owner{$i}_$j"]);
-				$fleet->setDefending($resp["defend{$i}_$j"]);
-				$fleet->setCamouflaged($resp["camouf{$i}_$j"]);
-				$fleet->setBombing(@$resp["bombing{$i}_$j"]);
-				$fleet->setAutoDropping(@$resp["autodrop{$i}_$j"]);
+				$fleet->setDefending(self::bool($resp["defend{$i}_$j"]));
+				$fleet->setCamouflaged(self::bool($resp["camouf{$i}_$j"]));
+				$fleet->setBombing(self::bool(@$resp["bombing{$i}_$j"]));
+				$fleet->setAutoDropping(self::bool(@$resp["autodrop{$i}_$j"]));
 				$fleet->setDelay(@$resp["delay{$i}_$j"]);
 				
 				//note: army groups and fleet groups are separate, so if there are any ground armies in a fleet, there won't be any ships, and vice versa.
@@ -557,8 +557,8 @@ class HAPI{
 		$resp = $this->sendAuthRequest("ismsg");
 		
 		$isMsg = new IsMsg();
-		$isMsg->setMsg($resp["ismsg"]);
-		$isMsg->setReport($resp["isreport"]);
+		$isMsg->setMsg(self::bool($resp["ismsg"]));
+		$isMsg->setReport(self::bool($resp["isreport"]));
 		return $isMsg;
 	}
 	
@@ -571,13 +571,13 @@ class HAPI{
 		$resp = $this->sendAuthRequest("ismsginfo");
 		
 		$isMsgInfo = new IsMsgInfo();
-		$isMsgInfo->setMsg($resp["ismsg"]);
-		$isMsgInfo->setPlanet($resp["isplanet"]);
-		$isMsgInfo->setReport($resp["isreport"]);
-		$isMsgInfo->setMilitary($resp["ismilit"]);
-		$isMsgInfo->setTrading($resp["istrading"]);
-		$isMsgInfo->setInfiltration($resp["isinfiltr"]);
-		$isMsgInfo->setControl($resp["iscontrol"]);
+		$isMsgInfo->setMsg(self::bool($resp["ismsg"]));
+		$isMsgInfo->setPlanet(self::bool($resp["isplanet"]));
+		$isMsgInfo->setReport(self::bool($resp["isreport"]));
+		$isMsgInfo->setMilitary(self::bool($resp["ismilit"]));
+		$isMsgInfo->setTrading(self::bool($resp["istrading"]));
+		$isMsgInfo->setInfiltration(self::bool($resp["isinfiltr"]));
+		$isMsgInfo->setControl(self::bool($resp["iscontrol"]));
 		return $isMsgInfo;
 	}
 	
@@ -906,5 +906,17 @@ class HAPI{
 			}
 		}
 		$this->floodLockDir = $lockDir;
+	}
+	
+	/**
+	 * Converts a response parameter to a boolean.
+	 * @param string $value the parameter value
+	 * @return boolean the boolean value or null if the parameter is null
+	 */
+	private static function bool($value){
+		if ($value === null){
+			return null;
+		}
+		return $value == "1";
 	}
 }
