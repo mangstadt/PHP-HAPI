@@ -201,6 +201,12 @@ class HAPI{
 			}
 		}
 		
+		//check to make sure the file can be created/written to before downloading
+		$result = touch($file);
+		if ($result === false){
+			throw new \Exception("Cannot write to the specified location: $file");
+		}
+		
 		//send request
 		$params = array(
 			"game"=>$gameName,
