@@ -60,12 +60,6 @@ class HAPI{
 	 * @var string
 	 */
 	private $floodLockDir;
-	
-	/**
-	 * True to check to see if each response comes from a cache or not, false not to.
-	 * @var boolean
-	 */
-	private static $cacheDetection = true;
 
 	/**
 	 * The HAPI session.
@@ -761,10 +755,8 @@ class HAPI{
 	protected static function sendRequest($method, array $params = array(), $floodLockFile = null, $rawResponse = false){
 		//build request URL
 		$params["request"] = $method;
-		if (self::$cacheDetection){
-			$reqFailsafe = time();
-			$params["failsafe"] = $reqFailsafe;
-		}
+		$reqFailsafe = time();
+		$params["failsafe"] = $reqFailsafe;
 		$url = self::URL . "?" . http_build_query($params);
 
 		if ($floodLockFile != null){
@@ -836,11 +828,9 @@ class HAPI{
 		parse_str($response, $respParams);
 		
 		//throw an exception if the response is from a cache
-		if (self::$cacheDetection){
-			$respFailsafe = @$respParams["failsafe"];
-			if ($respFailsafe != $reqFailsafe){
-				throw new \Exception("A different failsafe value was returned in the response.  Response has come from a cache and does not contain up-to-date information.");
-			}
+		$respFailsafe = @$respParams["failsafe"];
+		if ($respFailsafe != $reqFailsafe){
+			throw new \Exception("A different failsafe value was returned in the response.  Response does not contain up-to-date information.");
 		}
 		
 		//check for errors in the response
@@ -916,15 +906,5 @@ class HAPI{
 			}
 		}
 		$this->floodLockDir = $lockDir;
-	}
-	
-	/**
-	 * Enables or disables cache detection (enabled by default).&nbsp;
-	 * Use this to check if the responses are cached (and do not contain up-to-date information).&nbsp;
-	 * An exception will be thrown if it is found that a response comes from a cache.
-	 * @param boolean $enable true to enable, false to disable
-	 */
-	public static function setCacheDetection($enable){
-		self::$cacheDetection = $enable;
 	}
 }
