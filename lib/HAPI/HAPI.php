@@ -1,6 +1,8 @@
 <?php
 namespace HAPI;
 
+use \Exception;
+
 /**
  * The interface for interacting with the Hyperiums API (HAPI).&nbsp;
  * Compatable with HAPI v0.1.8.
@@ -195,7 +197,7 @@ class HAPI{
 		if ($dir != "." && !file_exists($dir)){
 			$result = mkdir($dir, 0774, true);
 			if ($result === false){
-				throw new \Exception("Could not create non-existant directories: $dir");
+				throw new Exception("Could not create non-existant directories: $dir");
 			}
 		}
 		
@@ -211,7 +213,7 @@ class HAPI{
 		//save response to file
 		$result = file_put_contents($file, $response);
 		if ($result === false){
-			throw new \Exception("Could not save the file.");
+			throw new Exception("Could not save the file.");
 		}
 	}
 	
@@ -708,7 +710,7 @@ class HAPI{
 		$resp = $this->sendAuthRequest("logout");
 		$status = $resp["status"];
 		if ($status != "ok"){
-			throw new \Exception("Logout failure.  Status code: $status");
+			throw new Exception("Logout failure.  Status code: $status");
 		}
 	}
 	
@@ -810,7 +812,7 @@ class HAPI{
 		
 		//problem sending request?
 		if ($failed){
-			throw new \Exception("Problem sending the request.");
+			throw new Exception("Problem sending the request.");
 		}
 		
 		if ($rawResponse){
@@ -830,13 +832,13 @@ class HAPI{
 		//throw an exception if the response is from a cache
 		$respFailsafe = @$respParams["failsafe"];
 		if ($respFailsafe != $reqFailsafe){
-			throw new \Exception("A different failsafe value was returned in the response.  Response does not contain up-to-date information.");
+			throw new Exception("A different failsafe value was returned in the response.  Response does not contain up-to-date information.");
 		}
 		
 		//check for errors in the response
 		$error = @$respParams["error"];
 		if ($error !== null){
-			throw new \Exception($error);
+			throw new Exception($error);
 		}
 		
 		return $respParams;
@@ -863,7 +865,7 @@ class HAPI{
 				//create the lock file if it doesn't exist
 				$success = touch($lockFile, time()-self::SECONDS_PER_REQUEST, time()-self::SECONDS_PER_REQUEST);
 				if (!$success){
-					throw new \Exception("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
+					throw new Exception("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
 				}
 			}  
 		}
@@ -890,18 +892,18 @@ class HAPI{
 			if (file_exists($lockDir)){
 				//make sure it's a directory
 				if (!is_dir($lockDir)){
-					throw new \Exception("Cannot enable flood protection.  The lock directory is not a directory: \"$lockDir\"");
+					throw new Exception("Cannot enable flood protection.  The lock directory is not a directory: \"$lockDir\"");
 				}
 				
 				//make sure the lock direcotry is writable
 				if (!is_writable($lockDir)){
-					throw new \Exception("Cannot enable flood protection. The file permissions of the lock directory do not allow PHP to write to it: \"$lockDir\"");
+					throw new Exception("Cannot enable flood protection. The file permissions of the lock directory do not allow PHP to write to it: \"$lockDir\"");
 				}
 			} else {
 				//create the lock directory if it doesn't exist
 				$success = mkdir($lockDir, 0774, true);
 				if (!$success){
-					throw new \Exception("Could not create lock directory \"$lockDir\". Check to make sure that it's an absolute path and that it's writable by PHP.");
+					throw new Exception("Could not create lock directory \"$lockDir\". Check to make sure that it's an absolute path and that it's writable by PHP.");
 				}
 			}
 		}
