@@ -14,7 +14,7 @@ class PlayerInfo{
 	private $name;
 	
 	/**
-	 * The player's rank.
+	 * The player's rank (see HAPI::RANK_* constants).
 	 * @var integer
 	 */
 	private $hypRank;
@@ -98,7 +98,7 @@ class PlayerInfo{
 
 	/**
 	 * Gets the player's rank.
-	 * @return integer the player's rank
+	 * @return integer the player's rank (see HAPI::RANK_* constants)
 	 */
 	public function getHypRank(){
 		return $this->hypRank;
@@ -106,7 +106,7 @@ class PlayerInfo{
 
 	/**
 	 * Sets the player's rank.
-	 * @param integer $hypRank the player's rank
+	 * @param integer $hypRank the player's rank (see HAPI::RANK_* constants)
 	 */
 	public function setHypRank($hypRank){
 		$this->hypRank = $hypRank;

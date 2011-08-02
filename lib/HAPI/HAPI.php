@@ -37,6 +37,18 @@ class HAPI{
 	const GOV_DEMO = 2;
 	const GOV_HYP = 3;
 	
+	const RANK_ENSIGN = 0;
+	const RANK_LIEUTENANT = 1;
+	const RANK_LIEUTENANT_COMMANDER = 2;
+	const RANK_COMMANDER = 3;
+	const RANK_CAPTAIN = 4;
+	const RANK_FLEET_CAPTAIN = 5;
+	const RANK_COMMODORE = 6;
+	const RANK_REAR_ADMIRAL = 7;
+	const RANK_VICE_ADMIRAL = 8;
+	const RANK_ADMIRAL = 9;
+	const RANK_FLEET_ADMIRAL = 10;
+	
 	/**
 	 * True to log all requests/responses, false not to.
 	 * @var boolean
