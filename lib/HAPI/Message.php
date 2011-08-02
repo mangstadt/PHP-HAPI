@@ -27,7 +27,16 @@ class Message{
 	 */
 	private $type;
 	
+	/**
+	 * The text of the message.
+	 * @var string
+	 */
 	private $message;
+	
+	/**
+	 * The message subject.
+	 * @var string
+	 */
 	private $subject;
 	
 	/**
@@ -74,18 +83,34 @@ class Message{
 		$this->type = $type;
 	}
 
+	/**
+	 * Gets the text of the message.
+	 * @return string the message text
+	 */
 	public function getMessage(){
 		return $this->message;
 	}
 
+	/**
+	 * Sets the text of the message.
+	 * @param string $message the message text
+	 */
 	public function setMessage($message){
 		$this->message = $message;
 	}
 
+	/**
+	 * Gets the message subject.
+	 * @return string the message subject
+	 */
 	public function getSubject(){
 		return $this->subject;
 	}
 
+	/**
+	 * Sets the message subject.
+	 * @param string $subject the message subject
+	 */
 	public function setSubject($subject){
 		$this->subject = $subject;
 	}
