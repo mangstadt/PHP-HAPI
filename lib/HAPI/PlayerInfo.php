@@ -23,13 +23,13 @@ class PlayerInfo{
 	 * The player's influence ranking.
 	 * @var integer
 	 */
-	private $rankinf;
+	private $influenceRank;
 	
 	/**
 	 * The player's influence score.
 	 * @var integer
 	 */
-	private $scoreinf;
+	private $influenceScore;
 	
 	/**
 	 * The amount of cash the player has.&nbsp;
@@ -43,28 +43,28 @@ class PlayerInfo{
 	 * Only included if info on the currently authenticated player is requested.
 	 * @var integer
 	 */
-	private $rankfin;
+	private $financialRank;
 	
 	/**
 	 * The player's financial score.&nbsp;
 	 * Only included if info on the currently authenticated player is requested.
 	 * @var integer
 	 */
-	private $scorefin;
+	private $financialScore;
 	
 	/**
 	 * The player's military ranking.&nbsp;
 	 * Only included if info on the currently authenticated player is requested.
 	 * @var integer
 	 */
-	private $rankpow;
+	private $militaryRank;
 	
 	/**
 	 * The player's military score.&nbsp;
 	 * Only included if info on the currently authenticated player is requested.
 	 * @var integer
 	 */
-	private $scorepow;
+	private $militaryScore;
 	
 	/**
 	 * The number of planets the player has.&nbsp;
@@ -116,32 +116,32 @@ class PlayerInfo{
 	 * Gets the player's influence ranking.
 	 * @return integer the player's influence ranking
 	 */
-	public function getRankinf(){
-		return $this->rankinf;
+	public function getInfluenceRank(){
+		return $this->influenceRank;
 	}
 
 	/**
 	 * Sets the player's influence ranking.
-	 * @param integer $rankinf the player's influence ranking
+	 * @param integer $influenceRank the player's influence ranking
 	 */
-	public function setRankinf($rankinf){
-		$this->rankinf = $rankinf;
+	public function setInfluenceRank($influenceRank){
+		$this->influenceRank = $influenceRank;
 	}
 
 	/**
 	 * Gets the player's influence score.
 	 * @return integer the player's influence score.
 	 */
-	public function getScoreinf(){
-		return $this->scoreinf;
+	public function getInfluenceScore(){
+		return $this->influenceScore;
 	}
 
 	/**
 	 * Sets the player's influence score.
-	 * @param integer $scoreinf the player's influence score.
+	 * @param integer $influenceScore the player's influence score.
 	 */
-	public function setScoreinf($scoreinf){
-		$this->scoreinf = $scoreinf;
+	public function setInfluenceScore($influenceScore){
+		$this->influenceScore = $influenceScore;
 	}
 
 	/**
@@ -164,64 +164,64 @@ class PlayerInfo{
 	 * Gets the player's financial ranking.
 	 * @return integer the player's financial ranking or null if the player is not the currently authenticated player
 	 */
-	public function getRankfin(){
-		return $this->rankfin;
+	public function getFinancialRank(){
+		return $this->financialRank;
 	}
 
 	/**
 	 * Sets the player's financial ranking.
-	 * @param integer $rankfin the player's financial ranking or null if the player is not the currently authenticated player
+	 * @param integer $financialRank the player's financial ranking or null if the player is not the currently authenticated player
 	 */
-	public function setRankfin($rankfin){
-		$this->rankfin = $rankfin;
+	public function setFinancialRank($financialRank){
+		$this->financialRank = $financialRank;
 	}
 
 	/**
 	 * Gets the player's financial score.
 	 * @return integer the player's financial score or null if the player is not the currently authenticated player
 	 */
-	public function getScorefin(){
-		return $this->scorefin;
+	public function getFinancialScore(){
+		return $this->financialScore;
 	}
 
 	/**
 	 * Sets the player's financial score.
-	 * @param integer $scorefin the player's financial score or null if the player is not the currently authenticated player
+	 * @param integer $financialScore the player's financial score or null if the player is not the currently authenticated player
 	 */
-	public function setScorefin($scorefin){
-		$this->scorefin = $scorefin;
+	public function setFinancialScore($financialScore){
+		$this->financialScore = $financialScore;
 	}
 
 	/**
 	 * Gets the player's military ranking.
 	 * @return integer the player's military ranking or null if the player is not the currently authenticated player
 	 */
-	public function getRankpow(){
-		return $this->rankpow;
+	public function getMilitaryRank(){
+		return $this->militaryRank;
 	}
 
 	/**
 	 * Sets the player's military ranking.
-	 * @param integer $rankpow the player's military ranking or null if the player is not the currently authenticated player
+	 * @param integer $militaryRank the player's military ranking or null if the player is not the currently authenticated player
 	 */
-	public function setRankpow($rankpow){
-		$this->rankpow = $rankpow;
+	public function setMilitaryRank($militaryRank){
+		$this->militaryRank = $militaryRank;
 	}
 
 	/**
 	 * Gets the player's military score.
 	 * @return integer the player's military score or null if the player is not the currently authenticated player
 	 */
-	public function getScorepow(){
-		return $this->scorepow;
+	public function getMilitaryScore(){
+		return $this->militaryScore;
 	}
 
 	/**
 	 * Sets the player's military score.
-	 * @param integer $scorepow the player's military score or null if the player is not the currently authenticated player
+	 * @param integer $militaryScore the player's military score or null if the player is not the currently authenticated player
 	 */
-	public function setScorepow($scorepow){
-		$this->scorepow = $scorepow;
+	public function setMilitaryScore($militaryScore){
+		$this->militaryScore = $militaryScore;
 	}
 
 	/**

@@ -569,8 +569,8 @@ class HAPI{
 		$response = $this->sendAuthRequest("ismsg");
 		
 		$isMsg = new IsMsg();
-		$isMsg->setMsg(self::bool($response["ismsg"]));
-		$isMsg->setReport(self::bool($response["isreport"]));
+		$isMsg->setMessages(self::bool($response["ismsg"]));
+		$isMsg->setBattleReports(self::bool($response["isreport"]));
 		return $isMsg;
 	}
 	
@@ -583,13 +583,13 @@ class HAPI{
 		$response = $this->sendAuthRequest("ismsginfo");
 		
 		$isMsgInfo = new IsMsgInfo();
-		$isMsgInfo->setMsg(self::bool($response["ismsg"]));
-		$isMsgInfo->setPlanet(self::bool($response["isplanet"]));
-		$isMsgInfo->setReport(self::bool($response["isreport"]));
+		$isMsgInfo->setMessages(self::bool($response["ismsg"]));
+		$isMsgInfo->setPlanetMessages(self::bool($response["isplanet"]));
+		$isMsgInfo->setBattleReports(self::bool($response["isreport"]));
 		$isMsgInfo->setMilitary(self::bool($response["ismilit"]));
 		$isMsgInfo->setTrading(self::bool($response["istrading"]));
 		$isMsgInfo->setInfiltration(self::bool($response["isinfiltr"]));
-		$isMsgInfo->setControl(self::bool($response["iscontrol"]));
+		$isMsgInfo->setPlanetControl(self::bool($response["iscontrol"]));
 		return $isMsgInfo;
 	}
 	
@@ -748,15 +748,15 @@ class HAPI{
 		$playerInfo = new PlayerInfo();
 		$playerInfo->setName($response["name"]);
 		$playerInfo->setHypRank($response["hyprank"]);
-		$playerInfo->setRankinf($response["rankinf"]);
-		$playerInfo->setScoreinf($response["scoreinf"]);
+		$playerInfo->setInfluenceRank($response["rankinf"]);
+		$playerInfo->setInfluenceScore($response["scoreinf"]);
 		if ($playerName == null){
 			//these parameters only appear if you are asking for information about yourself
 			$playerInfo->setCash($response["cash"]);
-			$playerInfo->setRankfin($response["rankfin"]);
-			$playerInfo->setScorefin($response["scorefin"]);
-			$playerInfo->setRankpow($response["rankpow"]);
-			$playerInfo->setScorepow($response["scorepow"]);
+			$playerInfo->setFinancialRank($response["rankfin"]);
+			$playerInfo->setFinancialScore($response["scorefin"]);
+			$playerInfo->setMilitaryRank($response["rankpow"]);
+			$playerInfo->setMilitaryScore($response["scorepow"]);
 			$playerInfo->setPlanets($response["nbplanets"]);
 			$playerInfo->setLastIncome($response["lastincome"]);
 		}

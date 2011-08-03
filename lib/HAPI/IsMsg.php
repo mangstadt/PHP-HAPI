@@ -17,37 +17,37 @@ class IsMsg{
 	 * True if there are unread battle reports, false if not.
 	 * @var boolean
 	 */
-	private $report;
+	private $battleReports;
 	
 	/**
 	 * Gets whether there are any unread player/planet messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isMsg(){
-		return $this->msg;
+	public function hasMessages(){
+		return $this->messages;
 	}
 
 	/**
 	 * Sets whether there are any unread player/planet messages.
-	 * @param boolean $msg true if there are, false if not
+	 * @param boolean $messages true if there are, false if not
 	 */
-	public function setMsg($msg){
-		$this->msg = $msg;
+	public function setMessages($messages){
+		$this->messages = $messages;
 	}
 
 	/**
 	 * Gets whether there are any unread battle reports.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isReport(){
-		return $this->report;
+	public function hasBattleReports(){
+		return $this->battleReports;
 	}
 
 	/**
 	 * Sets whether there are any unread battle reports.
-	 * @param boolean $report true if there are, false if not
+	 * @param boolean $battleReports true if there are, false if not
 	 */
-	public function setReport($report){
-		$this->report = $report;
+	public function setBattleReports($battleReports){
+		$this->battleReports = $battleReports;
 	}
 }

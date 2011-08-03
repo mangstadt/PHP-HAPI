@@ -11,19 +11,19 @@ class IsMsgInfo{
 	 * True if there are unread player/planet messages, false if not.
 	 * @var boolean
 	 */
-	private $msg;
+	private $messages;
 	
 	/**
 	 * True if there are unread non-personal planet messages, false if not.
 	 * @var boolean
 	 */
-	private $planet;
+	private $planetMessages;
 	
 	/**
 	 * True if there are unread battle reports, false if not.
 	 * @var boolean
 	 */
-	private $report;
+	private $battleReports;
 	
 	/**
 	 * True if there are unread fleet messages, false if not.
@@ -47,61 +47,61 @@ class IsMsgInfo{
 	 * True if there are unread planet control messages, false if not.
 	 * @var boolean
 	 */
-	private $control;
+	private $planetControl;
 	
 	/**
 	 * Gets whether there are any unread player/planet messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isMsg(){
-		return $this->msg;
+	public function hasMessages(){
+		return $this->messages;
 	}
 
 	/**
 	 * Sets whether there are any unread player/planet messages.
-	 * @param boolean $msg true if there are, false if not
+	 * @param boolean $messages true if there are, false if not
 	 */
-	public function setMsg($msg){
-		$this->msg = $msg;
+	public function setMessages($messages){
+		$this->messages = $messages;
 	}
 
 	/**
 	 * Gets whether there are any unread non-personal planet messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isPlanet(){
-		return $this->planet;
+	public function hasPlanetMessages(){
+		return $this->planetMessages;
 	}
 	
 	/**
 	 * Sets whether there are any unread non-personal planet messages.
-	 * @param boolean $planet true if there are, false if not
+	 * @param boolean $planetMessages true if there are, false if not
 	 */
-	public function setPlanet($planet){
-		$this->planet = $planet;
+	public function setPlanetMessages($planetMessages){
+		$this->planetMessages = $planetMessages;
 	}
 
 	/**
 	 * Gets whether there are any unread battle reports.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isReport(){
-		return $this->report;
+	public function hasBattleReports(){
+		return $this->battleReports;
 	}
 
 	/**
 	 * Sets whether there are any unread battle reports.
-	 * @param boolean $report true if there are, false if not
+	 * @param boolean $battleReports true if there are, false if not
 	 */
-	public function setReport($report){
-		$this->report = $report;
+	public function setBattleReports($battleReports){
+		$this->battleReports = $battleReports;
 	}
 
 	/**
 	 * Gets whether there are any unread fleet messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isMilitary(){
+	public function hasMilitary(){
 		return $this->military;
 	}
 
@@ -117,7 +117,7 @@ class IsMsgInfo{
 	 * Gets whether there are any unread trading messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isTrading(){
+	public function hasTrading(){
 		return $this->trading;
 	}
 
@@ -133,7 +133,7 @@ class IsMsgInfo{
 	 * Gets whether there are any unread infiltration messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isInfiltration(){
+	public function hasInfiltration(){
 		return $this->infiltration;
 	}
 
@@ -149,15 +149,15 @@ class IsMsgInfo{
 	 * Gets whether there are any unread planet control messages.
 	 * @return boolean true if there are, false if not
 	 */
-	public function isControl(){
-		return $this->control;
+	public function hasPlanetControl(){
+		return $this->planetControl;
 	}
 
 	/**
 	 * Sets whether there are any unread planet control messages.
-	 * @param boolean $infiltration true if there are, false if not
+	 * @param boolean $planetControl true if there are, false if not
 	 */
-	public function setControl($control){
-		$this->control = $control;
+	public function setPlanetControl($planetControl){
+		$this->planetControl = $planetControl;
 	}
 }
