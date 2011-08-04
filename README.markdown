@@ -6,7 +6,7 @@ PHP-HAPI is a PHP library that allows you to easily query the [Hyperiums](http:/
 
 PHP-HAPI supports HAPI version 0.1.8.
 
-Check outs the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html) and my [HAPI Developer Reference Manual](https://github.com/downloads/mangstadt/PHP-HAPI/hapi-reference-manual.pdf) for more details about HAPI.
+For more information on HAPI, check out the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html) or the [HAPI Developer Reference Manual](https://github.com/downloads/mangstadt/PHP-HAPI/hapi-reference-manual.pdf) that I wrote.
 
 # Requirements
 
@@ -16,7 +16,82 @@ Requires phar-util (https://github.com/koto/phar-util) to build the Phar file.
 
 Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
 
-# Example Code
+# Features
+
+## Complete API coverage
+
+Supports all HAPI requests defined in the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html).
+Responses are unmarshalled into plain, getter/setter objects.
+
+```php
+<?php
+require_once 'PHP-HAPI.phar';
+use HAPI\HAPI;
+
+foreach (HAPI::getGames() as $game){
+	$name = $game->getName();
+	$description = $game->getDescription();
+	echo "$name: $description\n";
+}
+```
+
+## Flood protection
+
+Request frequency is monitored using file locking to adhere to HAPI usage rules and prevent the user from being locked out.
+One request is sent at most every two seconds per authenticated player.
+This means that two request for two different players can be sent at the same time, but two requests for the same player must be sent at least two seconds apart.
+
+To enable, specify the absolute path to a *writeable* directory in either the constructor or setFloodProtection() method of the HAPI class.
+The lock files will be saved to this directory.
+
+```php
+<?php
+require_once 'PHP-HAPI.phar';
+use HAPI\HAPI;
+
+$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834", __DIR__ . "/locks");
+$messages = $hapi->getNewMessages();
+//waits 2 seconds
+$messages = $hapi->getNewMessages();
+```
+
+## Logging
+
+All HAPI requests and responses can optionally be logged to either the PHP error log or a file of your choice.
+Use the HAPI::setLogFile() method to enable logging.
+
+```php
+<?php
+require_once 'PHP-HAPI.phar';
+use HAPI\HAPI;
+
+HAPI::setLogFile('php_error_log'); //pass this string to log to the PHP error log
+$games = HAPI::getGames();
+HAPI::setLogFile(__DIR__ . '/hapi-log.txt'); //log to a file
+$games = HAPI::getGames();
+```
+
+## Data file parsing
+
+PHP-HAPI comes with an API that makes it easy to parse the data out of the downloaded data files.
+All four data files (alliance, event, planet, player) are supported.
+
+```php
+<?php
+require_once 'PHP-HAPI.phar';
+use HAPI\Parsers\AllianceParser;
+
+$parser = new AllianceParser(__DIR__ . '/Hyperiums6-20110617-alliances.txt.gz');
+while ($alliance = $parser->next()){
+	$tag = $alliance->getTag();
+	$name = $alliance->getName();
+	$pres = $alliance->getPresident();
+	$planets = $alliance->getNumPlanets();
+	echo "[$tag] $name - $planets planets under the command of $pres.\n";
+}
+```
+
+# Code Sample
 
 ```php
 <?php
@@ -43,24 +118,22 @@ foreach (HAPI::getGames() as $game){
 			$state = "running, open to new players";
 			break;
 	}
-	$initCash = number_format($game->getInitCash());
 	echo "$name: $description -- $state\n";
 }
 
 //authenticate with HAPI by creating a new object
 try{
-	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834");
+	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834", __DIR__ . "/locks");
 } catch (Exception $e){
-	//an exception is thrown if there is an authentication failure
+	//an exception is thrown if authentication fails
 	die("Error authenticating: " . $e->getMessage());
 }
 
-//you can save the HAPI object to the PHP session and re-use it later
-//this makes things faster, because when you construct a new HAPI object, it sends an auth request, which you don't have to do if you've already authenticated
+//HAPI object can be saved to session
 $_SESSION['hapi'] = $hapi;
 
+//get the player's moving fleets
 try{
-	//then, simply call the methods from the HAPI class
 	$movingFleets = $hapi->getMovingFleets();
 	foreach ($movingFleets as $mf){
 		$from = $mf->getFrom();
@@ -90,18 +163,22 @@ try{
 } catch (Exception $e){
 	die("Error getting moving fleets: " . $e->getMessage());
 }
-
-//flood protection prevents you from being locked out of HAPI from making requests too fast
-$hapi->setFloodProtection(__DIR__ . "/flood-locks");
-for ($i = 0; $i < 100; $i++){
-	$hapi->getNewMessages();
-}
-//without flood protection, you would be locked out by now
 ```
 
 [Click here](https://github.com/mangstadt/PHP-HAPI/tree/master/examples) for more examples.
 
 # Changelog
+
+**v0.4.0** - Aug 03 2011
+
+ * Renamed many methods with simpler, more descriptive names.  For example:
+   * HAPI::getAllGames > getGames
+   * Exploitation#getNumExploits > getExploits
+   * FleetsInfo#getNrj > getEnergy
+ * Download methods now check to make sure the specified file can be written to *before* making the actual download request.
+ * Added PHPDocs to undocumented methods. 
+ * Removed the ability to disable cache detection (there should be no reason to disable it).
+ * Boolean response parameters are now unmarshalled as actual boolean variables instead of the strings "0" and "1".
 
 **v0.3.3** - Jul 30 2011
 
@@ -132,4 +209,4 @@ for ($i = 0; $i < 100; $i++){
 
 **v0.1.0**
 
-First version.
+ * First version.

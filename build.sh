@@ -14,7 +14,7 @@
 #phar.readonly = Off
 
 #define version
-VERSION=0.3.3
+VERSION=0.4.0
 
 #clean build directory
 rm -rf build
