@@ -50,7 +50,13 @@ class Planet{
 	private $prodType;
 	
 	/**
-	 * The planet's activity.
+	 * The planet's population in millions (only appears in the RLF2 game).
+	 * @var integer
+	 */
+	private $population;
+	
+	/**
+	 * The planet's activity (not included in the RLF2 game).
 	 * @var integer
 	 */
 	private $activity;
@@ -62,7 +68,7 @@ class Planet{
 	private $publicTag;
 	
 	/**
-	 * The planet's civilization level.
+	 * The planet's civilization level (not included in the RLF2 game).
 	 * @var integer
 	 */
 	private $civLevel;
@@ -184,9 +190,25 @@ class Planet{
 	public function setProdType($prodType){
 		$this->prodType = $prodType;
 	}
+	
+	/**
+	 * Gets the planet's population (only appears in the RLF2 game).
+	 * @return integer the planet's population
+	 */
+	public function getPopulation(){
+		return $this->population;
+	}
+	
+	/**
+	 * Sets the planet's population (only appears in the RLF2 game).
+	 * @param integer $population the planet's population
+	 */
+	public function setPopulation($population){
+		$this->population = $population;
+	}
 
 	/**
-	 * Gets the planet's activity.
+	 * Gets the planet's activity (not included in the RLF2 game).
 	 * @return integer the planet's activity.
 	 */
 	public function getActivity(){
@@ -194,7 +216,7 @@ class Planet{
 	}
 
 	/**
-	 * Sets the planet's activity.
+	 * Sets the planet's activity (not included in the RLF2 game).
 	 * @param integer $activty the planet's activity.
 	 */
 	public function setActivity($activity){
@@ -218,7 +240,7 @@ class Planet{
 	}
 
 	/**
-	 * Gets the planet's civilization level.
+	 * Gets the planet's civilization level (not included in the RLF2 game).
 	 * @return integer the planet's civ level
 	 */
 	public function getCivLevel(){
@@ -226,7 +248,7 @@ class Planet{
 	}
 
 	/**
-	 * Sets the planet's civilization level.
+	 * Sets the planet's civilization level (not included in the RLF2 game).
 	 * @param integer $civLevel the planet's civ level
 	 */
 	public function setCivLevel($civLevel){

@@ -8,12 +8,21 @@ namespace HAPI\Parsers;
  */
 class PlanetParser extends Parser{
 	/**
+	 * True if the data file is from the RLF2 game, false if not.
+	 * @var boolean
+	 */
+	private $rlf2;
+	
+	/**
 	 * Constructs a new planet data file parser object.
 	 * @param string $file the *absolute* path to the planet data file
+	 * @param boolean $rlf2 true if the planet data file is from the RLF2 game, false if not (defaults to false).
+	 * The data file from the RLF2 game is slightly different.
 	 * @throws Exception if the file doesn't exist or is empty
 	 */
-	public function __construct($file){
+	public function __construct($file, $rlf2 = false){
 		parent::__construct($file);
+		$this->rlf2 = $rlf2;
 	}
 	
 	/**
@@ -37,11 +46,17 @@ class PlanetParser extends Parser{
 			$planet->setY($matches[$i++]);
 			$planet->setRace($matches[$i++]);
 			$planet->setProdType($matches[$i++]);
-			$planet->setActivity($matches[$i++]);
+			if ($this->rlf2){
+				$planet->setPopulation($matches[$i++]);
+			} else {
+				$planet->setActivity($matches[$i++]);
+			}
 			$tag = $matches[$i++];
 			$tag = trim($tag, "[]");
 			$planet->setPublicTag($tag);
-			$planet->setCivLevel($matches[$i++]);
+			if (!$this->rlf2){
+				$planet->setCivLevel($matches[$i++]);
+			}
 			$planet->setSize($matches[$i++]);
 		}
 		
