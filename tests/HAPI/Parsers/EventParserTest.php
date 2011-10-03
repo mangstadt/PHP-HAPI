@@ -21,6 +21,7 @@ CONTENTS;
 		$parser = new EventParser($file);
 		$event = $parser->next();
 		$this->assertNull($event);
+		$parser->close();
 	}
 	
 	/**
@@ -50,5 +51,7 @@ CONTENTS;
 		
 		$event = $parser->next();
 		$this->assertNull($event);
+		
+		$parser->close();
 	}
 }

@@ -21,6 +21,7 @@ CONTENTS;
 		$parser = new PlayerParser($file);
 		$player = $parser->next();
 		$this->assertNull($player);
+		$parser->close();
 	}
 	
 	/**
@@ -62,5 +63,7 @@ CONTENTS;
 		
 		$player = $parser->next();
 		$this->assertNull($player);
+		
+		$parser->close();
 	}
 }

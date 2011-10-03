@@ -21,6 +21,7 @@ CONTENTS;
 		$parser = new PlanetParser($file);
 		$planet = $parser->next();
 		$this->assertNull($planet);
+		$parser->close();
 	}
 	
 	/**
@@ -64,5 +65,7 @@ CONTENTS;
 		
 		$planet = $parser->next();
 		$this->assertNull($planet);
+		
+		$parser->close();
 	}
 }

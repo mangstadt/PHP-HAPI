@@ -23,6 +23,7 @@ CONTENTS;
 		$parser = new AllianceParser($file);
 		$alliance = $parser->next();
 		$this->assertNull($alliance);
+		$parser->close();
 	}
 	
 	/**
@@ -66,5 +67,7 @@ CONTENTS;
 		
 		$alliance = $parser->next();
 		$this->assertNull($alliance);
+		
+		$parser->close();
 	}
 }
