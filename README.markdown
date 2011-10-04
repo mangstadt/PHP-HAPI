@@ -167,6 +167,13 @@ try{
 
 # Changelog
 
+**v0.4.1** - Oct 03 2011
+
+ * Created two separate methods for logging to the PHP error log and logging to a custom file.
+   * `HAPI::setLogToFile()`
+   * `HAPI::setLogToPHPErrorLog()`
+ * The `PlanetParser` class can now read the planet data file from the "RLF2" game (it is slightly different from the others).
+
 **v0.4.0** - Aug 03 2011
 
  * Renamed many methods with simpler, more descriptive names.  For example:

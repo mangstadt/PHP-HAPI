@@ -8,7 +8,7 @@ use \Exception;
  * Compatable with HAPI v0.1.8.
  * @package HAPI
  * @author Mike Angstadt [github.com/mangstadt]
- * @version 0.4.0
+ * @version 0.4.1
  */
 class HAPI{
 	/**
