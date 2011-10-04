@@ -1,27 +1,25 @@
 # Overview
 
-PHP-HAPI is a PHP library that allows you to easily query the [Hyperiums](http://www.hyperiums.com) API (HAPI).
+PHP-HAPI is a PHP library that provides an interface to the [Hyperiums](http://www.hyperiums.com) API (HAPI).
 
 [Hyperiums](http://www.hyperiums.com) is a massively multiplayer, online strategy game that you play from your web browser.
 
 PHP-HAPI supports HAPI version 0.1.8.
 
-For more information on HAPI, check out the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html) or the [HAPI Developer Reference Manual](https://github.com/downloads/mangstadt/PHP-HAPI/hapi-reference-manual.pdf) that I wrote.
+For more information on HAPI, check out my [HAPI Developer Reference Manual](https://github.com/downloads/mangstadt/PHP-HAPI/hapi-reference-manual.pdf).
 
 # Requirements
 
-PHP-HAPI requires PHP 5.3 or above.
-
-Requires phar-util (https://github.com/koto/phar-util) to build the Phar file.
-
-Requires phpdocumentor (http://www.phpdoc.org/) to build the API documentation.
+ * PHP 5.3 or above to run.
+ * phar-util (https://github.com/koto/phar-util) to build the Phar file.
+ * phpdocumentor (http://www.phpdoc.org/) to build the PHPDocs.
 
 # Features
 
 ## Complete API coverage
 
 Supports all HAPI requests defined in the [official HAPI specs](http://www.hyperiums.com/HAPI_specs.html).
-Responses are unmarshalled into plain, getter/setter objects.
+Responses are unmarshalled into objects that have getter/setter methods for each data field.
 
 ```php
 <?php
@@ -37,11 +35,11 @@ foreach (HAPI::getGames() as $game){
 
 ## Flood protection
 
-Request frequency is monitored using file locking to adhere to HAPI usage rules and prevent the user from being locked out.
+Request frequency is monitored using file locking to adhere to HAPI usage rules and prevent the user from being locked out (you can send at most 3 requests per second and 30 requests per minute for each authenticated player).
 One request is sent at most every two seconds per authenticated player.
 This means that two request for two different players can be sent at the same time, but two requests for the same player must be sent at least two seconds apart.
 
-To enable, specify the absolute path to a *writeable* directory in either the constructor or setFloodProtection() method of the HAPI class.
+To enable, specify the absolute path to a writable directory in either the constructor or `setFloodProtection()` method of the `HAPI` class.
 The lock files will be saved to this directory.
 
 ```php
@@ -58,7 +56,7 @@ $messages = $hapi->getNewMessages();
 ## Logging
 
 All HAPI requests and responses can optionally be logged to either the PHP error log or a file of your choice (or both).
-Use the HAPI::setLogToFile() and HAPI::setLogToPHPErrorLog() methods to enable logging.
+Use the `HAPI::setLogToFile()` and `HAPI::setLogToPHPErrorLog()` methods to enable logging.
 
 ```php
 <?php
@@ -73,7 +71,7 @@ $games = HAPI::getGames();
 
 ## Data file parsing
 
-PHP-HAPI comes with an API that makes it easy to parse the data out of the downloaded data files.
+PHP-HAPI comes with functionality for parsing the data out of the downloaded data files.
 All four data files (alliance, event, planet, player) are supported.
 
 ```php
