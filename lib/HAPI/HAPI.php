@@ -50,10 +50,16 @@ class HAPI{
 	const RANK_FLEET_ADMIRAL = 10;
 	
 	/**
-	 * True to log all requests/responses, false not to.
-	 * @var boolean
+	 * The path to the file where all requests/responses will be logged or null not to log anything.
+	 * @var string
 	 */
 	private static $logFile;
+	
+	/**
+	 * True to log all requests/responses to the PHP error log, false not to.
+	 * @var boolean
+	 */
+	private static $logToPHPErrorLog = false;
 	
 	/**
 	 * The absolute path to the lock directory that is used for flood protection or null to disable flood protection.&nbsp;
@@ -802,7 +808,7 @@ class HAPI{
 		
 		$failed = $response === false; //problem sending the request?
 		
-		if (self::$logFile != null){
+		if (self::$logFile != null || self::$logToPHPErrorLog){
 			//log the request and response
 			
 			$m = ($method == null) ? "<no method name>" : $method;
@@ -816,9 +822,11 @@ class HAPI{
 			}
 			
 			$msg = "HAPI request: $m\n  url: $url\n  response: $r\n";
-			if (self::$logFile == 'php_error_log'){
+			
+			if (self::$logToPHPErrorLog){
 				error_log($msg);
-			} else {
+			}
+			if (self::$logFile != null){
 				$now = date('Y-m-d H:i:s');
 				$fp = fopen(self::$logFile, 'a');
 				flock($fp, LOCK_EX);
@@ -892,11 +900,19 @@ class HAPI{
 	}
 	
 	/**
-	 * Sets the file where all requests/responses will be logged (logging is disabled by default).
-	 * @param string $logFile the *absolute* path to the log file, "php_error_log" to write to the PHP error log, or null to disable logging
+	 * Sets the file where all requests/responses will be logged to (disabled by default).
+	 * @param string $logFile the *absolute* path to the log file or null to disable
 	 */
-	public static function setLogFile($logFile){
+	public static function setLogToFile($logFile){
 		self::$logFile = $logFile;
+	}
+	
+	/**
+	 * Sets whether or not to log all requests/responses to the PHP error log (disabled by default).&nbsp;
+	 * @param boolean $logToPHPErrorLog true to log requests/responses to the PHP error log, false not to (defaults to false)
+	 */
+	public static function setLogToPHPErrorLog($logToPHPErrorLog){
+		self::$logToPHPErrorLog = $logToPHPErrorLog;
 	}
 	
 	/**

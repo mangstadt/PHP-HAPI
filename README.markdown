@@ -57,17 +57,17 @@ $messages = $hapi->getNewMessages();
 
 ## Logging
 
-All HAPI requests and responses can optionally be logged to either the PHP error log or a file of your choice.
-Use the HAPI::setLogFile() method to enable logging.
+All HAPI requests and responses can optionally be logged to either the PHP error log or a file of your choice (or both).
+Use the HAPI::setLogToFile() and HAPI::setLogToPHPErrorLog() methods to enable logging.
 
 ```php
 <?php
 require_once 'PHP-HAPI.phar';
 use HAPI\HAPI;
 
-HAPI::setLogFile('php_error_log'); //pass this string to log to the PHP error log
+HAPI::setLogToPHPErrorLog(true);
 $games = HAPI::getGames();
-HAPI::setLogFile(__DIR__ . '/hapi-log.txt'); //log to a file
+HAPI::setLogToFile(__DIR__ . '/hapi-log.txt');
 $games = HAPI::getGames();
 ```
 
