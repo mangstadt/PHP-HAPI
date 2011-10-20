@@ -1,9 +1,7 @@
 <?php
 namespace HAPI\Parsers;
 
-require_once __DIR__ . '/../../../lib/index.php';
 require_once __DIR__ . '/../../index.php';
-require_once 'PHPUnit/Framework.php';
 
 use \Exception;
 
