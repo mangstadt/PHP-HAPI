@@ -61,6 +61,7 @@ if (count($errors) > 0){
 //require_once __DIR__ . '/PHP-HAPI.phar';
 require_once __DIR__ . '/../lib/index.php';
 use HAPI\HAPI;
+use HAPI\HAPIException;
 
 $games = HAPI::getGames();
 $date = date("Ymd");
@@ -73,7 +74,7 @@ foreach ($games as $game){
 		echo "Downloading $file...";
 		HAPI::downloadAlliances($username, $password, $name, $file);
 		echo "done.\n";
-	} catch (Exception $e){
+	} catch (HAPIException $e){
 		echo "failed:\n".  $e->getMessage() . "\n\n";
 	}
 	
@@ -82,7 +83,7 @@ foreach ($games as $game){
 		echo "Downloading $file...";
 		HAPI::downloadEvents($username, $password, $name, $file);
 		echo "done.\n";
-	} catch (Exception $e){
+	} catch (HAPIException $e){
 		echo "failed:\n".  $e->getMessage() . "\n\n";
 	}
 	
@@ -91,7 +92,7 @@ foreach ($games as $game){
 		echo "Downloading $file...";
 		HAPI::downloadPlayers($username, $password, $name, $file);
 		echo "done.\n";
-	} catch (Exception $e){
+	} catch (HAPIException $e){
 		echo "failed:\n".  $e->getMessage() . "\n\n";
 	}
 	
@@ -100,7 +101,7 @@ foreach ($games as $game){
 		echo "Downloading $file...";
 		HAPI::downloadPlanets($username, $password, $name, $file);
 		echo "done.\n";
-	} catch (Exception $e){
+	} catch (HAPIException $e){
 		echo "failed:\n".  $e->getMessage() . "\n\n";
 	}
 }

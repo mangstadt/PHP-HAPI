@@ -2,6 +2,7 @@
 //require_once __DIR__ . '/PHP-HAPI.phar';
 require_once __DIR__ . '/../lib/index.php';
 use HAPI\HAPI;
+use HAPI\HAPIException;
 use HAPI\Game;
 
 //static methods in HAPI class don't require authentication
@@ -30,7 +31,7 @@ foreach (HAPI::getGames() as $game){
 //authenticate with HAPI by creating a new object
 try{
 	$hapi = new HAPI("Hyperiums6", "mangst", "659194d68abafc6a4");
-} catch (Exception $e){
+} catch (HAPIException $e){
 	//an exception is thrown if there is an authentication failure
 	die("Error authenticating: " . $e->getMessage());
 }
@@ -67,7 +68,7 @@ try{
 		
 		echo "The $race fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
 	}
-} catch (Exception $e){
+} catch (HAPIException $e){
 	die("Error getting moving fleets: " . $e->getMessage());
 }
 

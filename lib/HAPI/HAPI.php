@@ -1,8 +1,6 @@
 <?php
 namespace HAPI;
 
-use \Exception;
-
 /**
  * The interface for interacting with the Hyperiums API (HAPI).&nbsp;
  * Compatable with HAPI v0.1.8.
@@ -80,7 +78,7 @@ class HAPI{
 	 * @param string $username the username
 	 * @param string $hapiKey the external authentication key (login to Hyperiums and go to "Preferences &gt; Authentication" to generate one)
 	 * @param string $floodLockDir (optional) the *absolute* path to the directory where the lock files will be stored (one file per user) or null to disable flood protection (defaults to null).  The directory must be writable by the web server process.
-	 * @throws Exception if there was a problem authenticating or the authentication failed
+	 * @throws HAPIException if there was a problem authenticating or the authentication failed
 	 */
 	public function __construct($gameName, $username, $hapiKey, $floodLockDir = null){
 		$this->setFloodProtection($floodLockDir);
@@ -92,7 +90,7 @@ class HAPI{
 	 * @param string $gameName the game to connect to
 	 * @param string $username the player's username
 	 * @param string $hapiKey the external authentication key (to generate one, login to Hyperiums and go to "Preferences &gt; Authentication")
-	 * @throws Exception if there was a problem authenticating or the authentication failed
+	 * @throws HAPIException if there was a problem authenticating or the authentication failed
 	 * @return HAPISession the HAPI session info
 	 */
 	protected function authenticate($gameName, $username, $hapiKey){
@@ -109,7 +107,7 @@ class HAPI{
 	
 	/**
 	 * Gets a list of all games.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(Game) all games
 	 */
 	public static function getGames(){
@@ -147,7 +145,7 @@ class HAPI{
 	 * @param string $password the account password
 	 * @param string $gameName the game name
 	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
-	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 * @throws HAPIException if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadAlliances($username, $password, $gameName, $file){
 		self::download("alliances", $username, $password, $gameName, $file);
@@ -160,7 +158,7 @@ class HAPI{
 	 * @param string $password the account password
 	 * @param string $gameName the game name
 	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
-	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 * @throws HAPIException if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadEvents($username, $password, $gameName, $file){
 		self::download("events", $username, $password, $gameName, $file);
@@ -173,7 +171,7 @@ class HAPI{
 	 * @param string $password the account password
 	 * @param string $gameName the game name
 	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
-	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 * @throws HAPIException if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlayers($username, $password, $gameName, $file){
 		self::download("players", $username, $password, $gameName, $file);
@@ -186,7 +184,7 @@ class HAPI{
 	 * @param string $password the account password
 	 * @param string $gameName the game name
 	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
-	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 * @throws HAPIException if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	public static function downloadPlanets($username, $password, $gameName, $file){
 		self::download("planets", $username, $password, $gameName, $file);
@@ -200,7 +198,7 @@ class HAPI{
 	 * @param string $password the account password
 	 * @param string $gameName the game name
 	 * @param string $file the *absolute* path to where the file should be saved to.  The file name should end with ".txt.gz".  If a file already exists at this location, it will be overwritten.
-	 * @throws Exception if you have already downloaded the file today or there was a problem saving the file to disk
+	 * @throws HAPIException if you have already downloaded the file today or there was a problem saving the file to disk
 	 */
 	private static function download($type, $username, $password, $gameName, $file){
 		//create non-existant directories
@@ -208,14 +206,14 @@ class HAPI{
 		if ($dir != "." && !file_exists($dir)){
 			$result = mkdir($dir, 0774, true);
 			if ($result === false){
-				throw new Exception("Cannot create non-existant directories: $dir");
+				throw new HAPIException("Cannot create non-existant directories: $dir");
 			}
 		}
 		
 		//check to make sure the file can be created/written to before downloading
 		$result = touch($file);
 		if ($result === false){
-			throw new \Exception("Cannot write to the specified location: $file");
+			throw new HAPIException("Cannot write to the specified location: $file");
 		}
 		
 		//send request
@@ -230,7 +228,7 @@ class HAPI{
 		//save response to file
 		$result = file_put_contents($file, $response);
 		if ($result === false){
-			throw new Exception("Could not write the data file to disk after it was downloaded: $file");
+			throw new HAPIException("Could not write the data file to disk after it was downloaded: $file");
 		}
 	}
 	
@@ -244,7 +242,7 @@ class HAPI{
 	
 	/**
 	 * Gets information on all moving fleets.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(MovingFleet)
 	 */
 	public function getMovingFleets(){
@@ -276,7 +274,7 @@ class HAPI{
 	
 	/**
 	 * Gets exploitation information from all your planets.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(Exploitation)
 	 */
 	public function getExploitations(){
@@ -302,7 +300,7 @@ class HAPI{
 	 * Gets info on a specific planet or all of your planets.&nbsp;
 	 * Includes general, trading, and infiltration info.
 	 * @param $planetName (optional) the name of a specific planet to retrieve info on. This can be a planet you own or a planet that you have fleets/armies stationed on. If this is left out, it will return info on all of your planets.
-	 * @throws Exception if a planet with the given name does not exist or it is not under the player's control or there was a problem sending the request
+	 * @throws HAPIException if a planet with the given name does not exist or it is not under the player's control or there was a problem sending the request
 	 * @return PlanetInfo|array(PlanetInfo) a single object if a planet name was specified, an array if not
 	 */
 	public function getPlanetInfo($planetName = null){
@@ -434,7 +432,7 @@ class HAPI{
 	 * @param $planetName (optional) the name of a specific planet to retrieve fleet info on.
 	 * This can be a planet you own or a planet that you have fleets/armies stationed on.
 	 * If this is left out, it will return info on all of your planets and all planets that you have fleets/armies on.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(FleetsInfo) an array of objects where each object represents planet that has 0 or more fleets
 	 */
 	public function getFleetsInfo($planetName = null){
@@ -538,7 +536,7 @@ class HAPI{
 	 * <br>A max of 50 planets are returned in each response.&nbsp; Use the $start parameter to specify what index in the list it should start on.
 	 * @param string $tag the alliance tag (without brackets, case-insensitive)
 	 * @param integer $start (optional) the list index that it should start on (defaults to the beginning of the list, first element is "0")
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(AlliancePlanet) the alliance planets
 	 */
 	public function getAlliancePlanets($tag, $start = 0){
@@ -568,7 +566,7 @@ class HAPI{
 	
 	/**
 	 * Determines whether the player has new messages or not.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return IsMsg the response
 	 */
 	public function getIsMsg(){
@@ -582,7 +580,7 @@ class HAPI{
 	
 	/**
 	 * Determines whether the player has new messages or not.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return IsMsgInfo the response
 	 */
 	public function getIsMsgInfo(){
@@ -602,7 +600,7 @@ class HAPI{
 	/**
 	 * Gets all new player and planet messages.&nbsp;
 	 * Note that these messages will be marked as "read" after this method is called.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(Message) all new messages
 	 */
 	public function getNewMessages(){
@@ -654,7 +652,7 @@ class HAPI{
 	 * Gets old player messages sorted by date descending (newest messgaes first).
 	 * @param integer $start the message to start on ("0" for the most recent message)
 	 * @param integer $max the max number of messages to return
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(Message) the messages
 	 */
 	public function getOldPlayerMessages($start, $max){
@@ -687,7 +685,7 @@ class HAPI{
 	 * @param integer $start the message to start on ("0" for the most recent message)
 	 * @param integer $max the max number of messages to return
 	 * @param string $planetName (optional) the planet to retrieve the messages of or null to get messages from all planets (defaults to null)
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return array(Message) the messages
 	 */
 	public function getOldPlanetMessages($start, $max, $planetName = null){
@@ -718,7 +716,7 @@ class HAPI{
 	
 	/**
 	 * Gets the version of HAPI.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return string the version of HAPI
 	 */
 	public function getVersion(){
@@ -728,20 +726,20 @@ class HAPI{
 	
 	/**
 	 * Logs you out of the current HAPI session.
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 */
 	public function logout(){
 		$response = $this->sendAuthRequest("logout");
 		$status = $response["status"];
 		if ($status != "ok"){
-			throw new Exception("Logout failure.  Status code: $status");
+			throw new HAPIException("Logout failure.  Status code: $status");
 		}
 	}
 	
 	/**
 	 * Gets info on a particular player.
 	 * @param string $playerName (optional) the name of the player (defaults to the name of the currently authenticated player)
-	 * @throws Exception if there was a problem making the request
+	 * @throws HAPIException if there was a problem making the request
 	 * @return PlayerInfo the info on the player
 	 */
 	public function getPlayerInfo($playerName = null){
@@ -775,7 +773,7 @@ class HAPI{
 	 * @param array(string=>string) $params (optional) additional parameters to add to the request
 	 * @param string $floodLockFile (optional) the *absolute* path to the lock file or null to not use flood protection.  The lock file is an empty file that must be writable by the web server process.
 	 * @param boolean $rawResponse (optional) true to return the raw response, false to parse the response as a query string and return an assoc array (default is false)
-	 * @throws Exception if there was a problem sending the request or an error response was returned
+	 * @throws HAPIException if there was a problem sending the request or an error response was returned
 	 * @return array(string=>string)|string the response
 	 */
 	protected static function sendRequest($method, array $params = array(), $floodLockFile = null, $rawResponse = false){
@@ -838,7 +836,7 @@ class HAPI{
 		
 		//problem sending request?
 		if ($failed){
-			throw new Exception("Problem sending the request.");
+			throw new HAPIException("Problem sending the request.");
 		}
 		
 		if ($rawResponse){
@@ -858,13 +856,13 @@ class HAPI{
 		//throw an exception if the response is from a cache
 		$respFailsafe = @$respParams["failsafe"];
 		if ($respFailsafe != $reqFailsafe){
-			throw new Exception("A different failsafe value was returned in the response.  Response does not contain up-to-date information.");
+			throw new HAPIException("A different failsafe value was returned in the response.  Response does not contain up-to-date information.");
 		}
 		
 		//check for errors in the response
 		$error = @$respParams["error"];
 		if ($error !== null){
-			throw new Exception($error);
+			throw new HAPIException($error);
 		}
 		
 		return $respParams;
@@ -874,7 +872,7 @@ class HAPI{
 	 * Sends a HAPI request including auth info.
 	 * @param string $method the method to call
 	 * @param array(string=>string) $params (optional) additional parameters to add to the request
-	 * @throws Exception if there was a problem sending the request or an error response was returned
+	 * @throws HAPIException if there was a problem sending the request or an error response was returned
 	 * @return array(string=>string) the response
 	 */
 	protected function sendAuthRequest($method, array $params = array()){
@@ -891,7 +889,7 @@ class HAPI{
 				//create the lock file if it doesn't exist
 				$success = touch($lockFile, time()-self::SECONDS_PER_REQUEST, time()-self::SECONDS_PER_REQUEST);
 				if (!$success){
-					throw new Exception("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
+					throw new HAPIException("Could not create lock file \"$lockFile\" for flood protection. Make sure it's parent directory is writable by PHP.");
 				}
 			}  
 		}
@@ -919,25 +917,25 @@ class HAPI{
 	 * Enables or disables flood protection (disabled by default).&nbsp;
 	 * This is to prevent the library from sending too many requests and breaking HAPI usage rules (max of 3 requests/second, 30 requests/minute).
 	 * @param string $lockDir the *absolute* path to the directory where the lock files will be stored (one file per user) or null to disable flood protection.  The directory must be writable by the web server process.
-	 * @throws Exception if the lock directory isn't a directory, isn't writable, or can't be created
+	 * @throws HAPIException if the lock directory isn't a directory, isn't writable, or can't be created
 	 */
 	public function setFloodProtection($lockDir){
 		if ($lockDir != null){
 			if (file_exists($lockDir)){
 				//make sure it's a directory
 				if (!is_dir($lockDir)){
-					throw new Exception("Cannot enable flood protection.  The lock directory is not a directory: \"$lockDir\"");
+					throw new HAPIException("Cannot enable flood protection.  The lock directory is not a directory: \"$lockDir\"");
 				}
 				
 				//make sure the lock direcotry is writable
 				if (!is_writable($lockDir)){
-					throw new Exception("Cannot enable flood protection. The file permissions of the lock directory do not allow PHP to write to it: \"$lockDir\"");
+					throw new HAPIException("Cannot enable flood protection. The file permissions of the lock directory do not allow PHP to write to it: \"$lockDir\"");
 				}
 			} else {
 				//create the lock directory if it doesn't exist
 				$success = mkdir($lockDir, 0774, true);
 				if (!$success){
-					throw new Exception("Could not create lock directory \"$lockDir\". Check to make sure that it's an absolute path and that it's writable by PHP.");
+					throw new HAPIException("Could not create lock directory \"$lockDir\". Check to make sure that it's an absolute path and that it's writable by PHP.");
 				}
 			}
 		}
