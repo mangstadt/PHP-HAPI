@@ -22,11 +22,11 @@ abstract class Parser{
 	/**
 	 * Constructs a new data file parser object.
 	 * @param string $file the *absolute* path to the data file
-	 * @throws Exception if the file doesn't exist or is empty
+	 * @throws ParserException if the file doesn't exist or is empty
 	 */
 	public function __construct($file){
 		if (!file_exists($file)){
-			throw new \Exception("File does not exist: $file");
+			throw new ParserException("File does not exist: $file");
 		}
 		
 		$this->fp = gzopen($file, 'r'); //opens gzipped and uncompressed files
@@ -34,7 +34,7 @@ abstract class Parser{
 		//the first line contains the date the file was generated
 		$generated = gzgets($this->fp, 4096);
 		if ($generated === false){
-			throw new \Exception("File is empty: $file");
+			throw new ParserException("File is empty: $file");
 		}
 		if (preg_match("/\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}/", $generated, $matches)){
 			$this->dateGenerated = strtotime($matches[0]);

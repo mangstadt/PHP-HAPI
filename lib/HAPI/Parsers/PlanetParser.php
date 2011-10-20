@@ -18,7 +18,7 @@ class PlanetParser extends Parser{
 	 * @param string $file the *absolute* path to the planet data file
 	 * @param boolean $rlf2 true if the planet data file is from the RLF2 game, false if not (defaults to false).
 	 * The data file from the RLF2 game is slightly different.
-	 * @throws Exception if the file doesn't exist or is empty
+	 * @throws ParserException if the file doesn't exist or is empty
 	 */
 	public function __construct($file, $rlf2 = false){
 		parent::__construct($file);

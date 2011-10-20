@@ -10,7 +10,7 @@ class AllianceParser extends Parser{
 	/**
 	 * Constructs a new alliance data file parser object.
 	 * @param string $file the *absolute* path to the alliance data file
-	 * @throws Exception if the file doesn't exist or is empty
+	 * @throws ParserException if the file doesn't exist or is empty
 	 */
 	public function __construct($file){
 		parent::__construct($file);

@@ -3,8 +3,6 @@ namespace HAPI\Parsers;
 
 require_once __DIR__ . '/../../index.php';
 
-use \Exception;
-
 /**
  * Tests the Parser class.
  * @author Mike Angstadt [github.com/mangstadt]
@@ -36,7 +34,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase{
 		try{
 			new ParserTestImpl('does-not-exist.txt');
 			$this->fail();
-		} catch (Exception $e){
+		} catch (ParserException $e){
 			//should be thrown
 		}
 	}
@@ -49,7 +47,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase{
 		try{
 			new ParserTestImpl($file);
 			$this->fail();
-		} catch (Exception $e){
+		} catch (ParserException $e){
 			//should be thrown
 		}
 	}
