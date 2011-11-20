@@ -122,7 +122,7 @@ foreach (HAPI::getGames() as $game){
 //authenticate with HAPI by creating a new object
 try{
 	$hapi = new HAPI("Hyperiums6", "mangst", "4e3b88extauthkey8d834", __DIR__ . "/locks");
-} catch (Exception $e){
+} catch (HAPIException $e){
 	//an exception is thrown if authentication fails
 	die("Error authenticating: " . $e->getMessage());
 }
@@ -158,7 +158,7 @@ try{
 		
 		echo "The $race fleet \"$name\" is moving from $from to $to and will $action it. ETA $eta hours.\n";
 	}
-} catch (Exception $e){
+} catch (HAPIException $e){
 	die("Error getting moving fleets: " . $e->getMessage());
 }
 ```
@@ -166,6 +166,11 @@ try{
 [Click here](https://github.com/mangstadt/PHP-HAPI/tree/master/examples) for more examples.
 
 # Changelog
+
+**v0.4.2** - Nov 20 2011
+
+ * `HAPI` class now throws a `HAPIException` instead of `Exception`.
+ * Parser classes now throw `ParserException`s instead of `Exception`s.
 
 **v0.4.1** - Oct 03 2011
 
