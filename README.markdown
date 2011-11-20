@@ -95,6 +95,7 @@ while ($alliance = $parser->next()){
 <?php
 require_once 'PHP-HAPI.phar';
 use HAPI\HAPI;
+use HAPI\HAPIException;
 use HAPI\Game;
 
 //static methods in HAPI class don't require authentication
